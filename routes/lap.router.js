@@ -43,7 +43,7 @@ router.route('/add').post((req, res) => {
 });
 
 router.route('/edit/:id').post((req, res) => {
-    Exercise.findById(req.params.id)
+    Lap.findById(req.params.id)
         .then(existingLap => {
             existingLap.track = req.body.track;
             existingLap.car = req.body.car;
