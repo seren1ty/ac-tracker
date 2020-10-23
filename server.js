@@ -14,7 +14,7 @@ app.use(cors({ credentials: true, origin: frontEndUrl }));
 app.use(express.json());
 app.use(cookieParser());
 
-const uri = process.env.ATLAS_URI;
+const uri = process.env.MONGODB_URI || process.env.ATLAS_URI;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -48,7 +48,7 @@ app.use('/drivers', driversRouter);
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
     // Set static folder
-    app.use(express.static('client/build'));
+    app.use(express.static('../client/build'));
 
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, '../client', '../client/build', '../client/public/index.html'));
