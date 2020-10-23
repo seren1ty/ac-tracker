@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const Schema = mongoose.Schema;
 
@@ -9,10 +10,30 @@ const driverSchema = new Schema({
         unique: true,
         trim: true,
         minlength: 2
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 5
     }
 }, {
     timestamps: true
 });
+
+driverSchema.methods.generateAuthToken = () => {
+    const token = jwt.sign(
+        {
+            _id: this._id,
+            name: this.name
+        },
+        process.env.JWT_PRIVATE_KEY,
+        { expiresIn: '5m' }
+    );
+
+    return token;
+};
 
 const Driver = mongoose.model('Driver', driverSchema);
 
