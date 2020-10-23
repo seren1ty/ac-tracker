@@ -14,11 +14,6 @@ app.use(cors({ credentials: true, origin: frontEndUrl }));
 app.use(express.json());
 app.use(cookieParser());
 
-/* app.use(express.static(path.join(__dirname, '../build')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build'))
-}); */
-
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -49,6 +44,21 @@ app.use('/laps', lapsRouter);
 app.use('/tracks', tracksRouter);
 app.use('/cars', carsRouter);
 app.use('/drivers', driversRouter);
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../client', '../client/build', '../client/public/index.html'));
+    });
+
+    /* app.use(express.static(path.join(__dirname, '../build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../build'))
+    }); */
+}
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
