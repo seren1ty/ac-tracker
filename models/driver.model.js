@@ -29,7 +29,7 @@ driverSchema.methods.generateAuthToken = () => {
             name: this.name
         },
         process.env.JWT_PRIVATE_KEY,
-        { expiresIn: '5m' }
+        { expiresIn: '7d' }
     );
 
     return token;
