@@ -2,7 +2,7 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 
 router.route('/status').get((req, res) => {
-    // Read the token fron the cookie
+    // Read the token from the cookie
     const token = req.cookies.token;
 
     if (!token)
