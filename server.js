@@ -38,7 +38,7 @@ const driversRouter = require('./routes/driver.router');
 app.use('/login', loginRouter);
 app.use('/session', sessionRouter);
 
-app.use(authCheck);
+//app.use(authCheck);
 
 app.use('/laps', lapsRouter);
 app.use('/tracks', tracksRouter);
