@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 require('dotenv').config();
+require('./database/database');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,12 +15,7 @@ app.use(cors({ credentials: true, origin: frontEndUrl }));
 app.use(express.json());
 app.use(cookieParser());
 
-const uri = process.env.MONGODB_URI || process.env.ATLAS_URI;
-mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-});
+app.use(database);
 
 const connection = mongoose.connection;
 connection.once('open', () => {
