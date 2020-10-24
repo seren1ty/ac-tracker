@@ -60,7 +60,7 @@ const AddEditLap = props => {
                 return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultGearbox;
         }
 
-        return '';
+        return 'Automatic';
     });
 
     const [traction, setTraction] = useState(() => {
@@ -72,7 +72,7 @@ const AddEditLap = props => {
                 return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultTraction;
         }
 
-        return '';
+        return 'Factory';
     });
 
     const [stability, setStability] = useState(() => {
@@ -84,7 +84,7 @@ const AddEditLap = props => {
                 return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultStability;
         }
 
-        return '';
+        return 'Factory';
     });
 
     const [notes, setNotes] = useState(() => {
@@ -312,9 +312,13 @@ const AddEditLap = props => {
                     <label>Laptime: </label>
                     <input type="text"
                         required
+                        minlength="9"
+                        maxlength="9"
+                        pattern="\d{2}:\d{2}\.\d{3}"
                         className="form-control"
                         value={laptime}
                         onChange={onChangeLaptime}
+                        placeholder="00:00.000"
                     />
                 </div>
                 <div className="form-group">
@@ -341,9 +345,8 @@ const AddEditLap = props => {
                         className="form-control"
                         value={gearbox}
                         onChange={onChangeGearbox}>
-                        <option value="Factory">Factory</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Manual">Manual</option>
                     </select>
                 </div>
                 <div className="form-group">
@@ -354,8 +357,8 @@ const AddEditLap = props => {
                         value={traction}
                         onChange={onChangeTraction}>
                         <option value="Factory">Factory</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="On">On</option>
+                        <option value="Off">Off</option>
                     </select>
                 </div>
                 <div className="form-group">
@@ -366,8 +369,8 @@ const AddEditLap = props => {
                         value={stability}
                         onChange={onChangeStability}>
                         <option value="Factory">Factory</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="On">On</option>
+                        <option value="Off">Off</option>
                     </select>
                 </div>
                 <div className="form-group">

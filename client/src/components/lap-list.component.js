@@ -188,6 +188,8 @@ const LapList = props => {
 
                 setLaps(laps.filter(lap => lap._id !== id));
 
+                setOriginalLaps(originalLaps.filter(lap => lap._id !== id));
+
                 history.push('/');
             })
             .catch(err => {
