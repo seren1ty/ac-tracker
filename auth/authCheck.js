@@ -4,8 +4,10 @@ const authCheck = (req, res, next) => {
     // Read the token fron the cookie
     const token = req.cookies.token;
 
-    if (!token)
-        return res.status(401).json('Access denied - No token provided.');
+    if (!token) {
+        next();
+        //return res.status(401).json('Access denied - No token provided.');
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
