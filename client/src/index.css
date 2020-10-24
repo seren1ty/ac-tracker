@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
-.lapsShown {
+.laps-shown {
+  float: right;
+}
+
+.add-track-car {
   float: right;
 }

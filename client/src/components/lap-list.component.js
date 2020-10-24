@@ -333,7 +333,7 @@ const LapList = props => {
                         <option value="LAPTIME">Laptime</option>
                     </select>
                 </span>
-                <span className="lapsShown">Laps shown: {laps.length} / {originalLaps.length}</span>
+                <span className="laps-shown">Laps shown: {laps.length} / {originalLaps.length}</span>
             </div>
             <table className="table mt-2">
                 <thead className="thead-light">

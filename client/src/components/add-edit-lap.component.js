@@ -13,6 +13,9 @@ const AddEditLap = props => {
     const [cars, setCars] = useState([]);
     const [drivers, setDrivers] = useState([]);
 
+    const [addTrackInProgress, setAddTrackInProgress] = useState(false);
+    const [newTrackName, setNewTrackName] = useState('');
+
     const [track, setTrack] = useState(() => {
         if (existingLap)
             return existingLap.track;
@@ -199,11 +202,23 @@ const AddEditLap = props => {
         setDate(newDate);
     }
 
+    const onClickAddTrack = () => {
+        setAddTrackInProgress(true);
+    }
+
+    const onClickCancelAddTrack = () => {
+        setAddTrackInProgress(false);
+    }
+
+    const onChangeNewTrackName = event => {
+        setNewTrackName(event.target.value);
+    }
+
     const onSubmit = event => {
         event.preventDefault();
 
         const lapToSave = {
-            track: track,
+            track: !addTrackInProgress ? track : newTrackName,
             car: car,
             laptime: laptime,
             driver: driver,
@@ -216,6 +231,18 @@ const AddEditLap = props => {
 
         console.log(lapToSave);
 
+        if (addTrackInProgress) {
+            axios.post('/tracks/add', { name: newTrackName })
+                .then(() => handleAddOrEditLap(lapToSave))
+                .then(() => setAddTrackInProgress(false))
+                .catch(err => console.error('Error [Add Track]: ' + err));
+        }
+        else {
+            handleAddOrEditLap(lapToSave);
+        }
+    }
+
+    const handleAddOrEditLap = lapToSave => {
         if (existingLap)
             editLap(lapToSave);
         else
@@ -252,7 +279,7 @@ const AddEditLap = props => {
         if (localStorage.getItem('acTracker')) {
             const acState = JSON.parse(localStorage.getItem('acTracker'));
 
-            acState.newLapDefaultTrack = track;
+            acState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
             acState.newLapDefaultCar = car;
             acState.newLapDefaultDriver = driver;
             acState.newLapDefaultGearbox = gearbox;
@@ -276,20 +303,42 @@ const AddEditLap = props => {
             <form onSubmit={onSubmit}>
                 <div className="form-group mt-3">
                     <label>Track: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={track}
-                        onChange={onChangeTrack}>
-                        {
-                            tracks.map(currTrack => {
-                                return <option
-                                    key={currTrack}
-                                    value={currTrack}>{currTrack}
-                                </option>;
-                            })
-                        }
-                    </select>
+                    {
+                        !addTrackInProgress ? (
+                            <button className="btn btn-sm btn-secondary add-track-car"
+                                type="button"
+                                onClick={onClickAddTrack}
+                                disabled={addTrackInProgress}>Add New Track
+                            </button>
+                        ) : (
+                            <a className="add-track-car" href="#" onClick={onClickCancelAddTrack}>Cancel</a>
+                        )
+                    }
+                    {
+                        !addTrackInProgress ? (
+                            <select className="form-control"
+                                required
+                                value={track}
+                                onChange={onChangeTrack}>
+                                {
+                                    tracks.map(currTrack => {
+                                        return <option
+                                        key={currTrack}
+                                        value={currTrack}>{currTrack}
+                                        </option>;
+                                    })
+                                }
+                            </select>
+                        ) : (
+                            <input type="text"
+                                required
+                                className="form-control"
+                                value={newTrackName}
+                                onChange={onChangeNewTrackName}
+                                placeholder="Enter New Track Name"
+                            />
+                        )
+                    }
                 </div>
                 <div className="form-group">
                     <label>Car: </label>
