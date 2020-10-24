@@ -384,7 +384,7 @@ const AddEditLap = props => {
                 <div className="form-group">
                     <label>Date: </label>
                     <div>
-                        <DatePicker selected={date} onChange={onChangeDate}/>
+                        <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
                     </div>
                 </div>
 
