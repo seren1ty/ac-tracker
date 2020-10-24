@@ -16,6 +16,9 @@ const AddEditLap = props => {
     const [addTrackInProgress, setAddTrackInProgress] = useState(false);
     const [newTrackName, setNewTrackName] = useState('');
 
+    const [addCarInProgress, setAddCarInProgress] = useState(false);
+    const [newCarName, setNewCarName] = useState('');
+
     const [track, setTrack] = useState(() => {
         if (existingLap)
             return existingLap.track;
@@ -214,12 +217,24 @@ const AddEditLap = props => {
         setNewTrackName(event.target.value);
     }
 
+    const onClickAddCar = () => {
+        setAddCarInProgress(true);
+    }
+
+    const onClickCancelAddCar = () => {
+        setAddCarInProgress(false);
+    }
+
+    const onChangeNewCarName = event => {
+        setNewCarName(event.target.value);
+    }
+
     const onSubmit = event => {
         event.preventDefault();
 
         const lapToSave = {
             track: !addTrackInProgress ? track : newTrackName,
-            car: car,
+            car: !addCarInProgress ? car : newCarName,
             laptime: laptime,
             driver: driver,
             gearbox: gearbox,
@@ -231,15 +246,31 @@ const AddEditLap = props => {
 
         console.log(lapToSave);
 
-        if (addTrackInProgress) {
-            axios.post('/tracks/add', { name: newTrackName })
-                .then(() => handleAddOrEditLap(lapToSave))
-                .then(() => setAddTrackInProgress(false))
-                .catch(err => console.error('Error [Add Track]: ' + err));
-        }
-        else {
+        if (addTrackInProgress)
+            handleAddNewTrack(lapToSave);
+        else if (addCarInProgress)
+            handleAddNewCar(lapToSave);
+        else
             handleAddOrEditLap(lapToSave);
-        }
+    }
+
+    const handleAddNewTrack = lapToSave => {
+        axios.post('/tracks/add', { name: newTrackName })
+            .then(() => {
+                if (addCarInProgress)
+                    handleAddNewCar(lapToSave);
+                else
+                    handleAddOrEditLap(lapToSave);
+            })
+            .then(() => setAddTrackInProgress(false))
+            .catch(err => console.error('Error [Add Track]: ' + err));
+    }
+
+    const handleAddNewCar = lapToSave => {
+        axios.post('/cars/add', { name: newCarName })
+            .then(() => handleAddOrEditLap(lapToSave))
+            .then(() => setAddCarInProgress(false))
+            .catch(err => console.error('Error [Add Car]: ' + err));
     }
 
     const handleAddOrEditLap = lapToSave => {
@@ -276,19 +307,20 @@ const AddEditLap = props => {
     }
 
     const updateNewLapDefaults = () => {
-        if (localStorage.getItem('acTracker')) {
-            const acState = JSON.parse(localStorage.getItem('acTracker'));
+        let currentState = {};
 
-            acState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
-            acState.newLapDefaultCar = car;
-            acState.newLapDefaultDriver = driver;
-            acState.newLapDefaultGearbox = gearbox;
-            acState.newLapDefaultTraction = traction;
-            acState.newLapDefaultStability = stability;
-            acState.newLapDefaultNotes = notes;
+        if (localStorage.getItem('acTracker'))
+            currentState = JSON.parse(localStorage.getItem('acTracker'));
 
-            localStorage.setItem('acTracker', JSON.stringify(acState));
-        }
+        currentState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
+        currentState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
+        currentState.newLapDefaultDriver = driver;
+        currentState.newLapDefaultGearbox = gearbox;
+        currentState.newLapDefaultTraction = traction;
+        currentState.newLapDefaultStability = stability;
+        currentState.newLapDefaultNotes = notes;
+
+        localStorage.setItem('acTracker', JSON.stringify(currentState));
     }
 
     return (
@@ -342,20 +374,43 @@ const AddEditLap = props => {
                 </div>
                 <div className="form-group">
                     <label>Car: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={car}
-                        onChange={onChangeCar}>
-                        {
-                            cars.map(currCar => {
-                                return <option
-                                    key={currCar}
-                                    value={currCar}>{currCar}
-                                </option>;
-                            })
-                        }
-                    </select>
+                    {
+                        !addCarInProgress ? (
+                            <button className="btn btn-sm btn-secondary add-track-car"
+                                type="button"
+                                onClick={onClickAddCar}
+                                disabled={addCarInProgress}>Add New Car
+                            </button>
+                        ) : (
+                            <a className="add-track-car" href="#" onClick={onClickCancelAddCar}>Cancel</a>
+                        )
+                    }
+                    {
+                        !addCarInProgress ? (
+                            <select
+                                required
+                                className="form-control"
+                                value={car}
+                                onChange={onChangeCar}>
+                                {
+                                    cars.map(currCar => {
+                                        return <option
+                                            key={currCar}
+                                            value={currCar}>{currCar}
+                                        </option>;
+                                    })
+                                }
+                            </select>
+                        ) : (
+                            <input type="text"
+                                required
+                                className="form-control"
+                                value={newCarName}
+                                onChange={onChangeNewCarName}
+                                placeholder="Enter New Car Name"
+                            />
+                        )
+                    }
                 </div>
                 <div className="form-group">
                     <label>Laptime: </label>
