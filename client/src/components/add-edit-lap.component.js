@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -389,7 +389,8 @@ const AddEditLap = props => {
                 </div>
 
                 <div className="form-group">
-                    <input className="btn btn-primary" type="submit" value={existingLap ? "Update Lap" : "Add New Lap"}/>
+                    <input className="btn btn-primary mr-4" type="submit" value={existingLap ? "Update Lap" : "Add New Lap"}/>
+                    <Link to="/">Cancel</Link>
                 </div>
             </form>
         </div>

@@ -9,9 +9,11 @@ const LapList = props => {
 
     const [laps, setLaps] = useState([]);
     const [tracks, setTracks] = useState([]);
+    const [cars, setCars] = useState([]);
     const [drivers, setDrivers] = useState([]);
 
     const [trackType, setTrackType] = useState('ALL');
+    const [carType, setCarType] = useState('ALL');
     const [driverType, setDriverType] = useState(() => {
         if (!localStorage.getItem('acTracker'))
             return 'ALL';
@@ -51,6 +53,14 @@ const LapList = props => {
                 console.error(err);
             });
 
+        axios.get('/cars')
+            .then(res => {
+                handleSetCars(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
         axios.get('/drivers')
             .then(res => {
                 handleSetDrivers(res.data);
@@ -77,6 +87,14 @@ const LapList = props => {
         setTracks(newTracks);
     };
 
+    const handleSetCars = (newCars) => {
+        newCars.sort((a,b) => {
+            return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+        });
+
+        setCars(newCars);
+    };
+
     const handleSetDrivers = (newDrivers) => {
         newDrivers.sort((a,b) => {
             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
@@ -95,10 +113,34 @@ const LapList = props => {
         if (driverType !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
 
+        if (carType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.car === carType);
+
         if (trackEvent.target.value !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.track === trackEvent.target.value);
 
         setTrackType(trackEvent.target.value);
+
+        setLaps(filteredLaps);
+    }
+
+    const onChangeCar = (carEvent) => {
+        let filteredLaps;
+
+        filteredLaps = [...originalLaps];
+
+        filteredLaps = handleChangeSort(sortType, filteredLaps);
+
+        if (trackType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.track === trackType);
+
+        if (driverType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
+
+        if (carEvent.target.value !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.car === carEvent.target.value);
+
+        setCarType(carEvent.target.value);
 
         setLaps(filteredLaps);
     }
@@ -125,6 +167,9 @@ const LapList = props => {
 
         if (trackType !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.track === trackType);
+
+        if (carType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.car === carType);
 
         if (newDriverType !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.driver === newDriverType);
@@ -208,6 +253,17 @@ const LapList = props => {
                         {
                             tracks.map(track => {
                                 return <option value={track.name} key={track._id}>{track.name}</option>
+                            })
+                        }
+                    </select>
+                </span>
+                <span className="pr-3">
+                    <span>Car: </span>
+                    <select onChange={onChangeCar} value={carType}>
+                        <option value="ALL">All</option>
+                        {
+                            cars.map(car => {
+                                return <option value={car.name} key={car._id}>{car.name}</option>
                             })
                         }
                     </select>
