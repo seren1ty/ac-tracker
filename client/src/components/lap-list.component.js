@@ -201,7 +201,7 @@ const LapList = props => {
         <div>
             <h4>Lap Records</h4>
             <div className="pt-2">
-                <span>
+                <span className="pr-3">
                     <span>Track: </span>
                     <select onChange={onChangeTrack} value={trackType}>
                         <option value="ALL">All</option>
@@ -212,8 +212,8 @@ const LapList = props => {
                         }
                     </select>
                 </span>
-                <span>
-                    <span> | Driver: </span>
+                <span className="pr-3">
+                    <span>Driver: </span>
                     <select onChange={onChangeDriver} value={driverType}>
                         <option value="ALL">All</option>
                         {
@@ -224,7 +224,7 @@ const LapList = props => {
                     </select>
                 </span>
                 <span>
-                    <span> | Sort by: </span>
+                    <span>Sort by: </span>
                     <select onChange={onChangeSort} value={sortType}>
                         <option value="TRACK">Track</option>
                         <option value="CAR">Car</option>
@@ -232,6 +232,7 @@ const LapList = props => {
                         <option value="LAPTIME">Laptime</option>
                     </select>
                 </span>
+                <span className="lapsShown">Laps shown: {laps.length} / {originalLaps.length}</span>
             </div>
             <table className="table mt-2">
                 <thead className="thead-light">

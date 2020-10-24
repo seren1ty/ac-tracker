@@ -3,7 +3,7 @@ const router = require('express').Router();
 let Car = require('../models/car.model');
 
 router.route('/').get((req, res) => {
-    Car.find()
+    Car.find().collation({locale:'en', strength: 2}).sort({name: 1})
         .then(cars => res.json(cars))
         .catch(err => res.status(400).json('Error [Get All Cars]: ' + err));
 });

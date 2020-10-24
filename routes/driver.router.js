@@ -3,7 +3,7 @@ const router = require('express').Router();
 let Driver = require('../models/driver.model');
 
 router.route('/').get((req, res) => {
-    Driver.find()
+    Driver.find().collation({locale:'en', strength: 2}).sort({name: 1})
         .then(drivers => res.json(drivers))
         .catch(err => res.status(400).json('Error [Get All Drivers]: ' + err));
 });
