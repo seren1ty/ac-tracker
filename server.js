@@ -18,7 +18,7 @@ app.use(cookieParser());
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB connected")
-})
+});
 
 const authCheck = require('./auth/authCheck');
 
@@ -32,7 +32,7 @@ const driversRouter = require('./routes/driver.router');
 app.use('/login', loginRouter);
 app.use('/session', sessionRouter);
 
-app.use(authCheck);
+//app.use(authCheck);
 
 app.use('/laps', lapsRouter);
 app.use('/tracks', tracksRouter);
