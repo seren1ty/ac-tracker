@@ -12,14 +12,27 @@ const LapList = props => {
     const [cars, setCars] = useState([]);
     const [drivers, setDrivers] = useState([]);
 
-    const [trackType, setTrackType] = useState('ALL');
-    const [carType, setCarType] = useState('ALL');
+    const [trackType, setTrackType] = useState(() => {
+        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).trackType)
+            return 'ALL';
+        else
+            return JSON.parse(localStorage.getItem('acTracker')).trackType;
+    });
+
+    const [carType, setCarType] = useState(() => {
+        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).carType)
+            return 'ALL';
+        else
+            return JSON.parse(localStorage.getItem('acTracker')).carType;
+    });
+
     const [driverType, setDriverType] = useState(() => {
-        if (!localStorage.getItem('acTracker'))
+        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).driverType)
             return 'ALL';
         else
             return JSON.parse(localStorage.getItem('acTracker')).driverType;
     });
+
     const [sortType, setSortType] = useState('LAPTIME');
 
     const history = useHistory();
@@ -71,12 +84,18 @@ const LapList = props => {
     }, []);
 
     const handleSetLaps = (newLaps) => {
-        const sortedLaps = handleChangeSort(sortType, newLaps);
+        let sortedLaps = handleChangeSort(sortType, newLaps);
 
-        if (driverType === 'ALL')
-            setLaps(sortedLaps);
-        else
-            setLaps(sortedLaps.filter(lap => lap.driver === driverType));
+        if (trackType !== 'ALL')
+            sortedLaps = sortedLaps.filter(lap => lap.track === trackType);
+
+        if (carType !== 'ALL')
+            sortedLaps = sortedLaps.filter(lap => lap.car === carType);
+
+        if (driverType !== 'ALL')
+            sortedLaps = sortedLaps.filter(lap => lap.driver === driverType);
+
+        setLaps(sortedLaps);
     };
 
     const handleSetTracks = (newTracks) => {
@@ -104,6 +123,19 @@ const LapList = props => {
     };
 
     const onChangeTrack = (trackEvent) => {
+        handleChangeTrack(trackEvent.target.value);
+
+        let currentState = {};
+
+        if (localStorage.getItem('acTracker'))
+            currentState = JSON.parse(localStorage.getItem('acTracker'));
+
+        currentState.trackType = trackEvent.target.value;
+
+        localStorage.setItem('acTracker', JSON.stringify(currentState));
+    }
+
+    const handleChangeTrack = (newTrackType) => {
         let filteredLaps;
 
         filteredLaps = [...originalLaps];
@@ -116,15 +148,28 @@ const LapList = props => {
         if (carType !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.car === carType);
 
-        if (trackEvent.target.value !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.track === trackEvent.target.value);
+        if (newTrackType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.track === newTrackType);
 
-        setTrackType(trackEvent.target.value);
+        setTrackType(newTrackType);
 
         setLaps(filteredLaps);
     }
 
     const onChangeCar = (carEvent) => {
+        handleChangeCar(carEvent.target.value);
+
+        let currentState = {};
+
+        if (localStorage.getItem('acTracker'))
+            currentState = JSON.parse(localStorage.getItem('acTracker'));
+
+        currentState.carType = carEvent.target.value;
+
+        localStorage.setItem('acTracker', JSON.stringify(currentState));
+    }
+
+    const handleChangeCar = (newCarType) => {
         let filteredLaps;
 
         filteredLaps = [...originalLaps];
@@ -137,10 +182,10 @@ const LapList = props => {
         if (driverType !== 'ALL')
             filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
 
-        if (carEvent.target.value !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.car === carEvent.target.value);
+        if (newCarType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.car === newCarType);
 
-        setCarType(carEvent.target.value);
+        setCarType(newCarType);
 
         setLaps(filteredLaps);
     }

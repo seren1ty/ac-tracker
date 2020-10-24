@@ -312,8 +312,8 @@ const AddEditLap = props => {
                     <label>Laptime: </label>
                     <input type="text"
                         required
-                        minlength="9"
-                        maxlength="9"
+                        minLength="9"
+                        maxLength="9"
                         pattern="\d{2}:\d{2}\.\d{3}"
                         className="form-control"
                         value={laptime}
