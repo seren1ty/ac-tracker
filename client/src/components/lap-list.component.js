@@ -88,16 +88,15 @@ const LapList = props => {
     const onChangeTrack = (trackEvent) => {
         let filteredLaps;
 
-        if (trackEvent.target.value === 'ALL') {
-            filteredLaps = originalLaps;
-        }
-        else {
-            filteredLaps = [...originalLaps];
+        filteredLaps = [...originalLaps];
 
-            filteredLaps = handleChangeSort(sortType, filteredLaps);
+        filteredLaps = handleChangeSort(sortType, filteredLaps);
 
-            filteredLaps = filteredLaps.filter(lap => lap.track === trackEvent.target.value)
-        }
+        if (driverType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
+
+        if (trackEvent.target.value !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.track === trackEvent.target.value);
 
         setTrackType(trackEvent.target.value);
 
@@ -120,16 +119,15 @@ const LapList = props => {
     const handleChangeDriver = (newDriverType) => {
         let filteredLaps;
 
-        if (newDriverType === 'ALL') {
-            filteredLaps = originalLaps;
-        }
-        else {
-            filteredLaps = [...originalLaps];
+        filteredLaps = [...originalLaps];
 
-            filteredLaps = handleChangeSort(sortType, filteredLaps);
+        filteredLaps = handleChangeSort(sortType, filteredLaps);
 
-            filteredLaps = filteredLaps.filter(lap => lap.driver === newDriverType)
-        }
+        if (trackType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.track === trackType);
+
+        if (newDriverType !== 'ALL')
+            filteredLaps = filteredLaps.filter(lap => lap.driver === newDriverType);
 
         setDriverType(newDriverType);
 
