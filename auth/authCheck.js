@@ -5,8 +5,8 @@ const authCheck = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        next();
-        //return res.status(401).json('Access denied - No token provided.');
+        //next();
+        return res.status(401).json('Access denied - No token provided.');
     }
 
     try {
