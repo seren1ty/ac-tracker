@@ -15,8 +15,6 @@ app.use(cors({ credentials: true, origin: frontEndUrl }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(database);
-
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB connected")
