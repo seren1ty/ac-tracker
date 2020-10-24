@@ -104,7 +104,7 @@ const AddEditLap = props => {
     const history = useHistory();
 
     useEffect(() => {
-        /* axios.get('/session/status')
+        axios.get('/session/status')
             .then(user => {
                 console.log('Session valid: ' + user);
             })
@@ -112,7 +112,7 @@ const AddEditLap = props => {
                 console.error('Session expired!');
 
                 history.push('/login');
-            }); */
+            });
 
         axios.get('/tracks')
             .then(res => {
