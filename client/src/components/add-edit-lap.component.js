@@ -346,7 +346,7 @@ const AddEditLap = props => {
                                         disabled={addTrackInProgress}>Add Track
                                     </button>
                                 ) : (
-                                    <a className="add-track-car pr-0" href="#" onClick={onClickCancelAddTrack}>Cancel</a>
+                                    <button className="add-track-car pr-0 btn btn-link" href="#" onClick={onClickCancelAddTrack}>Cancel</button>
                                 )
                             }
                             {
@@ -387,7 +387,7 @@ const AddEditLap = props => {
                                         disabled={addCarInProgress}>Add Car
                                     </button>
                                 ) : (
-                                    <a className="add-track-car pr-0" href="#" onClick={onClickCancelAddCar}>Cancel</a>
+                                    <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddCar}>Cancel</button>
                                 )
                             }
                             {

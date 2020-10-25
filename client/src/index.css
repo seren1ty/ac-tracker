@@ -40,9 +40,13 @@ code {
   width: 130px;
 }
 
+.btn {
+  box-shadow: 0 0 0 0 !important;
+}
+
 .cancel-delete-lap {
-  vertical-align: bottom;
-  margin-left: 4px;
+  padding: 0px 0px 0px 3px;
+  box-shadow: 0 0 0 0 !important;
 }
 
 .add-edit-label-with-button {

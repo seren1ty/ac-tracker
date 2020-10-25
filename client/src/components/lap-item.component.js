@@ -35,7 +35,7 @@ const LapItem = props => {
                 showConfirm === true ? (
                     <div>
                         <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0" type="button" onClick={() => props.deleteLap(props.lap._id)}>Delete</button>
-                        <a className="cancel-delete-lap" href="#" onClick={onClickCancel}>Cancel</a>
+                        <button className="cancel-delete-lap btn btn-link" href="#" onClick={onClickCancel}>Cancel</button>
                     </div>
                 ) : (
                     <div>

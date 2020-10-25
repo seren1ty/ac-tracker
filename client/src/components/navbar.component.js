@@ -18,7 +18,7 @@ const Navbar = () => {
             <Link to="/" className="navbar-brand">AC Tracker</Link>
             <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
+                    <li className="nav-item">
                         <Link to="/" className="nav-link">Lap Records</Link>
                     </li>
                     <li className="nav-item">
@@ -29,7 +29,7 @@ const Navbar = () => {
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <a href="#" onClick={logout} className="nav-link">Logout</a>
+                        <button onClick={logout} className="nav-link btn btn-link">Logout</button>
                     </li>
                 </ul>
             </div>
