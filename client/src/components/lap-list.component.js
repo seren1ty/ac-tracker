@@ -39,11 +39,8 @@ const LapList = props => {
 
     useEffect(() => {
         axios.get('/session/status')
-            .then(user => {
-                console.log('Session valid: ' + user);
-            })
             .catch(err => {
-                console.error('Session expired!');
+                console.error('Session expired: ' + err);
 
                 history.push('/login');
             });
@@ -81,6 +78,7 @@ const LapList = props => {
             .catch(err => {
                 console.error(err);
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSetLaps = (newLaps) => {

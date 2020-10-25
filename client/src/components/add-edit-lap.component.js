@@ -111,11 +111,8 @@ const AddEditLap = props => {
 
     useEffect(() => {
         axios.get('/session/status')
-            .then(user => {
-                console.log('Session valid: ' + user);
-            })
             .catch(err => {
-                console.error('Session expired!');
+                console.error('Session expired: ' + err);
 
                 history.push('/login');
             });
@@ -167,6 +164,7 @@ const AddEditLap = props => {
             .catch(err => {
                 console.error('Error [Get Drivers]: ' +err);
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onChangeTrack = event => {
