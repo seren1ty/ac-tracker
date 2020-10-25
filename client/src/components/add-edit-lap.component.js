@@ -324,180 +324,213 @@ const AddEditLap = props => {
     }
 
     return (
-        <div>
+        <>
+        <div className="form-style">
             {
                 existingLap ? (
                     <h4>Edit Lap</h4>
                 ) : (
-                    <h4>New Lap</h4>
+                    <h4>Add Lap</h4>
                 )
             }
             <form onSubmit={onSubmit}>
-                <div className="form-group mt-3">
-                    <label>Track: </label>
-                    {
-                        !addTrackInProgress ? (
-                            <button className="btn btn-sm btn-secondary add-track-car"
-                                type="button"
-                                onClick={onClickAddTrack}
-                                disabled={addTrackInProgress}>Add New Track
-                            </button>
-                        ) : (
-                            <a className="add-track-car" href="#" onClick={onClickCancelAddTrack}>Cancel</a>
-                        )
-                    }
-                    {
-                        !addTrackInProgress ? (
-                            <select className="form-control"
-                                required
-                                value={track}
-                                onChange={onChangeTrack}>
-                                {
-                                    tracks.map(currTrack => {
-                                        return <option
-                                        key={currTrack}
-                                        value={currTrack}>{currTrack}
-                                        </option>;
-                                    })
-                                }
-                            </select>
-                        ) : (
-                            <input type="text"
-                                required
-                                className="form-control"
-                                value={newTrackName}
-                                onChange={onChangeNewTrackName}
-                                placeholder="Enter New Track Name"
-                            />
-                        )
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Car: </label>
-                    {
-                        !addCarInProgress ? (
-                            <button className="btn btn-sm btn-secondary add-track-car"
-                                type="button"
-                                onClick={onClickAddCar}
-                                disabled={addCarInProgress}>Add New Car
-                            </button>
-                        ) : (
-                            <a className="add-track-car" href="#" onClick={onClickCancelAddCar}>Cancel</a>
-                        )
-                    }
-                    {
-                        !addCarInProgress ? (
-                            <select
-                                required
-                                className="form-control"
-                                value={car}
-                                onChange={onChangeCar}>
-                                {
-                                    cars.map(currCar => {
-                                        return <option
-                                            key={currCar}
-                                            value={currCar}>{currCar}
-                                        </option>;
-                                    })
-                                }
-                            </select>
-                        ) : (
-                            <input type="text"
-                                required
-                                className="form-control"
-                                value={newCarName}
-                                onChange={onChangeNewCarName}
-                                placeholder="Enter New Car Name"
-                            />
-                        )
-                    }
-                </div>
-                <div className="form-group">
-                    <label>Laptime: </label>
-                    <input type="text"
-                        required
-                        minLength="9"
-                        maxLength="9"
-                        pattern="\d{2}:\d{2}\.\d{3}"
-                        className="form-control"
-                        value={laptime}
-                        onChange={onChangeLaptime}
-                        placeholder="00:00.000"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Driver: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={driver}
-                        onChange={onChangeDriver}>
-                        {
-                            drivers.map(currDriver => {
-                                return <option
-                                    key={currDriver}
-                                    value={currDriver}>{currDriver}
-                                </option>;
-                            })
-                        }
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Gearbox: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={gearbox}
-                        onChange={onChangeGearbox}>
-                        <option value="Automatic">Automatic</option>
-                        <option value="Manual">Manual</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Traction: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={traction}
-                        onChange={onChangeTraction}>
-                        <option value="Factory">Factory</option>
-                        <option value="On">On</option>
-                        <option value="Off">Off</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Stability: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={stability}
-                        onChange={onChangeStability}>
-                        <option value="Factory">Factory</option>
-                        <option value="On">On</option>
-                        <option value="Off">Off</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label>Notes: </label>
-                    <input type="text"
-                        className="form-control"
-                        value={notes}
-                        onChange={onChangeNotes}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Date: </label>
-                    <div>
-                        <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
+                <div className="row mt-4">
+                    <div className="col pr-4">
+                        <div className="form-group">
+                            <label>Track</label>
+                            {
+                                !addTrackInProgress ? (
+                                    <button className="btn btn-sm btn-secondary add-track-car"
+                                        type="button"
+                                        onClick={onClickAddTrack}
+                                        disabled={addTrackInProgress}>Add Track
+                                    </button>
+                                ) : (
+                                    <a className="add-track-car pr-0" href="#" onClick={onClickCancelAddTrack}>Cancel</a>
+                                )
+                            }
+                            {
+                                !addTrackInProgress ? (
+                                    <select className="form-control"
+                                        required
+                                        value={track}
+                                        onChange={onChangeTrack}>
+                                        {
+                                            tracks.map(currTrack => {
+                                                return <option
+                                                key={currTrack}
+                                                value={currTrack}>{currTrack}
+                                                </option>;
+                                            })
+                                        }
+                                    </select>
+                                ) : (
+                                    <input className="form-control"
+                                        type="text"
+                                        required
+                                        value={newTrackName}
+                                        onChange={onChangeNewTrackName}
+                                        placeholder="Enter New Track Name"
+                                    />
+                                )
+                            }
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label>Car</label>
+                            {
+                                !addCarInProgress ? (
+                                    <button className="btn btn-sm btn-secondary add-track-car"
+                                        type="button"
+                                        onClick={onClickAddCar}
+                                        disabled={addCarInProgress}>Add Car
+                                    </button>
+                                ) : (
+                                    <a className="add-track-car pr-0" href="#" onClick={onClickCancelAddCar}>Cancel</a>
+                                )
+                            }
+                            {
+                                !addCarInProgress ? (
+                                    <select className="form-control"
+                                        required
+                                        value={car}
+                                        onChange={onChangeCar}>
+                                        {
+                                            cars.map(currCar => {
+                                                return <option
+                                                    key={currCar}
+                                                    value={currCar}>{currCar}
+                                                </option>;
+                                            })
+                                        }
+                                    </select>
+                                ) : (
+                                    <input className="form-control"
+                                        type="text"
+                                        required
+                                        value={newCarName}
+                                        onChange={onChangeNewCarName}
+                                        placeholder="Enter New Car Name"
+                                    />
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
-
-                <div className="form-group">
+                <div className="row mt-2">
+                    <div className="col pr-4">
+                        <div className="form-group">
+                            <label for="laptime">Laptime</label>
+                            <input className="form-control"
+                                type="text"
+                                name="laptime"
+                                id="laptime"
+                                required
+                                minLength="9"
+                                maxLength="9"
+                                pattern="\d{2}:\d{2}\.\d{3}"
+                                value={laptime}
+                                onChange={onChangeLaptime}
+                                placeholder="00:00.000"
+                            />
+                            <small className="text-muted laptime-format">
+                            {
+                                laptime && laptime.length > 0 && laptime.length < 9 ? (
+                                    <span>Format: 00:00.000</span>
+                                ) : (
+                                    <span>&nbsp;</span>
+                                )
+                            }
+                            </small>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label>Driver</label>
+                            <select className="form-control"
+                                required
+                                value={driver}
+                                onChange={onChangeDriver}>
+                                {
+                                    drivers.map(currDriver => {
+                                        return <option
+                                            key={currDriver}
+                                            value={currDriver}>{currDriver}
+                                        </option>;
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-2">
+                    <div className="col mr-3">
+                        <div className="form-group">
+                            <label>Gearbox</label>
+                            <select className="form-control"
+                                required
+                                value={gearbox}
+                                onChange={onChangeGearbox}>
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col mr-3">
+                        <div className="form-group">
+                            <label>Traction</label>
+                            <select className="form-control"
+                                required
+                                value={traction}
+                                onChange={onChangeTraction}>
+                                <option value="Factory">Factory</option>
+                                <option value="On">On</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-group">
+                            <label>Stability</label>
+                            <select className="form-control"
+                                required
+                                value={stability}
+                                onChange={onChangeStability}>
+                                <option value="Factory">Factory</option>
+                                <option value="On">On</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-2 mr-1">
+                    <div className="col-8">
+                        <div className="form-group">
+                            <label>Notes</label>
+                            <input className="form-control"
+                                type="text"
+                                value={notes}
+                                onChange={onChangeNotes}
+                                />
+                        </div>
+                    </div>
+                    <div className="col-4 pr-0 add-edit-date">
+                        <div className="form-group">
+                            <label>Date</label>
+                            <div>
+                                <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="form-group mt-3 add-edit-button">
                     <input className="btn btn-primary mr-4" type="submit" value={existingLap ? "Update Lap" : "Add New Lap"}/>
                     <Link to="/">Cancel</Link>
                 </div>
             </form>
         </div>
+        </>
     )
 }
 
