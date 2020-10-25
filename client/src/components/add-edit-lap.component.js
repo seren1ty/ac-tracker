@@ -337,7 +337,7 @@ const AddEditLap = props => {
                 <div className="row mt-4">
                     <div className="col pr-4">
                         <div className="form-group">
-                            <label>Track</label>
+                            <label className="add-edit-label-with-button">Track</label>
                             {
                                 !addTrackInProgress ? (
                                     <button className="btn btn-sm btn-secondary add-track-car"
@@ -378,7 +378,7 @@ const AddEditLap = props => {
                     </div>
                     <div className="col">
                         <div className="form-group">
-                            <label>Car</label>
+                            <label className="add-edit-label-with-button">Car</label>
                             {
                                 !addCarInProgress ? (
                                     <button className="btn btn-sm btn-secondary add-track-car"
@@ -418,14 +418,12 @@ const AddEditLap = props => {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-2">
+                <div className="row mt-0">
                     <div className="col pr-4">
                         <div className="form-group">
-                            <label for="laptime">Laptime</label>
+                            <label className="add-edit-label">Laptime</label>
                             <input className="form-control"
                                 type="text"
-                                name="laptime"
-                                id="laptime"
                                 required
                                 minLength="9"
                                 maxLength="9"
@@ -447,7 +445,7 @@ const AddEditLap = props => {
                     </div>
                     <div className="col">
                         <div className="form-group">
-                            <label>Driver</label>
+                            <label className="add-edit-label">Driver</label>
                             <select className="form-control"
                                 required
                                 value={driver}
@@ -464,10 +462,10 @@ const AddEditLap = props => {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-2">
+                <div className="row mt-0">
                     <div className="col mr-3">
                         <div className="form-group">
-                            <label>Gearbox</label>
+                            <label className="add-edit-label">Gearbox</label>
                             <select className="form-control"
                                 required
                                 value={gearbox}
@@ -479,7 +477,7 @@ const AddEditLap = props => {
                     </div>
                     <div className="col mr-3">
                         <div className="form-group">
-                            <label>Traction</label>
+                            <label className="add-edit-label">Traction</label>
                             <select className="form-control"
                                 required
                                 value={traction}
@@ -492,7 +490,7 @@ const AddEditLap = props => {
                     </div>
                     <div className="col">
                         <div className="form-group">
-                            <label>Stability</label>
+                            <label className="add-edit-label">Stability</label>
                             <select className="form-control"
                                 required
                                 value={stability}
@@ -504,10 +502,10 @@ const AddEditLap = props => {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-2 mr-1">
+                <div className="row mt-0 mr-0">
                     <div className="col-8">
                         <div className="form-group">
-                            <label>Notes</label>
+                            <label className="add-edit-label">Notes</label>
                             <input className="form-control"
                                 type="text"
                                 value={notes}
@@ -517,14 +515,14 @@ const AddEditLap = props => {
                     </div>
                     <div className="col-4 pr-0 add-edit-date">
                         <div className="form-group">
-                            <label>Date</label>
+                            <label className="add-edit-label">Date</label>
                             <div>
                                 <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="form-group mt-3 add-edit-button">
+                <div className="form-group mt-2 add-edit-button">
                     <input className="btn btn-primary mr-4" type="submit" value={existingLap ? "Update Lap" : "Add New Lap"}/>
                     <Link to="/">Cancel</Link>
                 </div>

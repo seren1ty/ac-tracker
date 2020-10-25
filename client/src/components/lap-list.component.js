@@ -290,10 +290,10 @@ const LapList = props => {
     return (
         <div>
             <h4>Lap Records</h4>
-            <div className="pt-2">
-                <span className="pr-3">
-                    <span>Track: </span>
-                    <select onChange={onChangeTrack} value={trackType}>
+            <div className="lap-filter-labels pt-3 mr-0">
+                <span className=" pr-3">
+                    <label>Track </label>
+                    <select className="lap-filter-select" onChange={onChangeTrack} value={trackType}>
                         <option value="ALL">All</option>
                         {
                             tracks.map(track => {
@@ -303,8 +303,8 @@ const LapList = props => {
                     </select>
                 </span>
                 <span className="pr-3">
-                    <span>Car: </span>
-                    <select onChange={onChangeCar} value={carType}>
+                    <label>Car </label>
+                    <select className="lap-filter-select" onChange={onChangeCar} value={carType}>
                         <option value="ALL">All</option>
                         {
                             cars.map(car => {
@@ -313,9 +313,9 @@ const LapList = props => {
                         }
                     </select>
                 </span>
-                <span className="pr-3">
-                    <span>Driver: </span>
-                    <select onChange={onChangeDriver} value={driverType}>
+                <span className="pr-4">
+                    <label>Driver </label>
+                    <select className="lap-filter-select" onChange={onChangeDriver} value={driverType}>
                         <option value="ALL">All</option>
                         {
                             drivers.map(driver => {
@@ -325,8 +325,8 @@ const LapList = props => {
                     </select>
                 </span>
                 <span>
-                    <span>Sort by: </span>
-                    <select onChange={onChangeSort} value={sortType}>
+                    <label>Sort by </label>
+                    <select className="lap-filter-select" onChange={onChangeSort} value={sortType}>
                         <option value="TRACK">Track</option>
                         <option value="CAR">Car</option>
                         <option value="DRIVER">Driver</option>

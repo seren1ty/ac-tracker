@@ -12,13 +12,47 @@ code {
     monospace;
 }
 
+.lap-filter-labels > span > label {
+  margin-bottom: 0px;
+}
+
+.lap-filter-select {
+  margin-left: 6px;
+  padding: 0px 3px;
+  color: #495057;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+
 .laps-shown {
   float: right;
 }
 
+.lap-row > td {
+  padding: 9px 2px 8px 2px;
+}
+
+.lap-row-actions {
+  width: 130px;
+}
+
+.cancel-delete-lap {
+  vertical-align: bottom;
+  margin-left: 4px;
+}
+
+.add-edit-label-with-button {
+  margin-bottom: 0px;
+}
+
+.add-edit-label {
+  margin-bottom: 3px;
+}
+
 .add-track-car {
   float: right;
-  padding: 2px 15px 2px 15px;
+  padding: 1px 12px 1px 12px;
+  margin-bottom: 2px;
 }
 
 .laptime-format {
@@ -26,7 +60,7 @@ code {
 }
 
 .add-edit-date {
-  padding-left: 39px!important;
+  padding-left: 36px!important;
 }
 
 .add-edit-button {

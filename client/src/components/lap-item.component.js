@@ -21,25 +21,27 @@ const LapItem = props => {
     }
 
     return (
-        <tr>
+        <tr className="lap-row">
             <td>{props.lap.track}</td>
             <td>{props.lap.car}</td>
-            <td>{props.lap.laptime}</td>
+            <td><strong>{props.lap.laptime}</strong></td>
             <td>{props.lap.driver}</td>
             <td>{props.lap.gearbox}</td>
             <td>{props.lap.traction}</td>
             <td>{props.lap.stability}</td>
             <td><AcDate date={props.lap.date}/></td>
-            <td>
+            <td className="lap-row-actions">
             {
                 showConfirm === true ? (
-                    <span>
-                        <a href="#" onClick={() => props.deleteLap(props.lap._id)}>Delete</a> | <a href="#" onClick={onClickCancel}>Back</a>
-                    </span>
+                    <div>
+                        <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0" type="button" onClick={() => props.deleteLap(props.lap._id)}>Delete</button>
+                        <a className="cancel-delete-lap" href="#" onClick={onClickCancel}>Cancel</a>
+                    </div>
                 ) : (
-                    <span>
-                        <a href="#" onClick={onClickEdit}>Edit</a> | <a href="#" onClick={onClickDelete}>Delete</a>
-                    </span>
+                    <div>
+                        <button className="btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" type="button" onClick={onClickEdit}>Edit</button>
+                        <button className="btn btn-sm btn-danger pt-0 pb-0" type="button" onClick={onClickDelete}>Delete</button>
+                    </div>
                 )
             }
             </td>
