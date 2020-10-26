@@ -69,6 +69,7 @@ code {
 .cancel-delete-lap {
   padding: 0px 0px 0px 3px;
   box-shadow: 0 0 0 0 !important;
+  line-height: 1em;
 }
 
 .add-edit-label-with-button {
