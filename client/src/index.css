@@ -12,6 +12,20 @@ code {
     monospace;
 }
 
+.nav-colour {
+  background-color: #007bff;
+}
+
+.nav-title {
+  font-weight: bold;
+  font-size: x-large;
+  padding-top: 0px;
+}
+
+.nav-item {
+  color: #ffffffe5 !important;
+}
+
 .lap-filter-labels > span > label {
   margin-bottom: 0px;
 }
@@ -30,6 +44,10 @@ code {
 
 .table th {
   padding: 8px 4px;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #ebf0ffc2;
 }
 
 .lap-row > td {

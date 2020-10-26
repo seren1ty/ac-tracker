@@ -333,7 +333,7 @@ const LapList = props => {
                 </span>
                 <span className="laps-shown">Laps shown: {laps.length} / {originalLaps.length}</span>
             </div>
-            <table className="table mt-2">
+            <table className="table table-hover mt-2">
                 <thead className="thead-light">
                     <tr>
                         <th>Track</th>
