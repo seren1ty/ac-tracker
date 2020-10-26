@@ -47,11 +47,15 @@ code {
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #ebf0ffc2;
+  background-color: #e8f0ff;;
 }
 
 .lap-row > td {
-  padding: 9px 2px 8px 2px;
+  padding: 9px 2px 10px 2px;
+}
+
+.lap-row > td > div {
+  line-height: 0.1em;
 }
 
 .lap-row-actions {
