@@ -19,7 +19,7 @@ code {
 .nav-title {
   font-weight: bold;
   font-size: x-large;
-  padding-top: 0px;
+  font-family: 'open_sans',sans-serif !important;
 }
 
 .nav-item {
