@@ -12,7 +12,7 @@ const Navbar = () => {
                 history.push('/login');
             });
     }
-    //#007bff
+
     return (
         <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-expand-md navbar-dark nav-colour">
             <Link to="/" className="navbar-brand nav-title">AC Tracker</Link>
