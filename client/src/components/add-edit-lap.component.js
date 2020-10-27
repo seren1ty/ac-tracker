@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const AddEditLap = props => {
 
     const location = useLocation();
+
     const [existingLap] = useState(location.state ? location.state : null);
 
     const [tracks, setTracks] = useState([]);
@@ -18,6 +19,8 @@ const AddEditLap = props => {
 
     const [addCarInProgress, setAddCarInProgress] = useState(false);
     const [newCarName, setNewCarName] = useState('');
+
+    const [submitClicked, setSubmitClicked] = useState(false);
 
     const [track, setTrack] = useState(() => {
         if (existingLap)
@@ -229,6 +232,8 @@ const AddEditLap = props => {
 
     const onSubmit = event => {
         event.preventDefault();
+
+        setSubmitClicked(true);
 
         const lapToSave = {
             track: !addTrackInProgress ? track : newTrackName,
@@ -521,7 +526,10 @@ const AddEditLap = props => {
                     </div>
                 </div>
                 <div className="form-group mt-2 add-edit-button">
-                    <input className="btn btn-primary mr-4" type="submit" value={existingLap ? "Update Lap" : "Add New Lap"}/>
+                    <input className="btn btn-primary mr-4"
+                        type="submit"
+                        disabled={submitClicked}
+                        value={existingLap ? "Update Lap" : "Add New Lap"}/>
                     <Link to="/">Cancel</Link>
                 </div>
             </form>
