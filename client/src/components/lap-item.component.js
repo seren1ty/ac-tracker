@@ -28,7 +28,9 @@ const LapItem = props => {
             <td className="lap-replay-cell">
             {
                 props.lap.replay &&
-                <a href={props.lap.replay} target="_"><img className="lap-replay-icon" src={replayIcon}></img></a>
+                <a href={props.lap.replay} target="_" title="Launch Replay">
+                    <img className="lap-replay-icon" src={replayIcon}></img>
+                </a>
             }
             </td>
             <td><strong>{props.lap.laptime}</strong></td>
