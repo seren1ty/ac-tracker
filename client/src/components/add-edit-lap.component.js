@@ -96,6 +96,10 @@ const AddEditLap = props => {
         return 'Factory';
     });
 
+    const [date, setDate] = useState(existingLap ? new Date(existingLap.date) : new Date());
+
+    const [replay, setReplay] = useState(existingLap ? existingLap.replay : '');
+
     const [notes, setNotes] = useState(() => {
         if (existingLap)
             return existingLap.notes;
@@ -107,8 +111,6 @@ const AddEditLap = props => {
 
         return '';
     });
-
-    const [date, setDate] = useState(existingLap ? new Date(existingLap.date) : new Date());
 
     const history = useHistory();
 
@@ -198,12 +200,16 @@ const AddEditLap = props => {
         setStability(event.target.value);
     }
 
-    const onChangeNotes = event => {
-        setNotes(event.target.value);
-    }
-
     const onChangeDate = newDate => {
         setDate(newDate);
+    }
+
+    const onChangeReplay = event => {
+        setReplay(event.target.value);
+    }
+
+    const onChangeNotes = event => {
+        setNotes(event.target.value);
     }
 
     const onClickAddTrack = () => {
@@ -243,8 +249,9 @@ const AddEditLap = props => {
             gearbox: gearbox,
             traction: traction,
             stability: stability,
+            date: date,
+            replay: replay,
             notes: notes,
-            date: date
         }
 
         console.log(lapToSave);
@@ -466,7 +473,7 @@ const AddEditLap = props => {
                     </div>
                 </div>
                 <div className="row mt-0">
-                    <div className="col mr-3">
+                    <div className="col mr-3 pr-2">
                         <div className="form-group">
                             <label className="add-edit-label">Gearbox</label>
                             <select className="form-control"
@@ -478,7 +485,7 @@ const AddEditLap = props => {
                             </select>
                         </div>
                     </div>
-                    <div className="col mr-3">
+                    <div className="col mr-3 pr-2">
                         <div className="form-group">
                             <label className="add-edit-label">Traction</label>
                             <select className="form-control"
@@ -506,22 +513,33 @@ const AddEditLap = props => {
                     </div>
                 </div>
                 <div className="row mt-0 mr-0">
-                    <div className="col-8">
-                        <div className="form-group">
-                            <label className="add-edit-label">Notes</label>
-                            <input className="form-control"
-                                type="text"
-                                value={notes}
-                                onChange={onChangeNotes}
-                                />
-                        </div>
-                    </div>
-                    <div className="col-4 pr-0 add-edit-date">
+                    <div className="col-4 add-edit-date">
                         <div className="form-group">
                             <label className="add-edit-label">Date</label>
                             <div>
                                 <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
                             </div>
+                        </div>
+                    </div>
+                    <div className="col-8 pl-4 pr-0">
+                        <div className="form-group">
+                            <label className="add-edit-label">Replay</label>
+                            <input className="form-control"
+                                type="text"
+                                value={replay}
+                                onChange={onChangeReplay}
+                                placeholder="Enter URL of uploaded lap replay - Eg. Youtube"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-0 mr-0">
+                    <div className="col-12 pr-0">
+                        <div className="form-group">
+                            <label className="add-edit-label">Notes</label>
+                            <input className="form-control"
+                                type="text"
+                                value={notes}
+                                onChange={onChangeNotes}/>
                         </div>
                     </div>
                 </div>

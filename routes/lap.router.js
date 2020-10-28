@@ -22,6 +22,7 @@ router.route('/add').post((req, res) => {
     const gearbox = req.body.gearbox;
     const traction = req.body.traction;
     const stability = req.body.stability;
+    const replay = req.body.replay;
     const notes = req.body.notes;
     const date = Date.parse(req.body.date);
 
@@ -33,6 +34,7 @@ router.route('/add').post((req, res) => {
         gearbox,
         traction,
         stability,
+        replay,
         notes,
         date
     });
@@ -52,6 +54,7 @@ router.route('/edit/:id').post((req, res) => {
             existingLap.gearbox = req.body.gearbox;
             existingLap.traction = req.body.traction;
             existingLap.stability = req.body.stability;
+            existingLap.replay = req.body.replay;
             existingLap.notes = req.body.notes;
             existingLap.date = Date.parse(req.body.date);
 

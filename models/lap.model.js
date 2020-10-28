@@ -10,6 +10,7 @@ const lapSchema = new Schema({
     gearbox: { type: String, required: true },
     traction: { type: String, required: true },
     stability: { type: String, required: true },
+    replay: { type: String },
     notes: { type: String },
     date: { type: Date, required: true }
 }, {
