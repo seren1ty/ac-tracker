@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AcDate from './common/ac-date.component';
+import replayIcon from '../assets/replay_blue_transparent.png';
 
 const LapItem = props => {
 
@@ -23,7 +24,13 @@ const LapItem = props => {
     return (
         <tr className="lap-row">
             <td>{props.lap.track}</td>
-            <td>{props.lap.car}</td>
+            <td className="lap-car-cell">{props.lap.car}</td>
+            <td className="lap-replay-cell">
+            {
+                props.lap.replay &&
+                <a href={props.lap.replay} target="_"><img className="lap-replay-icon" src={replayIcon}></img></a>
+            }
+            </td>
             <td><strong>{props.lap.laptime}</strong></td>
             <td>{props.lap.driver}</td>
             <td>{props.lap.gearbox}</td>

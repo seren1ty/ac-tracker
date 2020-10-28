@@ -354,6 +354,7 @@ const LapList = props => {
                     <tr>
                         <th>Track</th>
                         <th>Car</th>
+                        <th></th>
                         <th>Laptime</th>
                         <th>Driver</th>
                         <th>Gearbox</th>

@@ -58,6 +58,20 @@ code {
   line-height: 0.1em;
 }
 
+.lap-car-cell {
+  width: 21%;
+}
+
+.lap-replay-cell {
+  width: 38px;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.lap-replay-icon {
+  width: 28px;
+}
+
 .lap-row-actions {
   width: 130px;
 }
