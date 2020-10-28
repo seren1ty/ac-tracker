@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { isBefore, isAfter } from 'date-fns';
 import LapItem from './lap-item.component';
 
 const LapList = props => {
@@ -263,6 +264,20 @@ const LapList = props => {
                 return (a.laptime > b.laptime) ? 1 : ((b.laptime > a.laptime) ? -1 : 0);
             });
         }
+        else if (newSortType === 'DATE') {
+            currentLaps.sort((a,b) => {
+                return (a.laptime > b.laptime) ? 1 : ((b.laptime > a.laptime) ? -1 : 0);
+            });
+
+            currentLaps.sort((a,b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+
+                const aBiggerB = isBefore(dateA, dateB) ? 1 : (isAfter(dateA, dateB) ? -1 : 0);
+
+                return aBiggerB;
+            });
+        }
 
         setSortType(newSortType);
 
@@ -325,6 +340,7 @@ const LapList = props => {
                 <span>
                     <label>Sort by </label>
                     <select className="lap-filter-select" onChange={onChangeSort} value={sortType}>
+                        <option value="DATE">Date</option>
                         <option value="TRACK">Track</option>
                         <option value="CAR">Car</option>
                         <option value="DRIVER">Driver</option>
