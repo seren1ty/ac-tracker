@@ -3,22 +3,35 @@ Assetto Corsa Laptime Tracking Application [MERN - MongoDB, ExpressJS, ReactJS, 
 
 ***
 
-## How to Initialise / Run Project
+AC Tracker contains both a ReactJS client project, and also a Node/Express backend project. The backend should be setup and started first, from the root of the project directory. Then the client can be setup and started from the '<root_directory>/client/' directory.
 
-In the project directory, you can run:
+## How to Initialise / Run Backend Project
+
+To start the backend/server, from the project directory, you can run:
 
 ### `npm i`
 
-Loads all dependencies into the project directory, based on configuration in the package.json.<br />
-After this operation is run the project can then be started and/or tested.
+Loads all dependencies for the server, based on configuration in the <root_directory>/package.json.
+
+### `npm run devStart`
+
+Runs the server in development mode.<br />
+The server uses nodemon and will reload if you make edits.
+
+## How to Initialise / Run Frontend Project
+
+To start the frontend/client, from the '<root_directory>/client/' directory, you can run:
+
+### `npm i`
+
+Loads all dependencies into the client directory, based on configuration in the <root_directory>/client/package.json.
 
 ### `npm start`
 
 Runs the app in development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+The client will reload if you make edits.
 
 ***
 
