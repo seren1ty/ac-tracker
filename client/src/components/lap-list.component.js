@@ -7,6 +7,8 @@ import LapItem from './lap-item.component';
 
 const LapList = props => {
 
+    const [loading, setLoading] = useState([]);
+
     const [originalLaps, setOriginalLaps] = useState([]);
 
     const [laps, setLaps] = useState([]);
@@ -40,48 +42,64 @@ const LapList = props => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get('/session/status')
+        setLoading(true);
+
+        checkSession()
+            .then((result) => {
+                if (!result)
+                    return;
+
+                axios.get('/laps')
+                    .then(res => {
+                        setOriginalLaps(res.data);
+
+                        handleSetLaps(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                axios.get('/tracks')
+                    .then(res => {
+                        handleSetTracks(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                axios.get('/cars')
+                    .then(res => {
+                        handleSetCars(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                axios.get('/drivers')
+                    .then(res => {
+                        handleSetDrivers(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                setLoading(false);
+            });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const checkSession = async () => {
+        return await axios.get('/session/status')
+            .then(() => {
+                return true;
+            })
             .catch(err => {
                 console.error('Session expired: ' + err);
 
                 history.push('/login');
             });
-
-        axios.get('/laps')
-            .then(res => {
-                setOriginalLaps(res.data);
-
-                handleSetLaps(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-        axios.get('/tracks')
-            .then(res => {
-                handleSetTracks(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-        axios.get('/cars')
-            .then(res => {
-                handleSetCars(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-        axios.get('/drivers')
-            .then(res => {
-                handleSetDrivers(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    };
 
     const handleSetLaps = (newLaps) => {
         let sortedLaps = handleChangeSort(sortType, newLaps);
@@ -302,6 +320,7 @@ const LapList = props => {
     }
 
     return (
+        !loading &&
         <>
         <Navbar/>
         <br/>

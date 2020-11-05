@@ -9,6 +9,8 @@ const AddEditLap = props => {
 
     const location = useLocation();
 
+    const [loading, setLoading] = useState([]);
+
     const [existingLap] = useState(location.state ? location.state : null);
 
     const [tracks, setTracks] = useState([]);
@@ -116,62 +118,85 @@ const AddEditLap = props => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get('/session/status')
+        setLoading(true);
+
+        checkSession()
+            .then((result) => {
+                if (!result)
+                    return;
+
+                axios.get('/session/status')
+                    .catch(err => {
+                        console.error('Session expired: ' + err);
+
+                        history.push('/login');
+                    });
+
+                axios.get('/tracks')
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            setTracks(res.data.map(t => t.name));
+
+                            if (!track)
+                                setTrack(res.data[0].name);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error [Get Tracks]: ' + err);
+                    });
+
+                axios.get('/cars')
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            setCars(res.data.map(c => c.name));
+
+                            if (!car)
+                                setCar(res.data[0].name);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error [Get Cars]: ' +err);
+                    });
+
+                axios.get('/drivers')
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            let currentDriver = res.data[0].name;
+
+                            if (localStorage.getItem('acTracker')) {
+                                const acState = JSON.parse(localStorage.getItem('acTracker'));
+
+                                if (acState.driverType !== 'ALL')
+                                    currentDriver = acState.driverType;
+                            }
+
+                            setDrivers(res.data.map(d => d.name));
+
+                            if (!driver)
+                                setDriver(currentDriver);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error [Get Drivers]: ' +err);
+                    });
+
+                    setLoading(false);
+            });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const checkSession = async () => {
+        return await axios.get('/session/status')
+            .then(() => {
+                return true;
+            })
             .catch(err => {
                 console.error('Session expired: ' + err);
 
                 history.push('/login');
             });
-
-        axios.get('/tracks')
-            .then(res => {
-                if (res.data.length > 0) {
-                    setTracks(res.data.map(t => t.name));
-
-                    if (!track)
-                        setTrack(res.data[0].name);
-                }
-            })
-            .catch(err => {
-                console.error('Error [Get Tracks]: ' + err);
-            });
-
-        axios.get('/cars')
-            .then(res => {
-                if (res.data.length > 0) {
-                    setCars(res.data.map(c => c.name));
-
-                    if (!car)
-                        setCar(res.data[0].name);
-                }
-            })
-            .catch(err => {
-                console.error('Error [Get Cars]: ' +err);
-            });
-
-        axios.get('/drivers')
-            .then(res => {
-                if (res.data.length > 0) {
-                    let currentDriver = res.data[0].name;
-
-                    if (localStorage.getItem('acTracker')) {
-                        const acState = JSON.parse(localStorage.getItem('acTracker'));
-
-                        if (acState.driverType !== 'ALL')
-                            currentDriver = acState.driverType;
-                    }
-
-                    setDrivers(res.data.map(d => d.name));
-
-                    if (!driver)
-                        setDriver(currentDriver);
-                }
-            })
-            .catch(err => {
-                console.error('Error [Get Drivers]: ' +err);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    };
 
     const onChangeTrack = event => {
         setTrack(event.target.value);
@@ -335,6 +360,7 @@ const AddEditLap = props => {
     }
 
     return (
+        !loading &&
         <>
         <Navbar/>
         <br/>
