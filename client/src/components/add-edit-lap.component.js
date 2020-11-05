@@ -121,8 +121,8 @@ const AddEditLap = props => {
         setLoading(true);
 
         checkSession()
-            .then((result) => {
-                if (!result)
+            .then((success) => {
+                if (!success)
                     return;
 
                 axios.get('/session/status')
@@ -186,8 +186,8 @@ const AddEditLap = props => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const checkSession = async () => {
-        return await axios.get('/session/status')
+    const checkSession = () => {
+        return axios.get('/session/status')
             .then(() => {
                 return true;
             })
