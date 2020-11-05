@@ -251,7 +251,7 @@ const AddEditLap = props => {
             stability: stability,
             date: date,
             replay: replay,
-            notes: notes,
+            notes: !notes ? '' : notes.trim(),
         }
 
         console.log(lapToSave);
