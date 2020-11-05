@@ -32,7 +32,7 @@ const LapItem = props => {
                 props.lap.replay &&
                 <span>
                     <a href={props.lap.replay} target="_"  data-tip="Launch Replay">
-                        <img className="lap-replay-icon" src={replayIcon}></img>
+                        <img className="lap-replay-icon" src={replayIcon} alt="replay"></img>
                     </a>
                     <ReactTooltip place="left" effect="solid"/>
                 </span>
@@ -48,9 +48,9 @@ const LapItem = props => {
             {
                 props.lap.notes &&
                 <span>
-                    <a data-tip={props.lap.notes}>
-                        <img className="lap-notes-icon" src={notesIcon}></img>
-                    </a>
+                    <span data-tip={props.lap.notes}>
+                        <img className="lap-notes-icon" src={notesIcon} alt="notes"></img>
+                    </span>
                     <ReactTooltip place="left" effect="solid"/>
                 </span>
             }
