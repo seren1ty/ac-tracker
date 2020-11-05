@@ -357,10 +357,11 @@ const LapList = props => {
                         <th></th>
                         <th>Laptime</th>
                         <th>Driver</th>
-                        <th>Gearbox</th>
+                        <th>Gears</th>
                         <th>TC</th>
                         <th>SC</th>
                         <th>Date</th>
+                        <th></th>
                         <th>Actions</th>
                     </tr>
                 </thead>

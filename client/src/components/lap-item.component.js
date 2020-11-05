@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AcDate from './common/ac-date.component';
+import ReactTooltip from 'react-tooltip';
 import replayIcon from '../assets/replay_blue_transparent.png';
+import notesIcon from '../assets/notes_blue.png';
 
 const LapItem = props => {
 
@@ -28,17 +30,31 @@ const LapItem = props => {
             <td className="lap-replay-cell">
             {
                 props.lap.replay &&
-                <a href={props.lap.replay} target="_" title="Launch Replay">
-                    <img className="lap-replay-icon" src={replayIcon}></img>
-                </a>
+                <span>
+                    <a href={props.lap.replay} target="_"  data-tip="Launch Replay">
+                        <img className="lap-replay-icon" src={replayIcon}></img>
+                    </a>
+                    <ReactTooltip place="left" effect="solid"/>
+                </span>
             }
             </td>
             <td><strong>{props.lap.laptime}</strong></td>
             <td>{props.lap.driver}</td>
-            <td>{props.lap.gearbox}</td>
+            <td>{props.lap.gearbox === 'Manual' ? 'Manual' : 'Auto'}</td>
             <td>{props.lap.traction}</td>
             <td>{props.lap.stability}</td>
-            <td><AcDate date={props.lap.date}/></td>
+            <td className="lap-date-cell"><AcDate date={props.lap.date}/></td>
+            <td className="lap-notes-cell">
+            {
+                props.lap.notes &&
+                <span>
+                    <a data-tip={props.lap.notes}>
+                        <img className="lap-notes-icon" src={notesIcon}></img>
+                    </a>
+                    <ReactTooltip place="left" effect="solid"/>
+                </span>
+            }
+            </td>
             <td className="lap-row-actions">
             {
                 showConfirm === true ? (

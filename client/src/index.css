@@ -72,6 +72,20 @@ code {
   width: 28px;
 }
 
+.lap-date-cell {
+  width: 8%;
+}
+
+.lap-notes-cell {
+  width: 38px;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+.lap-notes-icon {
+  width: 29px;
+}
+
 .lap-row-actions {
   width: 130px;
 }
