@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
+import Navbar from "./common/navbar.component";
 import LapItem from './lap-item.component';
 
 const LapList = props => {
@@ -301,6 +302,9 @@ const LapList = props => {
     }
 
     return (
+        <>
+        <Navbar/>
+        <br/>
         <div>
             <h4>Lap Records</h4>
             <div className="lap-filter-labels pt-3 mr-0">
@@ -374,6 +378,7 @@ const LapList = props => {
                 </tbody>
             </table>
         </div>
+        </>
     );
 }
 

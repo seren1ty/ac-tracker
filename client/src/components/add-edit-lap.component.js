@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
 
 const AddEditLap = props => {
@@ -335,6 +336,8 @@ const AddEditLap = props => {
 
     return (
         <>
+        <Navbar/>
+        <br/>
         <div className="form-style">
             {
                 existingLap ? (

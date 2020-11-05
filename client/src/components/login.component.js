@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
+import NavbarSimple from './common/navbar-simple.component';
 
 const LoginComponent = props => {
 
@@ -23,6 +24,9 @@ const LoginComponent = props => {
     }
 
     return (
+        <>
+        <NavbarSimple/>
+        <br/>
         <div className="App">
             <div className="col-md-6 offset-md-3 text-center mt-5">
                 <GoogleLogin
@@ -34,6 +38,7 @@ const LoginComponent = props => {
                 />
             </div>
         </div>
+        </>
     )
 }
 
