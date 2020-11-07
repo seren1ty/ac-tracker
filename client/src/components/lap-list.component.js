@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
 import Navbar from "./common/navbar.component";
 import LapItem from './lap-item.component';
+import { SessionContext } from '../context/session.context';
 
 const LapList = props => {
+
+    const session = useContext(SessionContext);
 
     const [loading, setLoading] = useState([]);
 
@@ -44,7 +47,7 @@ const LapList = props => {
     useEffect(() => {
         setLoading(true);
 
-        checkSession()
+        session.checkSession()
             .then((success) => {
                 if (!success)
                     return;
@@ -88,18 +91,6 @@ const LapList = props => {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const checkSession = () => {
-        return axios.get('/session/status')
-            .then(() => {
-                return true;
-            })
-            .catch(err => {
-                console.error('Session expired: ' + err);
-
-                history.push('/login');
-            });
-    };
 
     const handleSetLaps = (newLaps) => {
         let sortedLaps = handleChangeSort(sortType, newLaps);
@@ -385,7 +376,7 @@ const LapList = props => {
                         <th>SC</th>
                         <th>Date</th>
                         <th></th>
-                        <th>Actions</th>
+                        <th className="actions-heading">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

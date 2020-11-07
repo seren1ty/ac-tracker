@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 import NavbarSimple from './common/navbar-simple.component';
+import { SessionContext } from '../context/session.context';
 
 const LoginComponent = props => {
 
     const history = useHistory();
+
+    const session = useContext(SessionContext);
 
     const responseSuccessGoogle = googleResponse => {
         console.log(googleResponse);
@@ -14,6 +17,8 @@ const LoginComponent = props => {
         axios.post("/login/google", { tokenId: googleResponse.tokenId })
             .then(response => {
                 console.log(response);
+
+                session.setDriver(response.data);
 
                 history.push('/');
             });

@@ -46,8 +46,16 @@ code {
   padding: 8px 4px;
 }
 
+.actions-heading {
+  text-align: center;
+}
+
+.drivers-lap {
+  background-color: #e8f0ff81;
+}
+
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: #e8f0ff;;
+  background-color: #e8f0ff;
 }
 
 .lap-row > td {
@@ -92,6 +100,16 @@ code {
 
 .btn {
   box-shadow: 0 0 0 0 !important;
+}
+
+.edit-btn {
+  background-color: #007bffc9;
+  border-color: #007bffc9;
+}
+
+.delete-btn {
+  background-color: #dc3545bf;
+  border-color: #dc3545bf;
 }
 
 .cancel-delete-lap {
