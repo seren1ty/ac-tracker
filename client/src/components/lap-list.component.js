@@ -40,7 +40,12 @@ const LapList = props => {
             return JSON.parse(localStorage.getItem('acTracker')).driverType;
     });
 
-    const [sortType, setSortType] = useState('LAPTIME');
+    const [sortType, setSortType] = useState(() => {
+        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).sortType)
+            return 'DATE';
+        else
+            return JSON.parse(localStorage.getItem('acTracker')).sortType;
+    });
 
     const history = useHistory();
 
@@ -237,6 +242,15 @@ const LapList = props => {
         const sortedLaps = handleChangeSort(sortEvent.target.value);
 
         setLaps(sortedLaps);
+
+        let currentState = {};
+
+        if (localStorage.getItem('acTracker'))
+            currentState = JSON.parse(localStorage.getItem('acTracker'));
+
+        currentState.sortType = sortEvent.target.value;
+
+        localStorage.setItem('acTracker', JSON.stringify(currentState));
     }
 
     const handleChangeSort = (newSortType, newLaps) => {
