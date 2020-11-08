@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
+import { SessionContext } from '../context/session.context';
 
 const AddEditLap = props => {
+
+    const history = useHistory();
+
+    const session = useContext(SessionContext);
 
     const location = useLocation();
 
     const [loading, setLoading] = useState([]);
 
-    const [existingLap] = useState(location.state ? location.state : null);
+    const [existingLap] = useState(() => {
+        if (location.state) {
+            return location.state;
+        } else if (location.pathname.startsWith('/editLap')) {
+            if (localStorage.getItem('acTracker')) {
+                let storedCurrentLap = JSON.parse(localStorage.getItem('acTracker')).currentLapToEdit;
+
+                if (storedCurrentLap && location.pathname.endsWith(storedCurrentLap._id))
+                    return storedCurrentLap;
+            }
+        }
+
+        return null;
+    });
 
     const [tracks, setTracks] = useState([]);
     const [cars, setCars] = useState([]);
@@ -115,22 +133,18 @@ const AddEditLap = props => {
         return '';
     });
 
-    const history = useHistory();
-
     useEffect(() => {
+        console.log(location.state);
+
         setLoading(true);
 
-        checkSession()
+        session.checkSession()
             .then((success) => {
                 if (!success)
                     return;
 
-                axios.get('/session/status')
-                    .catch(err => {
-                        console.error('Session expired: ' + err);
-
-                        history.push('/login');
-                    });
+                if (!existingLap && location.pathname.startsWith('/editLap'))
+                    history.push('/');
 
                 axios.get('/tracks')
                     .then(res => {
@@ -180,23 +194,23 @@ const AddEditLap = props => {
                         console.error('Error [Get Drivers]: ' +err);
                     });
 
+                    // We are currently editting a lap, NOT creating a new one
+                    if (location.state && location.pathname.startsWith('/editLap')) {
+                        let acState = {};
+
+                        if (localStorage.getItem('acTracker'))
+                            acState = JSON.parse(localStorage.getItem('acTracker'));
+
+                        acState.currentLapToEdit = location.state;
+
+                        localStorage.setItem('acTracker', JSON.stringify(acState));
+                    }
+
                     setLoading(false);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const checkSession = () => {
-        return axios.get('/session/status')
-            .then(() => {
-                return true;
-            })
-            .catch(err => {
-                console.error('Session expired: ' + err);
-
-                history.push('/login');
-            });
-    };
 
     const onChangeTrack = event => {
         setTrack(event.target.value);
