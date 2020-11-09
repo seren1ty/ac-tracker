@@ -311,8 +311,6 @@ const LapList = props => {
     const deleteLap = id => {
         axios.delete('/laps/delete/' + id)
             .then(res => {
-                console.log(res.data);
-
                 setLaps(laps.filter(lap => lap._id !== id));
 
                 setOriginalLaps(originalLaps.filter(lap => lap._id !== id));

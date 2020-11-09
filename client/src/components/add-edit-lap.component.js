@@ -134,8 +134,6 @@ const AddEditLap = props => {
     });
 
     useEffect(() => {
-        console.log(location.state);
-
         setLoading(true);
 
         session.checkSession()
@@ -144,7 +142,7 @@ const AddEditLap = props => {
                     return;
 
                 if (!existingLap && location.pathname.startsWith('/editLap'))
-                    history.push('/');
+                    window.location = '/';
 
                 axios.get('/tracks')
                     .then(res => {
@@ -294,8 +292,6 @@ const AddEditLap = props => {
             notes: !notes ? '' : notes.trim(),
         }
 
-        console.log(lapToSave);
-
         if (addTrackInProgress)
             handleAddNewTrack(lapToSave);
         else if (addCarInProgress)
@@ -335,8 +331,6 @@ const AddEditLap = props => {
             .then(res => {
                 updateNewLapDefaults();
 
-                console.log(res.data)
-
                 history.push('/');
             })
             .catch(err => {
@@ -347,8 +341,6 @@ const AddEditLap = props => {
     const editLap = (lapToSave) => {
         axios.post('/laps/edit/' + existingLap._id, lapToSave)
             .then(res => {
-                console.log(res.data)
-
                 history.push('/');
             })
             .catch(err => {

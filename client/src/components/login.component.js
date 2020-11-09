@@ -12,12 +12,8 @@ const LoginComponent = props => {
     const session = useContext(SessionContext);
 
     const responseSuccessGoogle = googleResponse => {
-        console.log(googleResponse);
-
         axios.post("/login/google", { tokenId: googleResponse.tokenId })
             .then(response => {
-                console.log(response);
-
                 session.setDriver(response.data);
 
                 history.push('/');
