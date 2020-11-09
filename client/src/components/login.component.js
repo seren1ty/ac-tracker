@@ -33,7 +33,8 @@ const LoginComponent = props => {
         <div className="login-container">
             <div className="row-flex banner">
                 <div className="col-2 col-2-a">
-                    <h1>Make History.</h1>
+                    <h1 className="title-line-1">Hit the Track.</h1>
+                    <h1>Make History</h1>
                     <div className="google-login-holder">
                         <GoogleLogin
                             clientId="290608108131-2oik11klmlpt0v1s1909u7pjrhrhon6c.apps.googleusercontent.com"

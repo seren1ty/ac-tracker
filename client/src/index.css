@@ -62,7 +62,11 @@ code {
   font-family: 'Prompt', sans-serif;
   font-size: 54px;
   line-height: 50px;
-  color: #000;
+}
+
+.col-2-a h1.title-line-1 {
+  padding-bottom: 20px;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .col-2-a {
