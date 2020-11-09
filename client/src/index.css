@@ -1,10 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@800&display=swap');
+
+html {
+  height: 100%;
+}
+
 body {
+  height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+/*   background-image: url('./assets/bathurst-map-transparent.png');
+  background-size: contain;
+  background-repeat: no-repeat; */
+}
+
+#root {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
 }
 
 code {
@@ -24,6 +42,55 @@ code {
 
 .nav-item {
   color: #ffffffe5 !important;
+}
+
+.login-container {
+  box-sizing: border-box;
+  max-width: 1300px;
+  height: 100%;
+}
+
+.row-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.col-2 {
+  min-width: 450px;
+}
+
+.col-2-a h1 {
+  font-family: 'Prompt', sans-serif;
+  font-size: 54px;
+  line-height: 50px;
+  color: #000;
+}
+
+.col-2-a {
+  text-align: center;
+}
+
+.col-2 img {
+  max-width: 100%;
+  padding: 20px 0;
+}
+
+.google-login-holder {
+  margin-top: 80px;
+}
+
+.google-login-holder button {
+  font-size: 20px !important;
+}
+
+.google-login-holder svg {
+  padding-top: 1px;
+  padding-left: 5px;
+  transform: scale(1.5);
+  width: 24px !important;
+  height: 24px !important;
 }
 
 .lap-filter-labels > span > label {
