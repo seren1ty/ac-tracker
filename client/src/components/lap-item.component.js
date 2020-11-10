@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import AcDate from './common/ac-date.component';
+import Truncator from './common/truncator.component';
 import ReactTooltip from 'react-tooltip';
 import replayIcon from '../assets/replay_blue_transparent.png';
 import notesIcon from '../assets/notes_blue.png';
@@ -40,16 +41,20 @@ const LapItem = props => {
 
     return (
         <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )}>
-            <td>{props.lap.track}</td>
-            <td className="lap-car-cell">{props.lap.car}</td>
+            <td>
+                <Truncator id={"track_" + props.lap._id} value={props.lap.track} max="20"/>
+            </td>
+            <td className="lap-car-cell">
+                <Truncator id={"car_" + props.lap._id} value={props.lap.car} max="25"/>
+            </td>
             <td className="lap-replay-cell">
             {
                 props.lap.replay &&
                 <span>
-                    <a href={props.lap.replay} target="_"  data-tip="Launch Replay">
+                    <a href={props.lap.replay} target="_" data-tip="Launch Replay" data-for={"replay_" + props.lap._id}>
                         <img className="lap-replay-icon" src={replayIcon} alt="replay"></img>
                     </a>
-                    <ReactTooltip place="left" effect="solid"/>
+                    <ReactTooltip id={"replay_" + props.lap._id} place="left" effect="solid"/>
                 </span>
             }
             </td>
@@ -63,10 +68,10 @@ const LapItem = props => {
             {
                 props.lap.notes &&
                 <span>
-                    <span data-tip={props.lap.notes}>
+                    <span data-tip={props.lap.notes} data-for={"notes_" + props.lap._id}>
                         <img className="lap-notes-icon" src={notesIcon} alt="notes"></img>
                     </span>
-                    <ReactTooltip place="left" effect="solid"/>
+                    <ReactTooltip id={"notes_" + props.lap._id} place="left" effect="solid"/>
                 </span>
             }
             </td>
@@ -81,7 +86,7 @@ const LapItem = props => {
                     <div>
                     {
                         session.driver === props.lap.driver && (
-                        <span>
+                            <span>
                             <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
                             <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>
                         </span>
