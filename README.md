@@ -35,13 +35,18 @@ The client will reload if you make edits.
 
 ***
 
-AC Tracker is a web application that stores and displays Laptimes, along with Notes and Video Replay links, for comparison between drivers.
+AC Tracker is a web application that stores and displays Laptimes, along with Notes and Video Replay links, for comparison between drivers. When multiple Driver's laps are shown, the current user's laps are highlighted for easy reference.
 
-![AC Tracker - Lap Records - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_1_small.png)
-
+![AC Tracker - Lap Records - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_3_small.png)
 
 ***
 
-It allows adding of new laps (along with new Cars and Tracks) as well as editing of existing lap entries.
+Access to the app is provided to authorised users only, who can login using Google OAuth with a single click.
+
+![AC Tracker - Login - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_4_small.png)
+
+***
+
+An authorised user can both Add new laps (along with new Cars and Tracks), as well as Edit any of their existing lap entries.
 
 ![AC Tracker - Edit Lap - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_2_small.png)
