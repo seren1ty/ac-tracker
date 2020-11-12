@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import replayIcon from '../assets/replay_blue_transparent.png';
 import notesIcon from '../assets/notes_blue.png';
 import { SessionContext } from '../context/session.context';
+import { getAcTrackerState } from '../components/common/ac-localStorage';
 
 const LapItem = props => {
 
@@ -20,7 +21,7 @@ const LapItem = props => {
     }
 
     const shownLapsAreNotLimitedToCurrentDriver = () => {
-        return localStorage.getItem('acTracker') && JSON.parse(localStorage.getItem('acTracker')).driverType !== props.lap.driver;
+        return getAcTrackerState().driverType !== props.lap.driver;
     }
 
     const lapIsForCurrentDriver = () => {

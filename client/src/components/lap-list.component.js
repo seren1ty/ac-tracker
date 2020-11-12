@@ -5,6 +5,7 @@ import { isBefore, isAfter } from 'date-fns';
 import Navbar from "./common/navbar.component";
 import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
+import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
 
 const LapList = props => {
 
@@ -20,31 +21,19 @@ const LapList = props => {
     const [drivers, setDrivers] = useState([]);
 
     const [trackType, setTrackType] = useState(() => {
-        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).trackType)
-            return 'ALL';
-        else
-            return JSON.parse(localStorage.getItem('acTracker')).trackType;
+        return getAcTrackerState() ? getAcTrackerState().trackType : 'ALL';
     });
 
     const [carType, setCarType] = useState(() => {
-        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).carType)
-            return 'ALL';
-        else
-            return JSON.parse(localStorage.getItem('acTracker')).carType;
+        return getAcTrackerState() ? getAcTrackerState().carType : 'ALL';
     });
 
     const [driverType, setDriverType] = useState(() => {
-        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).driverType)
-            return 'ALL';
-        else
-            return JSON.parse(localStorage.getItem('acTracker')).driverType;
+        return getAcTrackerState() ? getAcTrackerState().driverType : 'ALL';
     });
 
     const [sortType, setSortType] = useState(() => {
-        if (!localStorage.getItem('acTracker') || !JSON.parse(localStorage.getItem('acTracker')).sortType)
-            return 'DATE';
-        else
-            return JSON.parse(localStorage.getItem('acTracker')).sortType;
+        return getAcTrackerState() ? getAcTrackerState().sortType : 'DATE';
     });
 
     const history = useHistory();
@@ -139,14 +128,7 @@ const LapList = props => {
     const onChangeTrack = (trackEvent) => {
         handleChangeTrack(trackEvent.target.value);
 
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-        currentState.trackType = trackEvent.target.value;
-
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState({ ...getAcTrackerState(), trackType: trackEvent.target.value });
     }
 
     const handleChangeTrack = (newTrackType) => {
@@ -173,14 +155,7 @@ const LapList = props => {
     const onChangeCar = (carEvent) => {
         handleChangeCar(carEvent.target.value);
 
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-        currentState.carType = carEvent.target.value;
-
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState({ ...getAcTrackerState(), carType: carEvent.target.value });
     }
 
     const handleChangeCar = (newCarType) => {
@@ -207,14 +182,7 @@ const LapList = props => {
     const onChangeDriver = (driverEvent) => {
         handleChangeDriver(driverEvent.target.value);
 
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-        currentState.driverType = driverEvent.target.value;
-
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState({ ...getAcTrackerState(), driverType: driverEvent.target.value });
     }
 
     const handleChangeDriver = (newDriverType) => {
@@ -243,14 +211,7 @@ const LapList = props => {
 
         setLaps(sortedLaps);
 
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-        currentState.sortType = sortEvent.target.value;
-
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState({ ...getAcTrackerState(), sortType: sortEvent.target.value });
     }
 
     const handleChangeSort = (newSortType, newLaps) => {
