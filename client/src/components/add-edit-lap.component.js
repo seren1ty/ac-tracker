@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
+import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
 
 const AddEditLap = props => {
 
@@ -20,8 +21,8 @@ const AddEditLap = props => {
         if (location.state) {
             return location.state;
         } else if (location.pathname.startsWith('/editLap')) {
-            if (localStorage.getItem('acTracker')) {
-                let storedCurrentLap = JSON.parse(localStorage.getItem('acTracker')).currentLapToEdit;
+            if (getAcTrackerState()) {
+                let storedCurrentLap = getAcTrackerState().currentLapToEdit;
 
                 if (storedCurrentLap && location.pathname.endsWith(storedCurrentLap._id))
                     return storedCurrentLap;
@@ -43,95 +44,25 @@ const AddEditLap = props => {
 
     const [submitClicked, setSubmitClicked] = useState(false);
 
-    const [track, setTrack] = useState(() => {
-        if (existingLap)
-            return existingLap.track;
+    const [track, setTrack] = useState(() => existingLap ? existingLap.track : getAcTrackerState().newLapDefaultTrack);
 
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultTrack)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultTrack;
-        }
-
-        return '';
-    });
-
-    const [car, setCar] = useState(() => {
-        if (existingLap)
-            return existingLap.car;
-
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultCar)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultCar;
-        }
-
-        return '';
-    });
+    const [car, setCar] = useState(() => existingLap ? existingLap.car : getAcTrackerState().newLapDefaultCar);
 
     const [laptime, setLaptime] = useState(existingLap ? existingLap.laptime : '');
 
-    const [driver, setDriver] = useState(() => {
-        if (existingLap)
-            return existingLap.driver;
+    const [driver, setDriver] = useState(existingLap ? existingLap.driver : getAcTrackerState().newLapDefaultDriver);
 
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultDriver)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultDriver;
-        }
+    const [gearbox, setGearbox] = useState(existingLap ? existingLap.gearbox : getAcTrackerState().newLapDefaultGearbox);
 
-        return '';
-    });
+    const [traction, setTraction] = useState(existingLap ? existingLap.traction : getAcTrackerState().newLapDefaultTraction);
 
-    const [gearbox, setGearbox] = useState(() => {
-        if (existingLap)
-            return existingLap.gearbox;
-
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultGearbox)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultGearbox;
-        }
-
-        return 'Automatic';
-    });
-
-    const [traction, setTraction] = useState(() => {
-        if (existingLap)
-            return existingLap.traction;
-
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultTraction)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultTraction;
-        }
-
-        return 'Factory';
-    });
-
-    const [stability, setStability] = useState(() => {
-        if (existingLap)
-            return existingLap.stability;
-
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultStability)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultStability;
-        }
-
-        return 'Factory';
-    });
+    const [stability, setStability] = useState(existingLap ? existingLap.stability : getAcTrackerState().newLapDefaultStability);
 
     const [date, setDate] = useState(existingLap ? new Date(existingLap.date) : new Date());
 
     const [replay, setReplay] = useState(existingLap ? existingLap.replay : '');
 
-    const [notes, setNotes] = useState(() => {
-        if (existingLap)
-            return existingLap.notes;
-
-        if (localStorage.getItem('acTracker')) {
-            if (JSON.parse(localStorage.getItem('acTracker')).newLapDefaultNotes)
-                return JSON.parse(localStorage.getItem('acTracker')).newLapDefaultNotes;
-        }
-
-        return '';
-    });
+    const [notes, setNotes] = useState(existingLap ? existingLap.notes : getAcTrackerState().newLapDefaultNotes);
 
     useEffect(() => {
         setLoading(true);
@@ -173,19 +104,16 @@ const AddEditLap = props => {
                 axios.get('/drivers')
                     .then(res => {
                         if (res.data.length > 0) {
-                            let currentDriver = res.data[0].name;
-
-                            if (localStorage.getItem('acTracker')) {
-                                const acState = JSON.parse(localStorage.getItem('acTracker'));
-
-                                if (acState.driverType !== 'ALL')
-                                    currentDriver = acState.driverType;
-                            }
-
                             setDrivers(res.data.map(d => d.name));
 
-                            if (!driver)
+                            if (!driver) {
+                                let currentDriver = res.data[0].name;
+
+                                if (getAcTrackerState().driverType !== 'ALL')
+                                    currentDriver = getAcTrackerState().driverType;
+
                                 setDriver(currentDriver);
+                            }
                         }
                     })
                     .catch(err => {
@@ -193,16 +121,8 @@ const AddEditLap = props => {
                     });
 
                     // We are currently editting a lap, NOT creating a new one
-                    if (location.state && location.pathname.startsWith('/editLap')) {
-                        let acState = {};
-
-                        if (localStorage.getItem('acTracker'))
-                            acState = JSON.parse(localStorage.getItem('acTracker'));
-
-                        acState.currentLapToEdit = location.state;
-
-                        localStorage.setItem('acTracker', JSON.stringify(acState));
-                    }
+                    if (location.state && location.pathname.startsWith('/editLap'))
+                        setAcTrackerState({ ...getAcTrackerState(), currentLapToEdit: location.state });
 
                     setLoading(false);
             });
@@ -349,10 +269,7 @@ const AddEditLap = props => {
     }
 
     const updateNewLapDefaults = () => {
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
+        let currentState = getAcTrackerState();
 
         currentState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
         currentState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
@@ -362,7 +279,7 @@ const AddEditLap = props => {
         currentState.newLapDefaultStability = stability;
         currentState.newLapDefaultNotes = notes;
 
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState(currentState);
     }
 
     return (

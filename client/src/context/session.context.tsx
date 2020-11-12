@@ -1,33 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
 
-const SessionContext = React.createContext();
+type ContextProps = {
+    children: React.ReactNode
+}
 
-const SessionProvider = ({children}) => {
+type Session = {
+    driver: string | null;
+    setDriver: (driver: string) => void;
+    checkSession: () => Promise<boolean | void>;
+}
+
+const SessionContext = React.createContext<Session | null>(null);
+
+const SessionProvider = ({children}: ContextProps) => {
 
     const history = useHistory();
 
     const [driver, setDriver] = useState(() => {
-        if (localStorage.getItem('acTracker')) {
-            let currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-            if (currentState.driver)
-                return currentState.driver;
-        }
-
-        return null;
+        return getAcTrackerState() ? getAcTrackerState().driver : null;
     });
 
     useEffect(() => {
-        let currentState = {};
-
-        if (localStorage.getItem('acTracker'))
-            currentState = JSON.parse(localStorage.getItem('acTracker'));
-
-        currentState.driver = driver;
-
-        localStorage.setItem('acTracker', JSON.stringify(currentState));
+        setAcTrackerState({ ...getAcTrackerState(), driver: driver });
     }, [driver]);
 
     const checkSession = () => {

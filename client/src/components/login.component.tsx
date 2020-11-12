@@ -24,7 +24,8 @@ const LoginComponent: React.FC = () => {
         if (isGoogleLoginResponse(googleResponse)) {
             axios.post("/login/google", { tokenId: googleResponse.tokenId })
                 .then(response => {
-                    session.setDriver(response.data);
+                    if (session)
+                        session.setDriver(response.data);
 
                     history.push('/');
                 });
