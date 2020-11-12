@@ -6,9 +6,15 @@ import ReactTooltip from 'react-tooltip';
 import replayIcon from '../assets/replay_blue_transparent.png';
 import notesIcon from '../assets/notes_blue.png';
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerState } from '../components/common/ac-localStorage';
+import { getAcTrackerState } from './common/ac-localStorage';
+import { Lap } from './lap-list.component';
 
-const LapItem = props => {
+type LapItemProps = {
+    lap: Lap;
+    deleteLap: (_id: string) => void;
+}
+
+const LapItem = (props: LapItemProps) => {
 
     const session = useContext(SessionContext);
 
@@ -25,7 +31,7 @@ const LapItem = props => {
     }
 
     const lapIsForCurrentDriver = () => {
-        return session.driver === props.lap.driver;
+        return !!session ? session.driver === props.lap.driver : false;
     }
 
     const onClickEdit = () => {
@@ -43,10 +49,10 @@ const LapItem = props => {
     return (
         <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )}>
             <td>
-                <Truncator id={"track_" + props.lap._id} value={props.lap.track} max="20"/>
+                <Truncator id={"track_" + props.lap._id} value={props.lap.track} max={20}/>
             </td>
             <td className="lap-car-cell">
-                <Truncator id={"car_" + props.lap._id} value={props.lap.car} max="25"/>
+                <Truncator id={"car_" + props.lap._id} value={props.lap.car} max={25}/>
             </td>
             <td className="lap-replay-cell">
             {
@@ -81,12 +87,12 @@ const LapItem = props => {
                 showConfirm === true ? (
                     <div>
                         <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0" type="button" onClick={() => props.deleteLap(props.lap._id)}>Delete</button>
-                        <button className="cancel-delete-lap btn btn-link" href="#" onClick={onClickCancel}>Cancel</button>
+                        <button className="cancel-delete-lap btn btn-link" onClick={onClickCancel}>Cancel</button>
                     </div>
                 ) : (
                     <div>
                     {
-                        session.driver === props.lap.driver && (
+                        !!session && session.driver === props.lap.driver && (
                             <span>
                             <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
                             <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>

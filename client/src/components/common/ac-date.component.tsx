@@ -1,3 +1,4 @@
+import React from 'react';
 import { format } from 'date-fns';
 
 type AcDateProps = {
@@ -10,7 +11,7 @@ const AcDate = (props: AcDateProps) => {
         return format(new Date(props.date), 'dd/MM/yy');
     }
 
-    return formatDate();
+    return <span>{formatDate()}</span>
 }
 
 export default AcDate;
