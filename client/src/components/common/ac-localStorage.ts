@@ -27,7 +27,7 @@ export const getAcTrackerState = (): AcTrackerState => {
             trackType: 'ALL',
             carType: 'ALL',
             driverType: 'ALL',
-            sortType: 'ALL',
+            sortType: 'DATE',
 
             currentLapToEdit: null,
 

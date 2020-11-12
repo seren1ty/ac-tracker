@@ -48,21 +48,21 @@ const AddEditLap = props => {
 
     const [car, setCar] = useState(() => existingLap ? existingLap.car : getAcTrackerState().newLapDefaultCar);
 
-    const [laptime, setLaptime] = useState(existingLap ? existingLap.laptime : '');
+    const [laptime, setLaptime] = useState(() => existingLap ? existingLap.laptime : '');
 
-    const [driver, setDriver] = useState(existingLap ? existingLap.driver : getAcTrackerState().newLapDefaultDriver);
+    const [driver, setDriver] = useState(() => existingLap ? existingLap.driver : getAcTrackerState().newLapDefaultDriver);
 
-    const [gearbox, setGearbox] = useState(existingLap ? existingLap.gearbox : getAcTrackerState().newLapDefaultGearbox);
+    const [gearbox, setGearbox] = useState(() => existingLap ? existingLap.gearbox : getAcTrackerState().newLapDefaultGearbox);
 
-    const [traction, setTraction] = useState(existingLap ? existingLap.traction : getAcTrackerState().newLapDefaultTraction);
+    const [traction, setTraction] = useState(() => existingLap ? existingLap.traction : getAcTrackerState().newLapDefaultTraction);
 
-    const [stability, setStability] = useState(existingLap ? existingLap.stability : getAcTrackerState().newLapDefaultStability);
+    const [stability, setStability] = useState(() => existingLap ? existingLap.stability : getAcTrackerState().newLapDefaultStability);
 
-    const [date, setDate] = useState(existingLap ? new Date(existingLap.date) : new Date());
+    const [date, setDate] = useState(() => existingLap ? new Date(existingLap.date) : new Date());
 
-    const [replay, setReplay] = useState(existingLap ? existingLap.replay : '');
+    const [replay, setReplay] = useState(() => existingLap ? existingLap.replay : '');
 
-    const [notes, setNotes] = useState(existingLap ? existingLap.notes : getAcTrackerState().newLapDefaultNotes);
+    const [notes, setNotes] = useState(() => existingLap ? existingLap.notes : getAcTrackerState().newLapDefaultNotes);
 
     useEffect(() => {
         setLoading(true);
