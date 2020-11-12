@@ -5,20 +5,49 @@ import { isBefore, isAfter } from 'date-fns';
 import Navbar from "./common/navbar.component";
 import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
+import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
 
-const LapList = props => {
+export type Lap = {
+    _id: string;
+    track: string;
+    car: string;
+    driver: string;
+    laptime: string;
+    gearbox: string;
+    traction: string;
+    stability: string;
+    date: Date;
+    replay: string;
+    notes: string;
+}
+
+export type Track = {
+    _id: string;
+    name: string;
+}
+
+export type Car = {
+    _id: string;
+    name: string;
+}
+
+export type Driver = {
+    _id: string;
+    name: string;
+}
+
+const LapList: React.FC = () => {
 
     const session = useContext(SessionContext);
 
-    const [loading, setLoading] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const [originalLaps, setOriginalLaps] = useState([]);
 
-    const [laps, setLaps] = useState([]);
-    const [tracks, setTracks] = useState([]);
-    const [cars, setCars] = useState([]);
-    const [drivers, setDrivers] = useState([]);
+    const [laps, setLaps] = useState<Lap[]>([]);
+    const [tracks, setTracks] = useState<Track[]>([]);
+    const [cars, setCars] = useState<Car[]>([]);
+    const [drivers, setDrivers] = useState<Driver[]>([]);
 
     const [trackType, setTrackType] = useState(() => {
         return getAcTrackerState() ? getAcTrackerState().trackType : 'ALL';
@@ -40,6 +69,9 @@ const LapList = props => {
 
     useEffect(() => {
         setLoading(true);
+
+        if (!session)
+            return;
 
         session.checkSession()
             .then((success) => {
@@ -86,22 +118,22 @@ const LapList = props => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleSetLaps = (newLaps) => {
+    const handleSetLaps = (newLaps: Lap[]) => {
         let sortedLaps = handleChangeSort(sortType, newLaps);
 
         if (trackType !== 'ALL')
-            sortedLaps = sortedLaps.filter(lap => lap.track === trackType);
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.track === trackType);
 
         if (carType !== 'ALL')
-            sortedLaps = sortedLaps.filter(lap => lap.car === carType);
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.car === carType);
 
         if (driverType !== 'ALL')
-            sortedLaps = sortedLaps.filter(lap => lap.driver === driverType);
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.driver === driverType);
 
         setLaps(sortedLaps);
     };
 
-    const handleSetTracks = (newTracks) => {
+    const handleSetTracks = (newTracks: Track[]) => {
         newTracks.sort((a,b) => {
             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
         });
@@ -109,7 +141,7 @@ const LapList = props => {
         setTracks(newTracks);
     };
 
-    const handleSetCars = (newCars) => {
+    const handleSetCars = (newCars: Car[]) => {
         newCars.sort((a,b) => {
             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
         });
@@ -117,7 +149,7 @@ const LapList = props => {
         setCars(newCars);
     };
 
-    const handleSetDrivers = (newDrivers) => {
+    const handleSetDrivers = (newDrivers: Driver[]) => {
         newDrivers.sort((a,b) => {
             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
         });
@@ -125,13 +157,13 @@ const LapList = props => {
         setDrivers(newDrivers);
     };
 
-    const onChangeTrack = (trackEvent) => {
+    const onChangeTrack = (trackEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeTrack(trackEvent.target.value);
 
         setAcTrackerState({ ...getAcTrackerState(), trackType: trackEvent.target.value });
     }
 
-    const handleChangeTrack = (newTrackType) => {
+    const handleChangeTrack = (newTrackType: string) => {
         let filteredLaps;
 
         filteredLaps = [...originalLaps];
@@ -139,26 +171,26 @@ const LapList = props => {
         filteredLaps = handleChangeSort(sortType, filteredLaps);
 
         if (driverType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === driverType);
 
         if (carType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.car === carType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === carType);
 
         if (newTrackType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.track === newTrackType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === newTrackType);
 
         setTrackType(newTrackType);
 
         setLaps(filteredLaps);
     }
 
-    const onChangeCar = (carEvent) => {
+    const onChangeCar = (carEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeCar(carEvent.target.value);
 
         setAcTrackerState({ ...getAcTrackerState(), carType: carEvent.target.value });
     }
 
-    const handleChangeCar = (newCarType) => {
+    const handleChangeCar = (newCarType: string) => {
         let filteredLaps;
 
         filteredLaps = [...originalLaps];
@@ -166,26 +198,26 @@ const LapList = props => {
         filteredLaps = handleChangeSort(sortType, filteredLaps);
 
         if (trackType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.track === trackType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === trackType);
 
         if (driverType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.driver === driverType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === driverType);
 
         if (newCarType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.car === newCarType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === newCarType);
 
         setCarType(newCarType);
 
         setLaps(filteredLaps);
     }
 
-    const onChangeDriver = (driverEvent) => {
+    const onChangeDriver = (driverEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeDriver(driverEvent.target.value);
 
         setAcTrackerState({ ...getAcTrackerState(), driverType: driverEvent.target.value });
     }
 
-    const handleChangeDriver = (newDriverType) => {
+    const handleChangeDriver = (newDriverType: string) => {
         let filteredLaps;
 
         filteredLaps = [...originalLaps];
@@ -193,20 +225,20 @@ const LapList = props => {
         filteredLaps = handleChangeSort(sortType, filteredLaps);
 
         if (trackType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.track === trackType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === trackType);
 
         if (carType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.car === carType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === carType);
 
         if (newDriverType !== 'ALL')
-            filteredLaps = filteredLaps.filter(lap => lap.driver === newDriverType);
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === newDriverType);
 
         setDriverType(newDriverType);
 
         setLaps(filteredLaps);
     }
 
-    const onChangeSort = (sortEvent) => {
+    const onChangeSort = (sortEvent: React.ChangeEvent<HTMLSelectElement>) => {
         const sortedLaps = handleChangeSort(sortEvent.target.value);
 
         setLaps(sortedLaps);
@@ -214,7 +246,7 @@ const LapList = props => {
         setAcTrackerState({ ...getAcTrackerState(), sortType: sortEvent.target.value });
     }
 
-    const handleChangeSort = (newSortType, newLaps) => {
+    const handleChangeSort = (newSortType: string, newLaps?: Lap[]) => {
         let currentLaps = newLaps ? newLaps : laps;
 
         if (newSortType === 'TRACK') {
@@ -269,12 +301,12 @@ const LapList = props => {
         return currentLaps;
     }
 
-    const deleteLap = id => {
+    const deleteLap = (id: string) => {
         axios.delete('/laps/delete/' + id)
             .then(res => {
-                setLaps(laps.filter(lap => lap._id !== id));
+                setLaps(laps.filter((lap: Lap) => lap._id !== id));
 
-                setOriginalLaps(originalLaps.filter(lap => lap._id !== id));
+                setOriginalLaps(originalLaps.filter((lap: Lap) => lap._id !== id));
 
                 history.push('/');
             })
@@ -283,9 +315,11 @@ const LapList = props => {
             });
     }
 
+    if (loading)
+        return (<React.Fragment></React.Fragment>)
+
     return (
-        !loading &&
-        <>
+        <React.Fragment>
         <Navbar/>
         <br/>
         <div>
@@ -361,7 +395,7 @@ const LapList = props => {
                 </tbody>
             </table>
         </div>
-        </>
+        </React.Fragment>
     );
 }
 

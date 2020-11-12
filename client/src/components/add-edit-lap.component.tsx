@@ -5,9 +5,10 @@ import DatePicker from 'react-datepicker';
 import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
+import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
+import { Car, Driver, Lap, Track } from './lap-list.component';
 
-const AddEditLap = props => {
+const AddEditLap: React.FC = () => {
 
     const history = useHistory();
 
@@ -15,7 +16,7 @@ const AddEditLap = props => {
 
     const location = useLocation();
 
-    const [loading, setLoading] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const [existingLap] = useState(() => {
         if (location.state) {
@@ -67,18 +68,21 @@ const AddEditLap = props => {
     useEffect(() => {
         setLoading(true);
 
+        if (!session)
+            return;
+
         session.checkSession()
             .then((success) => {
                 if (!success)
                     return;
 
                 if (!existingLap && location.pathname.startsWith('/editLap'))
-                    window.location = '/';
+                    window.location.href = '/';
 
                 axios.get('/tracks')
                     .then(res => {
                         if (res.data.length > 0) {
-                            setTracks(res.data.map(t => t.name));
+                            setTracks(res.data.map((t: Track) => t.name));
 
                             if (!track)
                                 setTrack(res.data[0].name);
@@ -91,7 +95,7 @@ const AddEditLap = props => {
                 axios.get('/cars')
                     .then(res => {
                         if (res.data.length > 0) {
-                            setCars(res.data.map(c => c.name));
+                            setCars(res.data.map((c: Car) => c.name));
 
                             if (!car)
                                 setCar(res.data[0].name);
@@ -104,7 +108,7 @@ const AddEditLap = props => {
                 axios.get('/drivers')
                     .then(res => {
                         if (res.data.length > 0) {
-                            setDrivers(res.data.map(d => d.name));
+                            setDrivers(res.data.map((d: Driver) => d.name));
 
                             if (!driver) {
                                 let currentDriver = res.data[0].name;
@@ -130,43 +134,43 @@ const AddEditLap = props => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onChangeTrack = event => {
+    const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTrack(event.target.value);
     }
 
-    const onChangeCar = event => {
+    const onChangeCar = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCar(event.target.value);
     }
 
-    const onChangeLaptime = event => {
+    const onChangeLaptime = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLaptime(event.target.value);
     }
 
-    const onChangeDriver = event => {
+    const onChangeDriver = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setDriver(event.target.value);
     }
 
-    const onChangeGearbox = event => {
+    const onChangeGearbox = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setGearbox(event.target.value);
     }
 
-    const onChangeTraction = event => {
+    const onChangeTraction = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTraction(event.target.value);
     }
 
-    const onChangeStability = event => {
+    const onChangeStability = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setStability(event.target.value);
     }
 
-    const onChangeDate = newDate => {
+    const onChangeDate = (newDate: Date) => {
         setDate(newDate);
     }
 
-    const onChangeReplay = event => {
+    const onChangeReplay = (event: React.ChangeEvent<HTMLInputElement>) => {
         setReplay(event.target.value);
     }
 
-    const onChangeNotes = event => {
+    const onChangeNotes = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNotes(event.target.value);
     }
 
@@ -178,7 +182,7 @@ const AddEditLap = props => {
         setAddTrackInProgress(false);
     }
 
-    const onChangeNewTrackName = event => {
+    const onChangeNewTrackName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewTrackName(event.target.value);
     }
 
@@ -190,16 +194,17 @@ const AddEditLap = props => {
         setAddCarInProgress(false);
     }
 
-    const onChangeNewCarName = event => {
+    const onChangeNewCarName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewCarName(event.target.value);
     }
 
-    const onSubmit = event => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         setSubmitClicked(true);
 
-        const lapToSave = {
+        const lapToSave: Lap = {
+            _id: '',
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
             laptime: laptime,
@@ -220,7 +225,7 @@ const AddEditLap = props => {
             handleAddOrEditLap(lapToSave);
     }
 
-    const handleAddNewTrack = lapToSave => {
+    const handleAddNewTrack = (lapToSave: Lap) => {
         axios.post('/tracks/add', { name: newTrackName })
             .then(() => {
                 if (addCarInProgress)
@@ -232,21 +237,21 @@ const AddEditLap = props => {
             .catch(err => console.error('Error [Add Track]: ' + err));
     }
 
-    const handleAddNewCar = lapToSave => {
+    const handleAddNewCar = (lapToSave: Lap) => {
         axios.post('/cars/add', { name: newCarName })
             .then(() => handleAddOrEditLap(lapToSave))
             .then(() => setAddCarInProgress(false))
             .catch(err => console.error('Error [Add Car]: ' + err));
     }
 
-    const handleAddOrEditLap = lapToSave => {
+    const handleAddOrEditLap = (lapToSave: Lap) => {
         if (existingLap)
             editLap(lapToSave);
         else
             addLap(lapToSave)
     }
 
-    const addLap = (lapToSave) => {
+    const addLap = (lapToSave: Lap) => {
         axios.post('/laps/add', lapToSave)
             .then(res => {
                 updateNewLapDefaults();
@@ -258,7 +263,7 @@ const AddEditLap = props => {
             });
     }
 
-    const editLap = (lapToSave) => {
+    const editLap = (lapToSave: Lap) => {
         axios.post('/laps/edit/' + existingLap._id, lapToSave)
             .then(res => {
                 history.push('/');
@@ -282,9 +287,11 @@ const AddEditLap = props => {
         setAcTrackerState(currentState);
     }
 
+    if (loading)
+        return (<React.Fragment></React.Fragment>)
+
     return (
-        !loading &&
-        <>
+        <React.Fragment>
         <Navbar/>
         <br/>
         <div className="form-style">
@@ -308,7 +315,7 @@ const AddEditLap = props => {
                                         disabled={addTrackInProgress}>Add Track
                                     </button>
                                 ) : (
-                                    <button className="add-track-car pr-0 btn btn-link" href="#" onClick={onClickCancelAddTrack}>Cancel</button>
+                                    <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddTrack}>Cancel</button>
                                 )
                             }
                             {
@@ -387,8 +394,8 @@ const AddEditLap = props => {
                             <input className="form-control"
                                 type="text"
                                 required
-                                minLength="9"
-                                maxLength="9"
+                                minLength={9}
+                                maxLength={9}
                                 pattern="\d{2}:\d{2}\.\d{3}"
                                 value={laptime}
                                 onChange={onChangeLaptime}
@@ -504,7 +511,7 @@ const AddEditLap = props => {
                 </div>
             </form>
         </div>
-        </>
+        </React.Fragment>
     )
 }
 
