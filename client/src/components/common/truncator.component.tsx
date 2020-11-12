@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
-const Truncator = props => {
+type TruncatorProps = {
+    id: string;
+    value: string;
+    max: number;
+}
+
+const Truncator = (props: TruncatorProps) => {
 
     const needsTruncating = () => {
         return props.value.length > props.max;
