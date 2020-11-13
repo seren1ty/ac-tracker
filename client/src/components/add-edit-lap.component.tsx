@@ -204,7 +204,6 @@ const AddEditLap: React.FC = () => {
         setSubmitClicked(true);
 
         const lapToSave: Lap = {
-            _id: '',
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
             laptime: laptime,
