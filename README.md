@@ -49,4 +49,4 @@ Access to the app is provided to authorised users only, who can login using Goog
 
 An authorised user can both Add new laps (along with new Cars and Tracks), as well as Edit any of their existing lap entries.
 
-![AC Tracker - Edit Lap - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_2_small.png)
+![AC Tracker - Edit Lap - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_2a_small.png)
