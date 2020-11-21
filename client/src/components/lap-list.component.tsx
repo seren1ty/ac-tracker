@@ -8,7 +8,7 @@ import { SessionContext } from '../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
 
 export type Lap = {
-    _id?: string;
+    _id: string;
     track: string;
     car: string;
     driver: string;
