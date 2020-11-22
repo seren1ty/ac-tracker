@@ -12,7 +12,7 @@ router.route('/status').get((req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 
         if (decoded)
-            res.json(decoded.name);
+            res.json(true);
     } catch (err) {
         console.error("Error", err);
 

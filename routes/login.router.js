@@ -11,7 +11,7 @@ router.route('/google').post((req, res) => {
 
     client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_PRIVATE_KEY })
         .then(verifyResponse => {
-            const {email_verified, given_name, email } = verifyResponse.payload;
+            const {email_verified, email} = verifyResponse.payload;
 
             if (email_verified) {
                 Driver.findOne({email})
