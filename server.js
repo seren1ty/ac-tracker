@@ -29,14 +29,13 @@ const tracksRouter = require('./routes/track.router');
 const carsRouter = require('./routes/car.router');
 const driversRouter = require('./routes/driver.router');
 
-app.use(authCheck);
-
 app.use('/login', loginRouter);
 app.use('/session', sessionRouter);
-app.use('/laps', lapsRouter);
-app.use('/tracks', tracksRouter);
-app.use('/cars', carsRouter);
-app.use('/drivers', driversRouter);
+
+app.use('/laps', authCheck, lapsRouter);
+app.use('/tracks', authCheck, tracksRouter);
+app.use('/cars', authCheck, carsRouter);
+app.use('/drivers', authCheck, driversRouter);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
