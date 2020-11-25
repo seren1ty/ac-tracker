@@ -10,7 +10,6 @@ export type AcTrackerState = {
 
     newLapDefaultTrack: string;
     newLapDefaultCar: string;
-    newLapDefaultDriver: string;
     newLapDefaultGearbox: string;
     newLapDefaultTraction: string;
     newLapDefaultStability: string;
@@ -33,7 +32,6 @@ export const getAcTrackerState = (): AcTrackerState => {
 
             newLapDefaultTrack: '',
             newLapDefaultCar: '',
-            newLapDefaultDriver: '',
             newLapDefaultGearbox: 'Automatic',
             newLapDefaultTraction: 'Factory',
             newLapDefaultStability: 'Factory',

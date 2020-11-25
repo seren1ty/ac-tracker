@@ -204,6 +204,10 @@ code {
   float: left;
 }
 
+.driver-input:disabled {
+    background-color: #f7fbff;
+}
+
 .add-edit-date {
   padding-left: 15px!important;
 }

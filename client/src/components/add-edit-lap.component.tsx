@@ -6,7 +6,7 @@ import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
-import { Car, Driver, Lap, Track } from './lap-list.component';
+import { Car, Lap, Track } from './lap-list.component';
 
 const AddEditLap: React.FC = () => {
 
@@ -35,7 +35,6 @@ const AddEditLap: React.FC = () => {
 
     const [tracks, setTracks] = useState([]);
     const [cars, setCars] = useState([]);
-    const [drivers, setDrivers] = useState([]);
 
     const [addTrackInProgress, setAddTrackInProgress] = useState(false);
     const [newTrackName, setNewTrackName] = useState('');
@@ -51,7 +50,7 @@ const AddEditLap: React.FC = () => {
 
     const [laptime, setLaptime] = useState(() => existingLap ? existingLap.laptime : '');
 
-    const [driver, setDriver] = useState(() => existingLap ? existingLap.driver : getAcTrackerState().newLapDefaultDriver);
+    const [driver] = useState(() => session ? session.driver : existingLap ? existingLap.driver : '');
 
     const [gearbox, setGearbox] = useState(() => existingLap ? existingLap.gearbox : getAcTrackerState().newLapDefaultGearbox);
 
@@ -102,26 +101,7 @@ const AddEditLap: React.FC = () => {
                         }
                     })
                     .catch(err => {
-                        console.error('Error [Get Cars]: ' +err);
-                    });
-
-                axios.get('/drivers')
-                    .then(res => {
-                        if (res.data.length > 0) {
-                            setDrivers(res.data.map((d: Driver) => d.name));
-
-                            if (!driver) {
-                                let currentDriver = res.data[0].name;
-
-                                if (getAcTrackerState().driverType !== 'ALL')
-                                    currentDriver = getAcTrackerState().driverType;
-
-                                setDriver(currentDriver);
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error [Get Drivers]: ' +err);
+                        console.error('Error [Get Cars]: ' + err);
                     });
 
                     // We are currently editting a lap, NOT creating a new one
@@ -131,7 +111,7 @@ const AddEditLap: React.FC = () => {
                     setLoading(false);
             });
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -144,10 +124,6 @@ const AddEditLap: React.FC = () => {
 
     const onChangeLaptime = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLaptime(event.target.value);
-    }
-
-    const onChangeDriver = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setDriver(event.target.value);
     }
 
     const onChangeGearbox = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -278,7 +254,6 @@ const AddEditLap: React.FC = () => {
 
         currentState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
         currentState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
-        currentState.newLapDefaultDriver = driver;
         currentState.newLapDefaultGearbox = gearbox;
         currentState.newLapDefaultTraction = traction;
         currentState.newLapDefaultStability = stability;
@@ -415,19 +390,10 @@ const AddEditLap: React.FC = () => {
                     <div className="col">
                         <div className="form-group">
                             <label className="add-edit-label">Driver</label>
-                            <select className="form-control"
+                            <input className="form-control driver-input"
                                 required
                                 value={driver}
-                                onChange={onChangeDriver}>
-                                {
-                                    drivers.map(currDriver => {
-                                        return <option
-                                            key={currDriver}
-                                            value={currDriver}>{currDriver}
-                                        </option>;
-                                    })
-                                }
-                            </select>
+                                disabled={true}/>
                         </div>
                     </div>
                 </div>
