@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 import { SessionProvider } from './context/session.context';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import "./index.scss";
 
 import Login from "./components/login.component";
 import LapsList from "./components/lap-list.component";
