@@ -155,10 +155,10 @@ body {
 
 .lap-row > td {
     padding: 9px 2px 10px 2px;
+}
 
-    div {
-        line-height: 0.1em;
-    }
+.lap-row > td > div {
+    line-height: 1.1em;
 }
 
 .lap-car-cell {
