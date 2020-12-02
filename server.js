@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+const authCheck = require('./auth/authCheck');
 
 require('dotenv').config();
 require('./database/database');
@@ -19,8 +20,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB connected")
 });
-
-const authCheck = require('./auth/authCheck');
 
 const loginRouter = require('./routes/login.router');
 const sessionRouter = require('./routes/session.router');
