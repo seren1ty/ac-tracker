@@ -16,18 +16,18 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-expand-md navbar-dark nav-colour">
             <Link to="/" className="navbar-brand nav-title">AC Tracker</Link>
-            <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <div className="w-100 order-1 order-md-0 dual-collapse2">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link to="/" className="nav-link nav-item">Lap Records</Link>
+                        <Link to="/" className="nav-link nav-item sub-item">Lap Records</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/addLap" className="nav-link nav-item">Add Lap</Link>
+                        <Link to="/addLap" className="nav-link nav-item sub-item">Add Lap</Link>
                     </li>
                 </ul>
             </div>
-            <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
-                <ul className="navbar-nav ml-auto">
+            <div>
+                <ul className="navbar-nav">
                     <li className="nav-item">
                         <button onClick={logout} className="nav-link nav-item btn btn-link">Logout</button>
                     </li>

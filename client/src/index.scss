@@ -17,31 +17,51 @@ body {
     line-height: 1.6rem;
 
     @media (min-width: 0px) {
-        font-size: 0.95rem;
-        line-height: 1.4rem;
+        font-size: 0.8rem;
+        line-height: 1.3rem;
+
+        .sub-item {
+            display: none;
+        }
     }
 
     @media (min-width: 576px) {
-        font-size: 0.95rem;
-        line-height: 1.4rem;
+        font-size: 0.8rem;
+        line-height: 1.3rem;
+
+        .sub-item {
+            display: none;
+        }
     }
 
     /* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
     @media (min-width: 768px) {
         font-size: 0.9rem;
         line-height: 1.3rem;
+
+        .sub-item {
+            display: none;
+        }
     }
 
     /* Large devices (desktops, 992px and up) */
     @media (min-width: 992px) {
         font-size: 0.95rem;
         line-height: 1.4rem;
+
+        .sub-item {
+            display: revert;
+        }
     }
 
     /* Extra large devices (large desktops, 1200px and up) */
     @media (min-width: 1200px) {
         font-size: 0.991rem;
         line-height: 1.6rem;
+
+        .sub-item {
+            display: revert;
+        }
     }
 }
 

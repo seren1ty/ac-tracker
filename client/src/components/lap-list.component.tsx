@@ -336,7 +336,7 @@ const LapList: React.FC = () => {
                         }
                     </select>
                 </span>
-                <span className="pr-3">
+                <span className="pr-3 sub-item">
                     <label>Car </label>
                     <select className="lap-filter-select" onChange={onChangeCar} value={carType}>
                         <option value="ALL">All</option>
@@ -358,7 +358,7 @@ const LapList: React.FC = () => {
                         }
                     </select>
                 </span>
-                <span>
+                <span className="sub-item">
                     <label>Sort by </label>
                     <select className="lap-filter-select" onChange={onChangeSort} value={sortType}>
                         <option value="DATE">Date</option>
@@ -368,7 +368,7 @@ const LapList: React.FC = () => {
                         <option value="LAPTIME">Laptime</option>
                     </select>
                 </span>
-                <span className="laps-shown">Laps shown: {laps.length} / {originalLaps.length}</span>
+                <span className="laps-shown">Laps: {laps.length} / {originalLaps.length}</span>
             </div>
             <table className="table table-hover mt-2">
                 <thead className="thead-light">
@@ -378,12 +378,12 @@ const LapList: React.FC = () => {
                         <th></th>
                         <th>Laptime</th>
                         <th>Driver</th>
-                        <th>Gears</th>
-                        <th>TC</th>
-                        <th>SC</th>
+                        <th className="sub-item">Gears</th>
+                        <th className="sub-item">TC</th>
+                        <th className="sub-item">SC</th>
                         <th>Date</th>
-                        <th></th>
-                        <th className="actions-heading">Actions</th>
+                        <th className="sub-item"></th>
+                        <th className="actions-heading sub-item">Actions</th>
                     </tr>
                 </thead>
                 <tbody>

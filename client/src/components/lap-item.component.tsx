@@ -67,11 +67,11 @@ const LapItem = (props: LapItemProps) => {
             </td>
             <td><strong>{props.lap.laptime}</strong></td>
             <td>{props.lap.driver}</td>
-            <td>{props.lap.gearbox === 'Manual' ? 'Manual' : 'Auto'}</td>
-            <td>{props.lap.traction}</td>
-            <td>{props.lap.stability}</td>
+            <td className="sub-item">{props.lap.gearbox === 'Manual' ? 'Manual' : 'Auto'}</td>
+            <td className="sub-item">{props.lap.traction}</td>
+            <td className="sub-item">{props.lap.stability}</td>
             <td className="lap-date-cell"><AcDate date={props.lap.date}/></td>
-            <td className="lap-notes-cell">
+            <td className="lap-notes-cell sub-item">
             {
                 props.lap.notes &&
                 <span>
@@ -82,7 +82,7 @@ const LapItem = (props: LapItemProps) => {
                 </span>
             }
             </td>
-            <td className="lap-row-actions">
+            <td className="lap-row-actions sub-item">
             {
                 showConfirm === true ? (
                     <div>
