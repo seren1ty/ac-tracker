@@ -1,5 +1,9 @@
 import { Document } from "mongoose";
 
-export interface CarType extends Document {
+export type CarType = Document & {
+    name: string
+}
+
+export type DriverType = Document & {
     name: string
 }
