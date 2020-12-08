@@ -7,3 +7,7 @@ export type CarType = Document & {
 export type DriverType = Document & {
     name: string
 }
+
+export type TrackType = Document & {
+    name: string
+}
