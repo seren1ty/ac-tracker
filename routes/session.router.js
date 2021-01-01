@@ -1,7 +1,5 @@
-import express from 'express';
-import jwt from 'jsonwebtoken';
-
-const router = express.Router();
+const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 
 router.route('/status').get((req, res) => {
     // Read the token from the cookie

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const Schema = mongoose.Schema;
 
@@ -24,8 +24,10 @@ const driverSchema = new Schema({
 
 driverSchema.methods.generateAuthToken = () => {
     const token = jwt.sign(
-        // @ts-ignore
-        { _id1: this._id, name1: this.name },
+        {
+            _id: this._id,
+            name: this.name
+        },
         process.env.JWT_PRIVATE_KEY,
         { expiresIn: '7d' }
     );
