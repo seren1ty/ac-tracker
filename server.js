@@ -27,6 +27,7 @@ const lapsRouter = require('./routes/lap.router');
 const tracksRouter = require('./routes/track.router');
 const carsRouter = require('./routes/car.router');
 const driversRouter = require('./routes/driver.router');
+const gamesRouter = require('./routes/game.router');
 
 app.use('/login', loginRouter);
 app.use('/session', sessionRouter);
@@ -35,6 +36,7 @@ app.use('/laps', authCheck, lapsRouter);
 app.use('/tracks', authCheck, tracksRouter);
 app.use('/cars', authCheck, carsRouter);
 app.use('/drivers', authCheck, driversRouter);
+app.use('/games', authCheck, gamesRouter);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

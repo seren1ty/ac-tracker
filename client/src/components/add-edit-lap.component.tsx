@@ -179,9 +179,10 @@ const AddEditLap: React.FC = () => {
 
         setSubmitClicked(true);
 
+        // TODO Replace game with real value once UI implemented
         const lapToSave: Lap = {
             _id: '',
-            game: !existingLap ? null : existingLap.game,
+            game: !existingLap ? 'Assetto Corsa' : existingLap.game,
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
             laptime: laptime,

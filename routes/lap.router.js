@@ -15,8 +15,7 @@ router.route('/:id').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-    // TODO Replace with req value once UI implemented
-    const game = 'Assetto Corsa';
+    const game = req.body.game;
     const track = req.body.track;
     const car = req.body.car;
     const laptime = req.body.laptime;
