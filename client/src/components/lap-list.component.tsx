@@ -9,6 +9,7 @@ import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
 
 export type Lap = {
     _id: string;
+    game: string;
     track: string;
     car: string;
     driver: string;

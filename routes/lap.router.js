@@ -15,6 +15,8 @@ router.route('/:id').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+    // TODO Replace with req value once UI implemented
+    const game = 'Assetto Corsa';
     const track = req.body.track;
     const car = req.body.car;
     const laptime = req.body.laptime;
@@ -27,6 +29,7 @@ router.route('/add').post((req, res) => {
     const date = Date.parse(req.body.date);
 
     const newLap = new Lap({
+        game,
         track,
         car,
         laptime,
@@ -47,6 +50,7 @@ router.route('/add').post((req, res) => {
 router.route('/edit/:id').post((req, res) => {
     Lap.findById(req.params.id)
         .then(existingLap => {
+            existingLap.game = req.body.game;
             existingLap.track = req.body.track;
             existingLap.car = req.body.car;
             existingLap.laptime = req.body.laptime;

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const lapSchema = new Schema({
+    game: { type: String, required: true },
     track: { type: String, required: true },
     car: { type: String, required: true },
     laptime: { type: String, required: true },

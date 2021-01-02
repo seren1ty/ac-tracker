@@ -181,6 +181,7 @@ const AddEditLap: React.FC = () => {
 
         const lapToSave: Lap = {
             _id: '',
+            game: !existingLap ? null : existingLap.game,
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
             laptime: laptime,
