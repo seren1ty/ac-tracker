@@ -158,6 +158,10 @@ const LapList: React.FC = () => {
         setDrivers(newDrivers);
     };
 
+    const onClickAdd = () => {
+        history.push('/addLap');
+    }
+
     const onChangeTrack = (trackEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeTrack(trackEvent.target.value);
 
@@ -324,7 +328,12 @@ const LapList: React.FC = () => {
         <Navbar/>
         <br/>
         <div>
-            <h4>Lap Records</h4>
+            <div className="lap-title-row">
+                <span className="lap-title">Lap Records</span>
+                <span className="lap-add-holder">
+                    <button className="add-btn btn btn-primary sub-item" type="button" onClick={onClickAdd}>Add New Lap</button>
+                </span>
+            </div>
             <div className="lap-filter-labels pt-3 mr-0">
                 <span className=" pr-3">
                     <label>Track </label>

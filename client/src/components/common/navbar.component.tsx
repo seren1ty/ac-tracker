@@ -15,16 +15,16 @@ const Navbar = () => {
 
     return (
         <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-expand-md navbar-dark nav-colour">
-            <Link to="/" className="navbar-brand nav-title">AC Tracker</Link>
+            <Link to="/" className="navbar-brand nav-title pl-1">AC Tracker</Link>
             <div className="w-100 order-1 order-md-0 dual-collapse2">
-                <ul className="navbar-nav mr-auto">
+                {/*<ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         <Link to="/" className="nav-link nav-item sub-item">Lap Records</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/addLap" className="nav-link nav-item sub-item">Add Lap</Link>
                     </li>
-                </ul>
+                </ul>*/}
             </div>
             <div>
                 <ul className="navbar-nav">

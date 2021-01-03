@@ -141,6 +141,26 @@ body {
     }
 }
 
+.lap-title-row {
+    margin-bottom: 10px;
+}
+
+.lap-title {
+    line-height: 30px;
+    font-size: 1.5rem;
+}
+
+.lap-add-holder {
+    float: right;
+}
+
+.add-btn {
+    background-color: #007bffc9;
+    border-color: #007bffc9;
+    padding: 4px 14px;
+    margin: 0 5px 5px 0;
+}
+
 .lap-filter-labels > span > label {
     margin-bottom: 0px;
 }
