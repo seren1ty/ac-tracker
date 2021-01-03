@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import AcDate from './common/ac-date.component';
 import Truncator from './common/truncator.component';
 import ReactTooltip from 'react-tooltip';
-import replayIcon from '../assets/replay_blue_transparent.png';
+import replayIcon from '../assets/replay_blue.png';
 import notesIcon from '../assets/notes_blue.png';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerState } from './common/ac-localStorage';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
-import logoutIcon from '../../assets/logout_blue_big.png';
+import logoutIcon from '../../assets/logout_blue.png';
 
 const Navbar = () => {
 
