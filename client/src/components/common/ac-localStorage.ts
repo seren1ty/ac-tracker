@@ -1,4 +1,5 @@
 export type AcTrackerState = {
+    game: string | null;
     driver: string | null;
 
     trackType: string;
@@ -21,6 +22,7 @@ export const getAcTrackerState = (): AcTrackerState => {
 
     if (!stateStr) {
         let newState = {
+            game: 'Assetto Corsa',
             driver: null,
 
             trackType: 'ALL',

@@ -26,12 +26,39 @@ body {
         }
     }
 
+    @media (max-width: 575px) {
+        .banner {
+            padding: 6px 8px;
+
+            .nav-title {
+                font-size: 1.2rem;
+                padding: 8px 4px;
+            }
+
+            .banner-right .game-select {
+                margin: 5px 10px 5px 0;
+            }
+        }
+    }
+
     @media (min-width: 576px) {
         font-size: 0.8rem;
         line-height: 1.3rem;
-
+        
         .sub-item {
             display: none;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .banner .banner-right {
+            .game-select {
+                margin: 7px 10px 5px 0;
+            }
+
+            .logout-icon {
+                width: 28px;
+            }
         }
     }
 
@@ -74,26 +101,46 @@ body {
     height: 100%;
 }
 
-.nav-colour {
+.banner {
+    display: flex;
+    justify-content: space-between;
     background-color: #007bff;
-}
+    padding: 8px 12px;
 
-.nav-title {
-    font-size: 1.9rem;
-    font-family: 'Russo One','open_sans',sans-serif !important;
-    line-height: 2.3rem;
-}
+    &.simple {
+        padding: 0px 12px;
+    }
 
-.nav-item {
-    color: #ffffffe5 !important;
-}
+    .nav-title {
+        color: white;
+        font-size: 1.9rem;
+        font-family: 'Russo One','open_sans',sans-serif !important;
+        line-height: 3rem;
+        padding: 8px;
+        text-decoration: none;
+    }
 
-.logout-btn {
-    padding: 8px 0 !important;
-}
+    .banner-right {
+        display: flex;
 
-.logout-icon {
-    width: 32px;
+        .game-select {
+            line-height: 55px;
+            margin: 5px 20px 5px 0;
+            padding: 8px 2px 8px 2px;
+            color: #007bff;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            outline: none;
+        }
+
+        .logout-btn {
+            padding: 8px 0 !important;
+        }
+
+        .logout-icon {
+            width: 32px;
+        }
+    }
 }
 
 .login-container {
@@ -126,6 +173,10 @@ body {
                     &.title-line-1 {
                         padding-bottom: 20px;
                         color: rgba(0, 0, 0, 0.5);
+                    }
+
+                    &.title-line-2 {
+                        color: #007bffda;
                     }
                 }
             }

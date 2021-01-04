@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import Navbar from "./common/navbar.component";
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
@@ -44,6 +43,8 @@ const AddEditLap: React.FC = () => {
 
     const [submitClicked, setSubmitClicked] = useState(false);
 
+    const [game, setGame] = useState<String | null | undefined>();
+
     const [track, setTrack] = useState(() => existingLap ? existingLap.track : getAcTrackerState().newLapDefaultTrack);
 
     const [car, setCar] = useState(() => existingLap ? existingLap.car : getAcTrackerState().newLapDefaultCar);
@@ -78,7 +79,9 @@ const AddEditLap: React.FC = () => {
                 if (!existingLap && location.pathname.startsWith('/editLap'))
                     window.location.href = '/';
 
-                axios.get('/tracks')
+                setGame(session.game);
+
+                axios.get('/tracks/' + session.game)
                     .then(res => {
                         if (res.data.length > 0) {
                             setTracks(res.data.map((t: Track) => t.name));
@@ -91,7 +94,7 @@ const AddEditLap: React.FC = () => {
                         console.error('Error [Get Tracks]: ' + err);
                     });
 
-                axios.get('/cars')
+                axios.get('/cars/' + session.game)
                     .then(res => {
                         if (res.data.length > 0) {
                             setCars(res.data.map((c: Car) => c.name));
@@ -113,6 +116,13 @@ const AddEditLap: React.FC = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // If game is switched whilst adding/editting a lap, redirect to main lap list
+    useEffect(() => {
+        if (!!game)
+            history.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session?.game]);
 
     const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTrack(event.target.value);
@@ -179,10 +189,9 @@ const AddEditLap: React.FC = () => {
 
         setSubmitClicked(true);
 
-        // TODO Replace game with real value once UI implemented
         const lapToSave: Lap = {
             _id: '',
-            game: !existingLap ? 'Assetto Corsa' : existingLap.game,
+            game: !existingLap ? session?.game : existingLap.game,
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
             laptime: laptime,
@@ -204,7 +213,7 @@ const AddEditLap: React.FC = () => {
     }
 
     const handleAddNewTrack = (lapToSave: Lap) => {
-        axios.post('/tracks/add', { name: newTrackName })
+        axios.post('/tracks/add', { game: session?.game, name: newTrackName })
             .then(() => {
                 if (addCarInProgress)
                     handleAddNewCar(lapToSave);
@@ -216,7 +225,7 @@ const AddEditLap: React.FC = () => {
     }
 
     const handleAddNewCar = (lapToSave: Lap) => {
-        axios.post('/cars/add', { name: newCarName })
+        axios.post('/cars/add', { game: session?.game, name: newCarName })
             .then(() => handleAddOrEditLap(lapToSave))
             .then(() => setAddCarInProgress(false))
             .catch(err => console.error('Error [Add Car]: ' + err));
@@ -269,8 +278,6 @@ const AddEditLap: React.FC = () => {
 
     return (
         <React.Fragment>
-        <Navbar/>
-        <br/>
         <div className="form-style">
             {
                 existingLap ? (

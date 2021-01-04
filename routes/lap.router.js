@@ -8,7 +8,13 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error [Get All Laps]: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
+router.route('/:game').get((req, res) => {
+    Lap.find({ game: req.params.game }).collation({locale:'en', strength: 2}).sort({name: 1})
+        .then(laps => res.json(laps))
+        .catch(err => res.status(400).json('Error [Get All Laps For Game]: ' + err));
+});
+
+router.route('/one/:id').get((req, res) => {
     Lap.findById(req.params.id)
         .then(lap => res.json(lap))
         .catch(err => res.status(400).json('Error [Get Lap]: ' + err));

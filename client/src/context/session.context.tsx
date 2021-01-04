@@ -8,8 +8,12 @@ type ContextProps = {
 }
 
 type Session = {
+    loading: boolean;
+    game: string | null;
     driver: string | null;
-    setDriver: (driver: string) => void;
+    setLoading: (loading: boolean) => void;
+    setGame: (game: string) => void;
+    setDriver: (driver: string | null) => void;
     checkSession: () => Promise<boolean | void>;
 }
 
@@ -19,9 +23,19 @@ const SessionProvider = ({children}: ContextProps) => {
 
     const history = useHistory();
 
+    const [loading, setLoading] = useState(false);
+
+    const [game, setGame] = useState(() => {
+        return (!!getAcTrackerState() && !!getAcTrackerState().game) ? getAcTrackerState().game : 'Assetto Corsa';
+    });
+
     const [driver, setDriver] = useState(() => {
         return getAcTrackerState() ? getAcTrackerState().driver : null;
     });
+
+    useEffect(() => {
+        setAcTrackerState({ ...getAcTrackerState(), game: game });
+    }, [game]);
 
     useEffect(() => {
         setAcTrackerState({ ...getAcTrackerState(), driver: driver });
@@ -40,7 +54,7 @@ const SessionProvider = ({children}: ContextProps) => {
     };
 
     return (
-        <SessionContext.Provider value={{ driver, setDriver, checkSession }}>
+        <SessionContext.Provider value={{ loading, game, driver, setLoading, setGame, setDriver, checkSession }}>
             {children}
         </SessionContext.Provider>
     );

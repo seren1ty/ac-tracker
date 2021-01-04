@@ -1,44 +1,102 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import logoutIcon from '../../assets/logout_blue.png';
+import { SessionContext } from '../../context/session.context';
+import { getAcTrackerState, setAcTrackerState } from './ac-localStorage';
+
+export type Game = {
+    _id: string;
+    name: string;
+    code: string;
+};
 
 const Navbar = () => {
 
     const history = useHistory();
 
+    const location = useLocation();
+
+    const session = useContext(SessionContext);
+
+    const [games, setGames] = useState([]);
+
+    const [game, setGame] = useState(() => {
+        return session?.game ? session.game : 'Assetto Corsa';
+    });
+
+    useEffect(() => {
+        if (!session)
+            return;
+
+        session.setLoading(true);
+
+        session.checkSession()
+            .then((success) => {
+                if (!success)
+                    return;
+
+                axios.get('/games')
+                    .then(res => {
+                        setGames(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+
+                session.setLoading(false);
+            });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session?.driver]);
+
+    const onChangeGame = (gameEvent: React.ChangeEvent<HTMLSelectElement>) => {
+        setGame(gameEvent.target.value);
+
+        session?.setGame(gameEvent.target.value);
+
+        setAcTrackerState({ ...getAcTrackerState(), game: gameEvent.target.value });
+    }
+
     const logout = () => {
         axios.post('/session/logout')
             .then(() => {
+                session?.setDriver(null);
+
                 history.push('/login');
             });
     }
 
+    if (location.pathname.startsWith('/login')) {
+        return (
+            <nav className="banner simple">
+                <span className="nav-title">AC Tracker</span>
+            </nav>
+        );
+    }
+
     return (
-        <nav className="navbar navbar-expand-xs navbar-expand-sm navbar-expand-md navbar-dark nav-colour">
-            <Link to="/" className="navbar-brand nav-title pl-1 pr-0">AC Tracker</Link>
-            <div className="w-100 order-1 order-md-0 dual-collapse2">
-                {/*<ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link to="/" className="nav-link nav-item sub-item">Lap Records</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/addLap" className="nav-link nav-item sub-item">Add Lap</Link>
-                    </li>
-                </ul>*/}
-            </div>
+        <nav className="banner">
             <div>
-                <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <span>
-                            <button className="nav-link nav-item btn btn-link logout-btn" data-tip="Logout" data-for="logout" onClick={logout}>
-                                <img className="logout-icon" src={logoutIcon} alt="logout"></img>
-                            </button>
-                            <ReactTooltip id="logout" place="left" effect="solid"/>
-                        </span>
-                    </li>
-                </ul>
+                <Link className="nav-title" to="/">AC Tracker</Link>
+            </div>
+            <div className="banner-right">
+                <span>
+                    <select className="game-select" onChange={onChangeGame} value={game}>
+                    {
+                        games.map((game: Game) => {
+                            return <option key={game._id} value={game.name}>{game.name}</option>
+                        })
+                    }
+                    </select>
+                </span>
+                <span>
+                    <button className="nav-link nav-item btn btn-link logout-btn" data-tip="Logout" data-for="logout" onClick={logout}>
+                        <img className="logout-icon" src={logoutIcon} alt="logout"></img>
+                    </button>
+                    <ReactTooltip id="logout" place="left" effect="solid"/>
+                </span>
             </div>
         </nav>
     );

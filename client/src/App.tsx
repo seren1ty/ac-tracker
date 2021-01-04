@@ -8,6 +8,7 @@ import "./index.scss";
 import Login from "./components/login.component";
 import LapsList from "./components/lap-list.component";
 import AddEditLap from "./components/add-edit-lap.component";
+import Navbar from './components/common/navbar.component';
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
     <Router>
       <SessionProvider>
         <div className="container">
+          <Navbar/>
+          <br/>
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/" exact component={LapsList} />

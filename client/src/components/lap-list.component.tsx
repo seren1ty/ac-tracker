@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
-import Navbar from "./common/navbar.component";
 import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
@@ -24,11 +23,13 @@ export type Lap = {
 
 export type Track = {
     _id: string;
+    game: string;
     name: string;
 }
 
 export type Car = {
     _id: string;
+    game: string;
     name: string;
 }
 
@@ -40,8 +41,6 @@ export type Driver = {
 const LapList: React.FC = () => {
 
     const session = useContext(SessionContext);
-
-    const [loading, setLoading] = useState(false);
 
     const [originalLaps, setOriginalLaps] = useState([]);
 
@@ -69,27 +68,34 @@ const LapList: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
-        setLoading(true);
+        handleLoadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session?.game]);
 
+    const handleLoadData = () => {
         if (!session)
             return;
+
+        session.setLoading(true);
 
         session.checkSession()
             .then((success) => {
                 if (!success)
                     return;
 
-                axios.get('/laps')
+                axios.get('/laps/' + session.game)
                     .then(res => {
                         setOriginalLaps(res.data);
 
                         handleSetLaps(res.data);
+
+                        session.setLoading(false);
                     })
                     .catch(err => {
                         console.error(err);
                     });
 
-                axios.get('/tracks')
+                axios.get('/tracks/' + session.game)
                     .then(res => {
                         handleSetTracks(res.data);
                     })
@@ -97,7 +103,7 @@ const LapList: React.FC = () => {
                         console.error(err);
                     });
 
-                axios.get('/cars')
+                axios.get('/cars/' + session.game)
                     .then(res => {
                         handleSetCars(res.data);
                     })
@@ -112,12 +118,8 @@ const LapList: React.FC = () => {
                     .catch(err => {
                         console.error(err);
                     });
-
-                setLoading(false);
             });
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }
 
     const handleSetLaps = (newLaps: Lap[]) => {
         let sortedLaps = handleChangeSort(sortType, newLaps);
@@ -320,13 +322,18 @@ const LapList: React.FC = () => {
             });
     }
 
-    if (loading)
-        return (<React.Fragment></React.Fragment>)
+    if (!session || session.loading) {
+        return (
+            <React.Fragment>
+                <div className="mt-2 ml-2">
+                    <strong>Loading your lap records...</strong>
+                </div>
+            </React.Fragment>
+        );
+    }
 
     return (
         <React.Fragment>
-        <Navbar/>
-        <br/>
         <div>
             <div className="lap-title-row">
                 <span className="lap-title">Lap Records</span>
@@ -336,9 +343,8 @@ const LapList: React.FC = () => {
             </div>
             <div className="lap-filter-labels pt-3 mr-0">
                 <span className=" pr-3">
-                    <label>Track </label>
                     <select className="lap-filter-select" onChange={onChangeTrack} value={trackType}>
-                        <option value="ALL">All</option>
+                        <option value="ALL">All Tracks</option>
                         {
                             tracks.map(track => {
                                 return <option value={track.name} key={track._id}>{track.name}</option>
@@ -347,9 +353,8 @@ const LapList: React.FC = () => {
                     </select>
                 </span>
                 <span className="pr-3 sub-item">
-                    <label>Car </label>
                     <select className="lap-filter-select" onChange={onChangeCar} value={carType}>
-                        <option value="ALL">All</option>
+                        <option value="ALL">All Cars</option>
                         {
                             cars.map(car => {
                                 return <option value={car.name} key={car._id}>{car.name}</option>
@@ -358,9 +363,8 @@ const LapList: React.FC = () => {
                     </select>
                 </span>
                 <span className="pr-4">
-                    <label>Driver </label>
                     <select className="lap-filter-select" onChange={onChangeDriver} value={driverType}>
-                        <option value="ALL">All</option>
+                        <option value="ALL">All Drivers</option>
                         {
                             drivers.map(driver => {
                                 return <option value={driver.name} key={driver._id}>{driver.name}</option>
@@ -378,7 +382,10 @@ const LapList: React.FC = () => {
                         <option value="LAPTIME">Laptime</option>
                     </select>
                 </span>
-                <span className="laps-shown">Laps: {laps.length} / {originalLaps.length}</span>
+                <span className="laps-shown">
+                    <span className="sub-item">Laps: </span>
+                    <span>{laps.length} / {originalLaps.length}</span>
+                </span>
             </div>
             <table className="table table-hover mt-2">
                 <thead className="thead-light">
