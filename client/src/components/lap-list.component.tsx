@@ -4,7 +4,7 @@ import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
 import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
+import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 
 export type Lap = {
     _id: string;
@@ -49,27 +49,11 @@ const LapList: React.FC = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [drivers, setDrivers] = useState<Driver[]>([]);
 
-    const [trackType, setTrackType] = useState(() => {
-        return getAcTrackerState() ? getAcTrackerState().trackType : 'ALL';
-    });
-
-    const [carType, setCarType] = useState(() => {
-        return getAcTrackerState() ? getAcTrackerState().carType : 'ALL';
-    });
-
-    const [driverType, setDriverType] = useState(() => {
-        return getAcTrackerState() ? getAcTrackerState().driverType : 'ALL';
-    });
-
-    const [sortType, setSortType] = useState(() => {
-        return getAcTrackerState() ? getAcTrackerState().sortType : 'DATE';
-    });
-
     const history = useHistory();
 
     useEffect(() => {
         handleLoadData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session?.game]);
 
     const handleLoadData = () => {
@@ -122,16 +106,16 @@ const LapList: React.FC = () => {
     }
 
     const handleSetLaps = (newLaps: Lap[]) => {
-        let sortedLaps = handleChangeSort(sortType, newLaps);
+        let sortedLaps = handleChangeSort(getAcTrackerGameState(session?.game).sortType, newLaps);
 
-        if (trackType !== 'ALL')
-            sortedLaps = sortedLaps.filter((lap: Lap) => lap.track === trackType);
+        if (getAcTrackerGameState(session?.game).trackType !== 'ALL')
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.track === getAcTrackerGameState(session?.game).trackType);
 
-        if (carType !== 'ALL')
-            sortedLaps = sortedLaps.filter((lap: Lap) => lap.car === carType);
+        if (getAcTrackerGameState(session?.game).carType !== 'ALL')
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.car === getAcTrackerGameState(session?.game).carType);
 
-        if (driverType !== 'ALL')
-            sortedLaps = sortedLaps.filter((lap: Lap) => lap.driver === driverType);
+        if (getAcTrackerGameState(session?.game).driverType !== 'ALL')
+            sortedLaps = sortedLaps.filter((lap: Lap) => lap.driver === getAcTrackerGameState(session?.game).driverType);
 
         setLaps(sortedLaps);
     };
@@ -167,7 +151,7 @@ const LapList: React.FC = () => {
     const onChangeTrack = (trackEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeTrack(trackEvent.target.value);
 
-        setAcTrackerState({ ...getAcTrackerState(), trackType: trackEvent.target.value });
+        setAcTrackerGameState(session?.game, { ...getAcTrackerGameState(session?.game), trackType: trackEvent.target.value });
     }
 
     const handleChangeTrack = (newTrackType: string) => {
@@ -175,18 +159,16 @@ const LapList: React.FC = () => {
 
         filteredLaps = [...originalLaps];
 
-        filteredLaps = handleChangeSort(sortType, filteredLaps);
+        filteredLaps = handleChangeSort(getAcTrackerGameState(session?.game).sortType, filteredLaps);
 
-        if (driverType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === driverType);
+        if (getAcTrackerGameState(session?.game).driverType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === getAcTrackerGameState(session?.game).driverType);
 
-        if (carType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === carType);
+        if (getAcTrackerGameState(session?.game).carType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === getAcTrackerGameState(session?.game).carType);
 
         if (newTrackType !== 'ALL')
             filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === newTrackType);
-
-        setTrackType(newTrackType);
 
         setLaps(filteredLaps);
     }
@@ -194,7 +176,7 @@ const LapList: React.FC = () => {
     const onChangeCar = (carEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeCar(carEvent.target.value);
 
-        setAcTrackerState({ ...getAcTrackerState(), carType: carEvent.target.value });
+        setAcTrackerGameState(session?.game, { ...getAcTrackerGameState(session?.game), carType: carEvent.target.value });
     }
 
     const handleChangeCar = (newCarType: string) => {
@@ -202,18 +184,16 @@ const LapList: React.FC = () => {
 
         filteredLaps = [...originalLaps];
 
-        filteredLaps = handleChangeSort(sortType, filteredLaps);
+        filteredLaps = handleChangeSort(getAcTrackerGameState(session?.game).sortType, filteredLaps);
 
-        if (trackType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === trackType);
+        if (getAcTrackerGameState(session?.game).trackType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === getAcTrackerGameState(session?.game).trackType);
 
-        if (driverType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === driverType);
+        if (getAcTrackerGameState(session?.game).driverType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === getAcTrackerGameState(session?.game).driverType);
 
         if (newCarType !== 'ALL')
             filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === newCarType);
-
-        setCarType(newCarType);
 
         setLaps(filteredLaps);
     }
@@ -221,7 +201,7 @@ const LapList: React.FC = () => {
     const onChangeDriver = (driverEvent: React.ChangeEvent<HTMLSelectElement>) => {
         handleChangeDriver(driverEvent.target.value);
 
-        setAcTrackerState({ ...getAcTrackerState(), driverType: driverEvent.target.value });
+        setAcTrackerGameState(session?.game, { ...getAcTrackerGameState(session?.game), driverType: driverEvent.target.value });
     }
 
     const handleChangeDriver = (newDriverType: string) => {
@@ -229,32 +209,30 @@ const LapList: React.FC = () => {
 
         filteredLaps = [...originalLaps];
 
-        filteredLaps = handleChangeSort(sortType, filteredLaps);
+        filteredLaps = handleChangeSort(getAcTrackerGameState(session?.game).sortType, filteredLaps);
 
-        if (trackType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === trackType);
+        if (getAcTrackerGameState(session?.game).trackType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.track === getAcTrackerGameState(session?.game).trackType);
 
-        if (carType !== 'ALL')
-            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === carType);
+        if (getAcTrackerGameState(session?.game).carType !== 'ALL')
+            filteredLaps = filteredLaps.filter((lap: Lap) => lap.car === getAcTrackerGameState(session?.game).carType);
 
         if (newDriverType !== 'ALL')
             filteredLaps = filteredLaps.filter((lap: Lap) => lap.driver === newDriverType);
-
-        setDriverType(newDriverType);
 
         setLaps(filteredLaps);
     }
 
     const onChangeSort = (sortEvent: React.ChangeEvent<HTMLSelectElement>) => {
+        setAcTrackerGameState(session?.game, { ...getAcTrackerGameState(session?.game), sortType: sortEvent.target.value });
+
         const sortedLaps = handleChangeSort(sortEvent.target.value);
 
         setLaps(sortedLaps);
-
-        setAcTrackerState({ ...getAcTrackerState(), sortType: sortEvent.target.value });
     }
 
     const handleChangeSort = (newSortType: string, newLaps?: Lap[]) => {
-        let currentLaps = newLaps ? newLaps : laps;
+        let currentLaps = newLaps ? newLaps : [...laps];
 
         if (newSortType === 'TRACK') {
             currentLaps.sort((a,b) => {
@@ -303,8 +281,6 @@ const LapList: React.FC = () => {
             });
         }
 
-        setSortType(newSortType);
-
         return currentLaps;
     }
 
@@ -343,7 +319,7 @@ const LapList: React.FC = () => {
             </div>
             <div className="lap-filter-labels pt-3 mr-0">
                 <span className=" pr-3">
-                    <select className="lap-filter-select" onChange={onChangeTrack} value={trackType}>
+                    <select className="lap-filter-select" onChange={onChangeTrack} value={getAcTrackerGameState(session?.game).trackType}>
                         <option value="ALL">All Tracks</option>
                         {
                             tracks.map(track => {
@@ -353,7 +329,7 @@ const LapList: React.FC = () => {
                     </select>
                 </span>
                 <span className="pr-3 sub-item">
-                    <select className="lap-filter-select" onChange={onChangeCar} value={carType}>
+                    <select className="lap-filter-select" onChange={onChangeCar} value={getAcTrackerGameState(session?.game).carType}>
                         <option value="ALL">All Cars</option>
                         {
                             cars.map(car => {
@@ -363,7 +339,7 @@ const LapList: React.FC = () => {
                     </select>
                 </span>
                 <span className="pr-4">
-                    <select className="lap-filter-select" onChange={onChangeDriver} value={driverType}>
+                    <select className="lap-filter-select" onChange={onChangeDriver} value={getAcTrackerGameState(session?.game).driverType}>
                         <option value="ALL">All Drivers</option>
                         {
                             drivers.map(driver => {
@@ -374,7 +350,7 @@ const LapList: React.FC = () => {
                 </span>
                 <span className="sub-item">
                     <label>Sort by </label>
-                    <select className="lap-filter-select" onChange={onChangeSort} value={sortType}>
+                    <select className="lap-filter-select" onChange={onChangeSort} value={getAcTrackerGameState(session?.game).sortType}>
                         <option value="DATE">Date</option>
                         <option value="TRACK">Track</option>
                         <option value="CAR">Car</option>

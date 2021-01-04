@@ -4,7 +4,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerState, setAcTrackerState } from './common/ac-localStorage';
+import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { Car, Lap, Track } from './lap-list.component';
 
 const AddEditLap: React.FC = () => {
@@ -21,8 +21,8 @@ const AddEditLap: React.FC = () => {
         if (location.state) {
             return location.state;
         } else if (location.pathname.startsWith('/editLap')) {
-            if (getAcTrackerState()) {
-                let storedCurrentLap = getAcTrackerState().currentLapToEdit;
+            if (getAcTrackerGameState(session?.game)) {
+                let storedCurrentLap = getAcTrackerGameState(session?.game).currentLapToEdit;
 
                 if (storedCurrentLap && location.pathname.endsWith(storedCurrentLap._id))
                     return storedCurrentLap;
@@ -45,25 +45,37 @@ const AddEditLap: React.FC = () => {
 
     const [game, setGame] = useState<String | null | undefined>();
 
-    const [track, setTrack] = useState(() => existingLap ? existingLap.track : getAcTrackerState().newLapDefaultTrack);
+    const [track, setTrack] = useState(() => {
+        return existingLap ? existingLap.track : getAcTrackerGameState(session?.game).newLapDefaultTrack
+    });
 
-    const [car, setCar] = useState(() => existingLap ? existingLap.car : getAcTrackerState().newLapDefaultCar);
+    const [car, setCar] = useState(() => {
+        return existingLap ? existingLap.car : getAcTrackerGameState(session?.game).newLapDefaultCar
+    });
 
     const [laptime, setLaptime] = useState(() => existingLap ? existingLap.laptime : '');
 
     const [driver] = useState(() => session ? session.driver : existingLap ? existingLap.driver : '');
 
-    const [gearbox, setGearbox] = useState(() => existingLap ? existingLap.gearbox : getAcTrackerState().newLapDefaultGearbox);
+    const [gearbox, setGearbox] = useState(() => {
+        return existingLap ? existingLap.gearbox : getAcTrackerGameState(session?.game).newLapDefaultGearbox
+    });
 
-    const [traction, setTraction] = useState(() => existingLap ? existingLap.traction : getAcTrackerState().newLapDefaultTraction);
+    const [traction, setTraction] = useState(() => {
+        return existingLap ? existingLap.traction : getAcTrackerGameState(session?.game).newLapDefaultTraction
+    });
 
-    const [stability, setStability] = useState(() => existingLap ? existingLap.stability : getAcTrackerState().newLapDefaultStability);
+    const [stability, setStability] = useState(() => {
+        return existingLap ? existingLap.stability : getAcTrackerGameState(session?.game).newLapDefaultStability
+    });
 
     const [date, setDate] = useState(() => existingLap ? new Date(existingLap.date) : new Date());
 
     const [replay, setReplay] = useState(() => existingLap ? existingLap.replay : '');
 
-    const [notes, setNotes] = useState(() => existingLap ? existingLap.notes : getAcTrackerState().newLapDefaultNotes);
+    const [notes, setNotes] = useState(() => {
+        return existingLap ? existingLap.notes : getAcTrackerGameState(session?.game).newLapDefaultNotes
+    });
 
     useEffect(() => {
         setLoading(true);
@@ -109,7 +121,10 @@ const AddEditLap: React.FC = () => {
 
                     // We are currently editting a lap, NOT creating a new one
                     if (location.state && location.pathname.startsWith('/editLap'))
-                        setAcTrackerState({ ...getAcTrackerState(), currentLapToEdit: location.state });
+                        setAcTrackerGameState(session?.game, { 
+                                ...getAcTrackerGameState(session?.game), 
+                                currentLapToEdit: location.state 
+                            });
 
                     setLoading(false);
             });
@@ -261,16 +276,16 @@ const AddEditLap: React.FC = () => {
     }
 
     const updateNewLapDefaults = () => {
-        let currentState = getAcTrackerState();
+        let currentGameState = getAcTrackerGameState(session?.game);
 
-        currentState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
-        currentState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
-        currentState.newLapDefaultGearbox = gearbox;
-        currentState.newLapDefaultTraction = traction;
-        currentState.newLapDefaultStability = stability;
-        currentState.newLapDefaultNotes = notes;
+        currentGameState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
+        currentGameState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
+        currentGameState.newLapDefaultGearbox = gearbox;
+        currentGameState.newLapDefaultTraction = traction;
+        currentGameState.newLapDefaultStability = stability;
+        currentGameState.newLapDefaultNotes = notes;
 
-        setAcTrackerState(currentState);
+        setAcTrackerGameState(session?.game, currentGameState);
     }
 
     if (loading)
