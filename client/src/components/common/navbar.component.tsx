@@ -86,7 +86,7 @@ const Navbar = () => {
                     <select className="game-select" onChange={onChangeGame} value={game}>
                     {
                         games.map((game: Game) => {
-                            return <option key={game._id} value={game.name}>{game.name}</option>
+                            return <option key={game._id} value={game.name}>{ window.innerWidth < 390 ? game.code : game.name }</option>
                         })
                     }
                     </select>
