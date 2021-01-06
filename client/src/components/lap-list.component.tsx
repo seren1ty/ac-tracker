@@ -19,6 +19,11 @@ export type Lap = {
     date: Date;
     replay: string;
     notes: string;
+
+    isLapRecord?: boolean;
+    isLapRecordForCar?: boolean;
+    isPersonalLapRecordForCar?: boolean;
+    laptimeDetails?: string;
 }
 
 export type Track = {
@@ -284,6 +289,57 @@ const LapList: React.FC = () => {
         return currentLaps;
     }
 
+    /* const generateLapSplits = (currentLap: Lap) => {
+        let fastestLaps = handleChangeSort('LAPTIME');
+
+        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
+        if (fastestLapsForTrack[0]._id === currentLap._id)
+            return 'Track record';
+
+        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
+        if (fastestLapsForTrackCar[0]._id === currentLap._id)
+            return 'Track record for current car';
+
+        let fastestLapsForTrackCarDriver = fastestLapsForTrackCar.filter((lap: Lap) => lap.driver === currentLap.driver);
+        if (fastestLapsForTrackCarDriver[0]._id === currentLap._id)
+            return 'Personal best track record for current car';
+
+        return '';
+    } */
+
+    const isLapRecord = (currentLap: Lap) => {
+        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
+
+        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
+        
+        return fastestLapsForTrack[0]._id === currentLap._id;
+    }
+
+    const isLapRecordForCar = (currentLap: Lap) => {
+        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
+
+        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
+
+        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
+
+        return (fastestLapsForTrack[0]._id !== currentLap._id &&
+            fastestLapsForTrackCar[0]._id === currentLap._id);
+    }
+
+    const isPersonalLapRecordForCar = (currentLap: Lap) => {
+        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
+
+        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
+
+        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
+
+        let fastestLapsForTrackCarDriver = fastestLapsForTrackCar.filter((lap: Lap) => lap.driver === currentLap.driver);
+
+        return (fastestLapsForTrack[0]._id !== currentLap._id &&
+                fastestLapsForTrackCar[0]._id !== currentLap._id &&
+                fastestLapsForTrackCarDriver[0]._id === currentLap._id);
+    }
+
     const deleteLap = (id: string) => {
         axios.delete('/laps/delete/' + id)
             .then(res => {
@@ -382,7 +438,16 @@ const LapList: React.FC = () => {
                 <tbody>
                 {
                     laps.map(lap => {
-                        return <LapItem lap={lap} deleteLap={deleteLap} key={lap._id} />
+                        return (
+                            <LapItem lap={lap}
+                            isLapRecord={isLapRecord}
+                            isLapRecordForCar={isLapRecordForCar}
+                            isPersonalLapRecordForCar={isPersonalLapRecordForCar}
+                            deleteLap={deleteLap}
+                            key={lap._id}  
+                            />
+                            )
+                            /* generateLapSplits={generateLapSplits} */ 
                     })
                 }
                 </tbody>

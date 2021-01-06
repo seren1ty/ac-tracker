@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import AcDate from './common/ac-date.component';
 import Truncator from './common/truncator.component';
@@ -11,10 +11,25 @@ import { Lap } from './lap-list.component';
 
 type LapItemProps = {
     lap: Lap;
+    /* generateLapSplits: (currentLap: Lap) => string; */
+    isLapRecord: (currentLap: Lap) => boolean;
+    isLapRecordForCar: (currentLap: Lap) => boolean;
+    isPersonalLapRecordForCar: (currentLap: Lap) => boolean;
     deleteLap: (_id: string) => void;
 }
 
 const LapItem = (props: LapItemProps) => {
+
+    const [lap, setLap] = useState<Lap>(props.lap);
+
+    useEffect(() => {
+        lap.isLapRecord = props.isLapRecord(lap);
+        lap.isLapRecordForCar = props.isLapRecordForCar(lap);
+        lap.isPersonalLapRecordForCar = props.isPersonalLapRecordForCar(lap);
+
+        setLap({...lap});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const session = useContext(SessionContext);
 
@@ -27,15 +42,15 @@ const LapItem = (props: LapItemProps) => {
     }
 
     const shownLapsAreNotLimitedToCurrentDriver = () => {
-        return getAcTrackerGameState(session?.game).driverType !== props.lap.driver;
+        return getAcTrackerGameState(session?.game).driverType !== lap.driver;
     }
 
     const lapIsForCurrentDriver = () => {
-        return !!session ? session.driver === props.lap.driver : false;
+        return !!session ? session.driver === lap.driver : false;
     }
 
     const onClickEdit = () => {
-        history.push({ pathname: '/editLap/' + props.lap._id, state: props.lap });
+        history.push({ pathname: '/editLap/' + lap._id, state: lap });
     }
 
     const onClickDelete = () => {
@@ -49,36 +64,63 @@ const LapItem = (props: LapItemProps) => {
     return (
         <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )}>
             <td>
-                <Truncator id={"track_" + props.lap._id} value={props.lap.track} max={20}/>
+                <Truncator id={"track_" + lap._id} value={lap.track} max={20}/>
             </td>
             <td className="lap-car-cell">
-                <Truncator id={"car_" + props.lap._id} value={props.lap.car} max={25}/>
+                <Truncator id={"car_" + lap._id} value={lap.car} max={25}/>
             </td>
             <td className="lap-replay-cell">
             {
-                props.lap.replay &&
+                lap.replay &&
                 <span>
-                    <a href={props.lap.replay} target="_" data-tip="Launch Replay" data-for={"replay_" + props.lap._id}>
+                    <a href={lap.replay} target="_" data-tip="Launch Replay" data-for={"replay_" + lap._id}>
                         <img className="lap-replay-icon" src={replayIcon} alt="replay"></img>
                     </a>
-                    <ReactTooltip id={"replay_" + props.lap._id} place="left" effect="solid"/>
+                    <ReactTooltip id={"replay_" + lap._id} place="left" effect="solid"/>
                 </span>
             }
             </td>
-            <td><strong>{props.lap.laptime}</strong></td>
-            <td>{props.lap.driver}</td>
-            <td className="sub-item">{props.lap.gearbox === 'Manual' ? 'Manual' : 'Auto'}</td>
-            <td className="sub-item">{props.lap.traction}</td>
-            <td className="sub-item">{props.lap.stability}</td>
-            <td className="lap-date-cell"><AcDate date={props.lap.date}/></td>
+            <td>
+                <span className={ 
+                    (lap.isLapRecord ? "lap-record": "") +
+                    (lap.isLapRecordForCar ? "lap-record-for-car": "") +
+                    (lap.isPersonalLapRecordForCar ? "personal-lap-record-for-car": "")}>
+                    <span data-tip data-for={"laptime_" + lap._id}>
+                        <strong>{lap.laptime}</strong>
+                    </span>
+                    {
+                        (lap.isLapRecord || lap.isLapRecordForCar || lap.isPersonalLapRecordForCar) &&
+                        <ReactTooltip id={"laptime_" + lap._id} place="left" effect="solid">
+                        {
+                            lap.isLapRecord &&
+                            <span>Track Record across all cars</span>
+                        }
+                        {
+                            lap.isLapRecordForCar &&
+                            <span>Track Record for the {lap.car}</span>
+                        }
+                        {
+                            lap.isPersonalLapRecordForCar &&
+                            <span>Personal best lap for {lap.driver} in the {lap.car}</span>
+                        }
+                        {/* <span dangerouslySetInnerHTML={{ __html: lap.laptimeDetails }}></span> */}
+                        </ReactTooltip>
+                    }
+                </span>
+            </td>
+            <td>{lap.driver}</td>
+            <td className="sub-item">{lap.gearbox === 'Manual' ? 'Manual' : 'Auto'}</td>
+            <td className="sub-item">{lap.traction}</td>
+            <td className="sub-item">{lap.stability}</td>
+            <td className="lap-date-cell"><AcDate date={lap.date}/></td>
             <td className="lap-notes-cell sub-item">
             {
-                props.lap.notes &&
+                lap.notes &&
                 <span>
-                    <span data-tip={props.lap.notes} data-for={"notes_" + props.lap._id}>
+                    <span data-tip={lap.notes} data-for={"notes_" + lap._id}>
                         <img className="lap-notes-icon" src={notesIcon} alt="notes"></img>
                     </span>
-                    <ReactTooltip id={"notes_" + props.lap._id} place="left" effect="solid"/>
+                    <ReactTooltip id={"notes_" + lap._id} place="left" effect="solid"/>
                 </span>
             }
             </td>
@@ -86,16 +128,16 @@ const LapItem = (props: LapItemProps) => {
             {
                 showConfirm === true ? (
                     <div>
-                        <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0" type="button" onClick={() => props.deleteLap(props.lap._id)}>Delete</button>
+                        <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0" type="button" onClick={() => props.deleteLap(lap._id)}>Delete</button>
                         <button className="cancel-delete-lap btn btn-link" onClick={onClickCancel}>Cancel</button>
                     </div>
                 ) : (
                     <div>
                     {
-                        !!session && session.driver === props.lap.driver && (
+                        !!session && session.driver === lap.driver && (
                             <span>
-                            <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
-                            <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" disabled={ session.driver !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>
+                            <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" disabled={ session.driver !== lap.driver } type="button" onClick={onClickEdit}>Edit</button>
+                            <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" disabled={ session.driver !== lap.driver } type="button" onClick={onClickDelete}>Delete</button>
                         </span>
                         )
                     }
