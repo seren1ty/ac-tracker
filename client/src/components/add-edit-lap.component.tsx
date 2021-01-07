@@ -293,7 +293,7 @@ const AddEditLap: React.FC = () => {
 
     return (
         <React.Fragment>
-        <div className="form-style">
+        <div className="ae-page">
             {
                 existingLap ? (
                     <h4>Edit Lap</h4>
@@ -301,205 +301,220 @@ const AddEditLap: React.FC = () => {
                     <h4>Add Lap</h4>
                 )
             }
-            <form onSubmit={onSubmit}>
-                <div className="row mt-4">
-                    <div className="col pr-4">
-                        <div className="form-group">
-                            <label className="add-edit-label-with-button">Track</label>
-                            {
-                                !addTrackInProgress ? (
-                                    <button className="btn btn-sm btn-secondary add-track-car"
-                                        type="button"
-                                        onClick={onClickAddTrack}
-                                        disabled={addTrackInProgress}>Add Track
-                                    </button>
-                                ) : (
-                                    <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddTrack}>Cancel</button>
-                                )
-                            }
-                            {
-                                !addTrackInProgress ? (
-                                    <select className="form-control"
-                                        required
-                                        value={track}
-                                        onChange={onChangeTrack}>
-                                        {
-                                            tracks.map(currTrack => {
-                                                return <option
-                                                key={currTrack}
-                                                value={currTrack}>{currTrack}
-                                                </option>;
-                                            })
-                                        }
-                                    </select>
-                                ) : (
-                                    <input className="form-control"
-                                        type="text"
-                                        required
-                                        value={newTrackName}
-                                        onChange={onChangeNewTrackName}
-                                        placeholder="Enter New Track Name"
-                                    />
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group">
-                            <label className="add-edit-label-with-button">Car</label>
-                            {
-                                !addCarInProgress ? (
-                                    <button className="btn btn-sm btn-secondary add-track-car"
-                                        type="button"
-                                        onClick={onClickAddCar}
-                                        disabled={addCarInProgress}>Add Car
-                                    </button>
-                                ) : (
-                                    <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddCar}>Cancel</button>
-                                )
-                            }
-                            {
-                                !addCarInProgress ? (
-                                    <select className="form-control"
-                                        required
-                                        value={car}
-                                        onChange={onChangeCar}>
-                                        {
-                                            cars.map(currCar => {
-                                                return <option
-                                                    key={currCar}
-                                                    value={currCar}>{currCar}
-                                                </option>;
-                                            })
-                                        }
-                                    </select>
-                                ) : (
-                                    <input className="form-control"
-                                        type="text"
-                                        required
-                                        value={newCarName}
-                                        onChange={onChangeNewCarName}
-                                        placeholder="Enter New Car Name"
-                                    />
-                                )
-                            }
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-0">
-                    <div className="col pr-4">
-                        <div className="form-group">
-                            <label className="add-edit-label">Laptime</label>
-                            <input className="form-control"
-                                type="text"
-                                required
-                                minLength={9}
-                                maxLength={9}
-                                pattern="\d{2}:\d{2}\.\d{3}"
-                                value={laptime}
-                                onChange={onChangeLaptime}
-                                placeholder="00:00.000"
-                            />
-                            <small className="text-muted laptime-format">
-                            {
-                                laptime && laptime.length > 0 && laptime.length < 9 ? (
-                                    <span>Format: 00:00.000</span>
-                                ) : (
-                                    <span>&nbsp;</span>
-                                )
-                            }
-                            </small>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group">
-                            <label className="add-edit-label">Driver</label>
-                            <input className="form-control driver-input"
-                                required
-                                value={driver}
-                                disabled={true}/>
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-0">
-                    <div className="col mr-3 pr-2">
-                        <div className="form-group">
-                            <label className="add-edit-label">Gearbox</label>
-                            <select className="form-control"
-                                required
-                                value={gearbox}
-                                onChange={onChangeGearbox}>
-                                <option value="Automatic">Automatic</option>
-                                <option value="Manual">Manual</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col mr-3 pr-2">
-                        <div className="form-group">
-                            <label className="add-edit-label">Traction</label>
-                            <select className="form-control"
-                                required
-                                value={traction}
-                                onChange={onChangeTraction}>
-                                <option value="Factory">Factory</option>
-                                <option value="On">On</option>
-                                <option value="Off">Off</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="form-group">
-                            <label className="add-edit-label">Stability</label>
-                            <select className="form-control"
-                                required
-                                value={stability}
-                                onChange={onChangeStability}>
-                                <option value="Factory">Factory</option>
-                                <option value="On">On</option>
-                                <option value="Off">Off</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-0 mr-0">
-                    <div className="col-4 add-edit-date">
-                        <div className="form-group">
-                            <label className="add-edit-label">Date</label>
-                            <div>
-                                <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
+            <div className="ae-container">
+                <div className="ae-form-container">
+                    <form onSubmit={onSubmit}>
+                        <div className="row mt-4">
+                            <div className="col pr-4">
+                                <div className="form-group">
+                                    <label className="add-edit-label-with-button">Track</label>
+                                    {
+                                        !addTrackInProgress ? (
+                                            <button className="btn btn-sm btn-secondary add-track-car"
+                                                type="button"
+                                                onClick={onClickAddTrack}
+                                                disabled={addTrackInProgress}>Add Track
+                                            </button>
+                                        ) : (
+                                            <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddTrack}>Cancel</button>
+                                        )
+                                    }
+                                    {
+                                        !addTrackInProgress ? (
+                                            <select className="form-control"
+                                                required
+                                                value={track}
+                                                onChange={onChangeTrack}>
+                                                {
+                                                    tracks.map(currTrack => {
+                                                        return <option
+                                                        key={currTrack}
+                                                        value={currTrack}>{currTrack}
+                                                        </option>;
+                                                    })
+                                                }
+                                            </select>
+                                        ) : (
+                                            <input className="form-control"
+                                                type="text"
+                                                required
+                                                value={newTrackName}
+                                                onChange={onChangeNewTrackName}
+                                                placeholder="Enter New Track Name"
+                                            />
+                                        )
+                                    }
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="add-edit-label-with-button">Car</label>
+                                    {
+                                        !addCarInProgress ? (
+                                            <button className="btn btn-sm btn-secondary add-track-car"
+                                                type="button"
+                                                onClick={onClickAddCar}
+                                                disabled={addCarInProgress}>Add Car
+                                            </button>
+                                        ) : (
+                                            <button className="add-track-car pr-0 btn btn-link" onClick={onClickCancelAddCar}>Cancel</button>
+                                        )
+                                    }
+                                    {
+                                        !addCarInProgress ? (
+                                            <select className="form-control"
+                                                required
+                                                value={car}
+                                                onChange={onChangeCar}>
+                                                {
+                                                    cars.map(currCar => {
+                                                        return <option
+                                                            key={currCar}
+                                                            value={currCar}>{currCar}
+                                                        </option>;
+                                                    })
+                                                }
+                                            </select>
+                                        ) : (
+                                            <input className="form-control"
+                                                type="text"
+                                                required
+                                                value={newCarName}
+                                                onChange={onChangeNewCarName}
+                                                placeholder="Enter New Car Name"
+                                            />
+                                        )
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-8 pl-4 pr-0">
-                        <div className="form-group">
-                            <label className="add-edit-label">Replay</label>
-                            <input className="form-control"
-                                type="text"
-                                value={replay}
-                                onChange={onChangeReplay}
-                                placeholder="Enter URL of uploaded lap replay - Eg. Youtube"/>
+                        <div className="row mt-0">
+                            <div className="col pr-4">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Laptime</label>
+                                    <input className="form-control"
+                                        type="text"
+                                        required
+                                        minLength={9}
+                                        maxLength={9}
+                                        pattern="\d{2}:\d{2}\.\d{3}"
+                                        value={laptime}
+                                        onChange={onChangeLaptime}
+                                        placeholder="00:00.000"
+                                    />
+                                    <small className="text-muted laptime-format">
+                                    {
+                                        laptime && laptime.length > 0 && laptime.length < 9 ? (
+                                            <span>Format: 00:00.000</span>
+                                        ) : (
+                                            <span>&nbsp;</span>
+                                        )
+                                    }
+                                    </small>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Driver</label>
+                                    <input className="form-control driver-input"
+                                        required
+                                        value={driver}
+                                        disabled={true}/>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="row mt-0 mr-0">
-                    <div className="col-12 pr-0">
-                        <div className="form-group">
-                            <label className="add-edit-label">Notes</label>
-                            <input className="form-control"
-                                type="text"
-                                value={notes}
-                                onChange={onChangeNotes}/>
+                        <div className="row mt-0">
+                            <div className="col mr-3 pr-2">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Gearbox</label>
+                                    <select className="form-control"
+                                        required
+                                        value={gearbox}
+                                        onChange={onChangeGearbox}>
+                                        <option value="Automatic">Automatic</option>
+                                        <option value="Manual">Manual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col mr-3 pr-2">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Traction</label>
+                                    <select className="form-control"
+                                        required
+                                        value={traction}
+                                        onChange={onChangeTraction}>
+                                        <option value="Factory">Factory</option>
+                                        <option value="On">On</option>
+                                        <option value="Off">Off</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Stability</label>
+                                    <select className="form-control"
+                                        required
+                                        value={stability}
+                                        onChange={onChangeStability}>
+                                        <option value="Factory">Factory</option>
+                                        <option value="On">On</option>
+                                        <option value="Off">Off</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div className="row mt-0 mr-0">
+                            <div className="col-4 add-edit-date">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Date</label>
+                                    <div>
+                                        <DatePicker selected={date} onChange={onChangeDate} dateFormat="dd/MM/yy"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-8 pl-4 pr-0">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Replay</label>
+                                    <input className="form-control"
+                                        type="text"
+                                        value={replay}
+                                        onChange={onChangeReplay}
+                                        placeholder="Enter URL of uploaded lap replay - Eg. Youtube"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row mt-0 mr-0">
+                            <div className="col-12 pr-0">
+                                <div className="form-group">
+                                    <label className="add-edit-label">Notes</label>
+                                    <input className="form-control"
+                                        type="text"
+                                        value={notes}
+                                        onChange={onChangeNotes}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group mt-2 add-edit-button">
+                            <input className="btn btn-primary mr-4"
+                                type="submit"
+                                disabled={submitClicked}
+                                value={existingLap ? "Update Lap" : "Add New Lap"}/>
+                            <Link to="/">Cancel</Link>
+                        </div>
+                    </form>
                 </div>
-                <div className="form-group mt-2 add-edit-button">
-                    <input className="btn btn-primary mr-4"
-                        type="submit"
-                        disabled={submitClicked}
-                        value={existingLap ? "Update Lap" : "Add New Lap"}/>
-                    <Link to="/">Cancel</Link>
+                <div className="ae-feedback-container">
+                    {/* {
+                        existingLap ? (
+                            <h1 className="title-line-1">Changes?</h1>
+                        ) : (
+                            <h1 className="title-line-1">New Record?</h1>
+                        )
+                    } */}
+                    <h1 className="title-line-1">Hit the Track.</h1>
+                    <h1 className="title-line-2">Make History</h1>
                 </div>
-            </form>
+            </div>
         </div>
         </React.Fragment>
     )
