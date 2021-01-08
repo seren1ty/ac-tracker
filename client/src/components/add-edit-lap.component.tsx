@@ -621,7 +621,7 @@ const AddEditLap: React.FC = () => {
                         }
                         </div>
                     }
-                    { 
+                    {/* { 
                         laptime.length === 9 && laps.length > 0 && ((generateSplitToFasterLapActivated && !isFastestLap) || !generateSplitToFasterLapActivated) &&
                         <div>
                             <span>Keep it up! Only </span>
@@ -640,7 +640,7 @@ const AddEditLap: React.FC = () => {
                             </strong>
                             <span> ahead of the next best lap</span>
                         </div>
-                    }
+                    } */}
                     </div>
                 </div>
             </div>
