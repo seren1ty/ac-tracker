@@ -91,12 +91,21 @@ body {
     @media (max-width: 1199px) {
         .ae-page .ae-container .ae-feedback-container {
             min-width: 270px;
+            max-width: 270px;
             margin-bottom: 18px;
             padding-left: 20px;
 
-            h1 {
+            .feedback-banner h1 {
                 font-size: 36px;
                 line-height: 30px;
+            }
+
+            &.extraFeedbackIncluded {
+                .feedback-extra {
+                    span {
+                        font-size: 1rem;
+                    }
+                }
             }
         }
     }
@@ -350,7 +359,7 @@ body {
     .ae-container {
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
 
         .ae-form-container {
             width: 650px;
@@ -410,13 +419,14 @@ body {
 
         .ae-feedback-container {
             min-width: 450px;
+            max-width: 450px;
             text-align: center;
             margin-bottom: 12px;
             padding-left: 20px;
 
-            h1 {
+            .feedback-banner h1 {
                 font-family: 'Prompt', sans-serif;
-                font-size: 54px;
+                font-size: 48px;
                 line-height: 50px;
 
                 &.title-line-1 {
@@ -426,6 +436,23 @@ body {
 
                 &.title-line-2 {
                     color: #007bffda;
+                }
+            }
+
+            &.extraFeedbackIncluded {
+                margin-bottom: 50px;
+                .feedback-banner {
+                    margin-bottom: 70px;
+                }
+
+                .feedback-extra {
+                    div {
+                        margin-bottom: 20px;
+                        
+                        span {
+                            font-size: 1.25rem;
+                        }
+                    }
                 }
             }
         }

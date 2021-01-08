@@ -5,6 +5,7 @@ import { isBefore, isAfter } from 'date-fns';
 import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
+import { isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
 
 export type Lap = {
     _id: string;
@@ -289,55 +290,16 @@ const LapList: React.FC = () => {
         return currentLaps;
     }
 
-    /* const generateLapSplits = (currentLap: Lap) => {
-        let fastestLaps = handleChangeSort('LAPTIME');
-
-        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
-        if (fastestLapsForTrack[0]._id === currentLap._id)
-            return 'Track record';
-
-        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
-        if (fastestLapsForTrackCar[0]._id === currentLap._id)
-            return 'Track record for current car';
-
-        let fastestLapsForTrackCarDriver = fastestLapsForTrackCar.filter((lap: Lap) => lap.driver === currentLap.driver);
-        if (fastestLapsForTrackCarDriver[0]._id === currentLap._id)
-            return 'Personal best track record for current car';
-
-        return '';
-    } */
-
-    const isLapRecord = (currentLap: Lap) => {
-        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
-
-        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
-        
-        return fastestLapsForTrack[0]._id === currentLap._id;
+    const checkLapRecord = (currentLap: Lap) => {
+        return isLapRecord(originalLaps, currentLap);
     }
-
-    const isLapRecordForCar = (currentLap: Lap) => {
-        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
-
-        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
-
-        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
-
-        return (fastestLapsForTrack[0]._id !== currentLap._id &&
-            fastestLapsForTrackCar[0]._id === currentLap._id);
+    
+    const checkLapRecordForCar = (currentLap: Lap) => {
+        return isLapRecordForCar(originalLaps, currentLap);
     }
-
-    const isPersonalLapRecordForCar = (currentLap: Lap) => {
-        let fastestLaps = handleChangeSort('LAPTIME', [...originalLaps]);
-
-        let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
-
-        let fastestLapsForTrackCar = fastestLapsForTrack.filter((lap: Lap) => lap.car === currentLap.car);
-
-        let fastestLapsForTrackCarDriver = fastestLapsForTrackCar.filter((lap: Lap) => lap.driver === currentLap.driver);
-
-        return (fastestLapsForTrack[0]._id !== currentLap._id &&
-                fastestLapsForTrackCar[0]._id !== currentLap._id &&
-                fastestLapsForTrackCarDriver[0]._id === currentLap._id);
+    
+    const checkPersonalLapRecordForCar = (currentLap: Lap) => {
+        return isPersonalLapRecordForCar(originalLaps, currentLap);
     }
 
     const deleteLap = (id: string) => {
@@ -440,14 +402,13 @@ const LapList: React.FC = () => {
                     laps.map(lap => {
                         return (
                             <LapItem lap={lap}
-                            isLapRecord={isLapRecord}
-                            isLapRecordForCar={isLapRecordForCar}
-                            isPersonalLapRecordForCar={isPersonalLapRecordForCar}
+                            isLapRecord={checkLapRecord}
+                            isLapRecordForCar={checkLapRecordForCar}
+                            isPersonalLapRecordForCar={checkPersonalLapRecordForCar}
                             deleteLap={deleteLap}
                             key={lap._id}  
                             />
-                            )
-                            /* generateLapSplits={generateLapSplits} */ 
+                        )
                     })
                 }
                 </tbody>

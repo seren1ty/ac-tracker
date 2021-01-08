@@ -6,6 +6,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { Car, Lap, Track } from './lap-list.component';
+import { generateSplitToFasterLap, generateSplitToSlowerLap, isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
+
+let generateSplitToFasterLapActivated = false;
+let generateSplitToSlowerLapActivated = false;
+let isSlowestLap = false;
+let isFastestLap = false;
 
 const AddEditLap: React.FC = () => {
 
@@ -32,6 +38,7 @@ const AddEditLap: React.FC = () => {
         return null;
     });
 
+    const [laps, setLaps] = useState<Lap[]>([]);
     const [tracks, setTracks] = useState([]);
     const [cars, setCars] = useState([]);
 
@@ -93,6 +100,18 @@ const AddEditLap: React.FC = () => {
 
                 setGame(session.game);
 
+                axios.get('/laps/' + session.game)
+                    .then(res => {
+                        if (res.data.length > 0) {
+                            setLaps(res.data);
+                            
+                            setLoading(false);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error [Get Laps]: ' + err);
+                    });
+
                 axios.get('/tracks/' + session.game)
                     .then(res => {
                         if (res.data.length > 0) {
@@ -126,8 +145,12 @@ const AddEditLap: React.FC = () => {
                                 currentLapToEdit: location.state 
                             });
 
-                    setLoading(false);
             });
+
+            generateSplitToFasterLapActivated = false;
+            generateSplitToSlowerLapActivated = false;
+            isSlowestLap = false;
+            isFastestLap = false;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -140,14 +163,23 @@ const AddEditLap: React.FC = () => {
     }, [session?.game]);
 
     const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        generateSplitToFasterLapActivated = false;
+        generateSplitToSlowerLapActivated = false;
+
         setTrack(event.target.value);
     }
 
     const onChangeCar = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        generateSplitToFasterLapActivated = false;
+        generateSplitToSlowerLapActivated = false;
+
         setCar(event.target.value);
     }
 
     const onChangeLaptime = (event: React.ChangeEvent<HTMLInputElement>) => {
+        generateSplitToFasterLapActivated = false;
+        generateSplitToSlowerLapActivated = false;
+
         setLaptime(event.target.value);
     }
 
@@ -204,8 +236,19 @@ const AddEditLap: React.FC = () => {
 
         setSubmitClicked(true);
 
-        const lapToSave: Lap = {
-            _id: '',
+        const lapToSave = buildLap();
+
+        if (addTrackInProgress)
+            handleAddNewTrack(lapToSave);
+        else if (addCarInProgress)
+            handleAddNewCar(lapToSave);
+        else
+            handleAddOrEditLap(lapToSave);
+    }
+
+    const buildLap = (): Lap => {
+        return {
+            _id: existingLap ? existingLap._id : '',
             game: !existingLap ? session?.game : existingLap.game,
             track: !addTrackInProgress ? track : newTrackName,
             car: !addCarInProgress ? car : newCarName,
@@ -218,13 +261,6 @@ const AddEditLap: React.FC = () => {
             replay: replay,
             notes: !notes ? '' : notes.trim(),
         }
-
-        if (addTrackInProgress)
-            handleAddNewTrack(lapToSave);
-        else if (addCarInProgress)
-            handleAddNewCar(lapToSave);
-        else
-            handleAddOrEditLap(lapToSave);
     }
 
     const handleAddNewTrack = (lapToSave: Lap) => {
@@ -286,6 +322,58 @@ const AddEditLap: React.FC = () => {
         currentGameState.newLapDefaultNotes = notes;
 
         setAcTrackerGameState(session?.game, currentGameState);
+    }
+
+    const checkLapRecord = () => {
+        return isLapRecord(laps, buildLap());
+    }
+    
+    const checkLapRecordForCar = () => {
+        return isLapRecordForCar(laps, buildLap());
+    }
+    
+    const checkPersonalLapRecordForCar = () => {
+        return isPersonalLapRecordForCar(laps, buildLap());
+    }
+
+    const handleGenerateSplitToFasterLap = () => {
+        generateSplitToFasterLapActivated = true;
+
+        const split = generateSplitToFasterLap(laps, buildLap());
+
+        if (!split || split === '00:00.000') {
+            isFastestLap = true;
+            
+            return '';
+        }
+        
+        isFastestLap = false;
+
+        return split;
+    }
+
+    const handleGenerateSplitToSlowerLap = () => {
+        generateSplitToSlowerLapActivated = true;
+
+        const split = generateSplitToSlowerLap(laps, buildLap());
+
+        if (!split || split === '00:00.000') {
+            isSlowestLap = true;
+            
+            return '';
+        }
+        
+        isSlowestLap = false;
+
+        return split;
+    }
+
+    const displayExtraFeedback = () => {
+        return laptime.length === 9 && 
+               laps.length > 0 &&
+               ((checkLapRecord() || checkLapRecordForCar() || checkPersonalLapRecordForCar()) ||
+                (generateSplitToSlowerLapActivated && !isSlowestLap) ||
+                (generateSplitToFasterLapActivated && !isFastestLap))
     }
 
     if (loading)
@@ -503,16 +591,57 @@ const AddEditLap: React.FC = () => {
                         </div>
                     </form>
                 </div>
-                <div className="ae-feedback-container">
-                    {/* {
-                        existingLap ? (
-                            <h1 className="title-line-1">Changes?</h1>
-                        ) : (
-                            <h1 className="title-line-1">New Record?</h1>
-                        )
-                    } */}
-                    <h1 className="title-line-1">Hit the Track.</h1>
-                    <h1 className="title-line-2">Make History</h1>
+                <div className={"ae-feedback-container" + (displayExtraFeedback() ? " extraFeedbackIncluded" : "")}>
+                    <div className="feedback-banner">
+                        <h1 className="title-line-1">Hit the Track.</h1>
+                        <h1 className="title-line-2">Make History</h1>
+                    </div>
+                    <div className="feedback-extra">
+                    {
+                        laptime.length === 9 && laps.length > 0 &&
+                        (checkLapRecord() || checkLapRecordForCar() || checkPersonalLapRecordForCar()) &&
+                        <div>
+                        {
+                            checkLapRecord() &&
+                            <>
+                            <span className="lap-record">Track record</span><span> across all cars</span>
+                            </>
+                        }
+                        {
+                            checkLapRecordForCar() &&
+                            <>
+                            <span className="lap-record-for-car">Track record</span><span> for the {car}</span>
+                            </>
+                        }
+                        {
+                            checkPersonalLapRecordForCar() &&
+                            <>
+                            <span className="personal-lap-record-for-car">Personal best</span><span> lap for {driver} in the {car}</span>
+                            </>
+                        }
+                        </div>
+                    }
+                    { 
+                        laptime.length === 9 && laps.length > 0 && ((generateSplitToFasterLapActivated && !isFastestLap) || !generateSplitToFasterLapActivated) &&
+                        <div>
+                            <span>Keep it up! Only </span>
+                            <strong>
+                                <span dangerouslySetInnerHTML={{ __html: handleGenerateSplitToFasterLap() }}></span>
+                            </strong>
+                            <span> to reach the best lap</span>
+                        </div>
+                    }
+                    { 
+                        laptime.length === 9 && laps.length > 0 && ((generateSplitToSlowerLapActivated && !isSlowestLap) || !generateSplitToSlowerLapActivated) &&
+                        <div>
+                            <span>Congratulations! </span>
+                            <strong>
+                                <span dangerouslySetInnerHTML={{ __html: handleGenerateSplitToSlowerLap() }}></span>
+                            </strong>
+                            <span> ahead of the next best lap</span>
+                        </div>
+                    }
+                    </div>
                 </div>
             </div>
         </div>
