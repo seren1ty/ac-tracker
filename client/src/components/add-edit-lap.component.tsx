@@ -8,11 +8,6 @@ import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localS
 import { Car, Lap, Track } from './lap-list.component';
 import { generateSplitToFasterLap, generateSplitToSlowerLap, isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
 
-let generateSplitToFasterLapActivated = false;
-let generateSplitToSlowerLapActivated = false;
-let isSlowestLap = false;
-let isFastestLap = false;
-
 const AddEditLap: React.FC = () => {
 
     const history = useHistory();
@@ -84,6 +79,9 @@ const AddEditLap: React.FC = () => {
         return existingLap ? existingLap.notes : getAcTrackerGameState(session?.game).newLapDefaultNotes
     });
 
+    const [splitToFasterLap, setSplitToFasterLap] = useState<string | null>(null);
+    const [splitToSlowerLap, setSplitToSlowerLap] = useState<string | null>(null);
+
     useEffect(() => {
         setLoading(true);
 
@@ -147,11 +145,6 @@ const AddEditLap: React.FC = () => {
 
             });
 
-            generateSplitToFasterLapActivated = false;
-            generateSplitToSlowerLapActivated = false;
-            isSlowestLap = false;
-            isFastestLap = false;
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -162,24 +155,23 @@ const AddEditLap: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session?.game]);
 
-    const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        generateSplitToFasterLapActivated = false;
-        generateSplitToSlowerLapActivated = false;
+    useEffect(() => {
+        setSplitToFasterLap(handleGenerateSplitToFasterLap());   
+        setSplitToSlowerLap(handleGenerateSplitToSlowerLap());
 
+        setTrack(track);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [laps, track, car, laptime]);
+
+    const onChangeTrack = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setTrack(event.target.value);
     }
 
     const onChangeCar = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        generateSplitToFasterLapActivated = false;
-        generateSplitToSlowerLapActivated = false;
-
         setCar(event.target.value);
     }
 
     const onChangeLaptime = (event: React.ChangeEvent<HTMLInputElement>) => {
-        generateSplitToFasterLapActivated = false;
-        generateSplitToSlowerLapActivated = false;
-
         setLaptime(event.target.value);
     }
 
@@ -337,34 +329,20 @@ const AddEditLap: React.FC = () => {
     }
 
     const handleGenerateSplitToFasterLap = () => {
-        generateSplitToFasterLapActivated = true;
-
         const split = generateSplitToFasterLap(laps, buildLap());
 
-        if (!split || split === '00:00.000') {
-            isFastestLap = true;
-            
-            return '';
-        }
+        if (!split || split === '00:00.000')
+            return null;
         
-        isFastestLap = false;
-
         return split;
     }
 
     const handleGenerateSplitToSlowerLap = () => {
-        generateSplitToSlowerLapActivated = true;
-
         const split = generateSplitToSlowerLap(laps, buildLap());
 
-        if (!split || split === '00:00.000') {
-            isSlowestLap = true;
-            
-            return '';
-        }
+        if (!split || split === '00:00.000')
+            return null;
         
-        isSlowestLap = false;
-
         return split;
     }
 
@@ -372,8 +350,8 @@ const AddEditLap: React.FC = () => {
         return laptime.length === 9 && 
                laps.length > 0 &&
                ((checkLapRecord() || checkLapRecordForCar() || checkPersonalLapRecordForCar()) ||
-                (generateSplitToSlowerLapActivated && !isSlowestLap) ||
-                (generateSplitToFasterLapActivated && !isFastestLap))
+                !!splitToFasterLap ||
+                !!splitToSlowerLap)
     }
 
     if (loading)
@@ -621,26 +599,22 @@ const AddEditLap: React.FC = () => {
                         }
                         </div>
                     }
-                    {/* { 
-                        laptime.length === 9 && laps.length > 0 && ((generateSplitToFasterLapActivated && !isFastestLap) || !generateSplitToFasterLapActivated) &&
+                    { 
+                        laptime.length === 9 && laps.length > 0 && splitToFasterLap &&
                         <div>
                             <span>Keep it up! Only </span>
-                            <strong>
-                                <span dangerouslySetInnerHTML={{ __html: handleGenerateSplitToFasterLap() }}></span>
-                            </strong>
+                            <span><strong>{ splitToFasterLap }</strong></span>
                             <span> to reach the best lap</span>
                         </div>
                     }
                     { 
-                        laptime.length === 9 && laps.length > 0 && ((generateSplitToSlowerLapActivated && !isSlowestLap) || !generateSplitToSlowerLapActivated) &&
+                        laptime.length === 9 && laps.length > 0 && splitToSlowerLap &&
                         <div>
                             <span>Congratulations! </span>
-                            <strong>
-                                <span dangerouslySetInnerHTML={{ __html: handleGenerateSplitToSlowerLap() }}></span>
-                            </strong>
+                            <span><strong>{ splitToSlowerLap }</strong></span>
                             <span> ahead of the next best lap</span>
                         </div>
-                    } */}
+                    }
                     </div>
                 </div>
             </div>

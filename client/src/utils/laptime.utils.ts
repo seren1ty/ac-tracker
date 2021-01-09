@@ -62,6 +62,9 @@ export const isPersonalLapRecordForCar = (laps: Lap[], currentLap: Lap) => {
 }
 
 export const generateSplitToFasterLap = (laps: Lap[], currentLap: Lap) => {
+    if (!currentLap.laptime || currentLap.laptime.length < 9)
+        return null;
+
     let fastestLaps = sortByLaptime(laps);
   
     let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
@@ -98,13 +101,17 @@ export const generateSplitToFasterLap = (laps: Lap[], currentLap: Lap) => {
 }
 
 export const generateSplitToSlowerLap = (laps: Lap[], currentLap: Lap) => {
+    if (!currentLap.laptime || currentLap.laptime.length < 9)
+        return null;
+
     let fastestLaps = sortByLaptime(laps);
   
     let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
 
     if (fastestLapsForTrack.length === 0)
         return null;
-    else if (currentLap.laptime < fastestLapsForTrack[0].laptime) {
+    else if (currentLap._id !== fastestLapsForTrack[0]._id &&
+             currentLap.laptime < fastestLapsForTrack[0].laptime) {
         return diffToFormattedTime(lapToMillis(fastestLapsForTrack[0].laptime) - lapToMillis(currentLap.laptime));
     }
     else if ((fastestLapsForTrack[0]._id === currentLap._id ||
@@ -117,7 +124,8 @@ export const generateSplitToSlowerLap = (laps: Lap[], currentLap: Lap) => {
 
     if (fastestLapsForTrackCar.length === 0)
         return null;
-    else if (currentLap.laptime < fastestLapsForTrackCar[0].laptime) {
+    else if (currentLap._id !== fastestLapsForTrackCar[0]._id &&
+             currentLap.laptime < fastestLapsForTrackCar[0].laptime) {
         return diffToFormattedTime(lapToMillis(fastestLapsForTrackCar[0].laptime) - lapToMillis(currentLap.laptime));
     }
     else if ((fastestLapsForTrackCar[0]._id === currentLap._id ||
@@ -130,7 +138,8 @@ export const generateSplitToSlowerLap = (laps: Lap[], currentLap: Lap) => {
 
     if (fastestLapsForTrackCarDriver.length === 0)
         return null;
-    else if (currentLap.laptime < fastestLapsForTrackCarDriver[0].laptime) {
+    else if (currentLap._id !== fastestLapsForTrackCarDriver[0]._id &&
+             currentLap.laptime < fastestLapsForTrackCarDriver[0].laptime) {
         return diffToFormattedTime(lapToMillis(fastestLapsForTrackCarDriver[0].laptime) - lapToMillis(currentLap.laptime));
     }
     else if ((fastestLapsForTrackCarDriver[0]._id === currentLap._id ||
