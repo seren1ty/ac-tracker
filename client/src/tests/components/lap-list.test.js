@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import LapList from './components/lap-list.component';
+import LapList from '../../components/lap-list.component';
 
 jest.mock('axios');
 
@@ -48,7 +48,7 @@ describe('LapList', () => {
   test('renders Lap List with loading screen', () => {
     render(<LapList />);
 
-    expect(screen.getByText(/Loading your record laps.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading your lap records.../i)).toBeInTheDocument();
   });
 
 /*   test('renders page with lap list', async () => {
