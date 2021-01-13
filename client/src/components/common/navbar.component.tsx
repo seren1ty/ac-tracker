@@ -30,8 +30,6 @@ const Navbar = () => {
         if (!session)
             return;
 
-        session.setLoading(true);
-
         session.checkSession()
             .then((success) => {
                 if (!success)
@@ -44,8 +42,6 @@ const Navbar = () => {
                     .catch(err => {
                         console.error(err);
                     });
-
-                session.setLoading(false);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
