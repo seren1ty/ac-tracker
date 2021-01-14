@@ -37,7 +37,7 @@ The client will reload if you make edits.
 
 AC Tracker is a web application that stores and displays Laptimes, along with Notes and Video Replay links, for comparison between drivers. When multiple Driver's laps are shown, the current user's laps are highlighted for easy reference.
 
-![AC Tracker - Lap Records - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_lap-list_1.png)
+![AC Tracker - Lap Records - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_lap-list1.png)
 
 ***
 
