@@ -1,5 +1,5 @@
 # ac-tracker
-Assetto Corsa Laptime Tracking Application [TMERN - Typescript, MongoDB, ExpressJS, ReactJS, NodeJS]
+Sim Racing Laptime Tracking Application [TMERN - Typescript, MongoDB, ExpressJS, ReactJS, NodeJS]
 
 ***
 
