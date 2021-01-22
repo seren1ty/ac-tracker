@@ -26,7 +26,20 @@ const Navbar = () => {
         return session?.game ? session.game : 'Assetto Corsa';
     });
 
+    const [showMobile, setShowMobile] = useState(false);
+
     useEffect(() => {
+        initGames();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [session?.driver]);
+
+    useEffect(() => {
+        if (window.innerWidth < 390)
+            setShowMobile(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [window.innerWidth]);
+
+    const initGames = () => {
         if (!session)
             return;
 
@@ -43,9 +56,7 @@ const Navbar = () => {
                         console.error(err);
                     });
             });
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [session?.driver]);
+    }
 
     const onChangeGame = (gameEvent: React.ChangeEvent<HTMLSelectElement>) => {
         setGame(gameEvent.target.value);
@@ -82,7 +93,7 @@ const Navbar = () => {
                     <select className="game-select" onChange={onChangeGame} value={game}>
                     {
                         games.map((game: Game) => {
-                            return <option key={game._id} value={game.name}>{ window.innerWidth < 390 ? game.code : game.name }</option>
+                            return <option key={game._id} value={game.name}>{ showMobile ? game.code : game.name }</option>
                         })
                     }
                     </select>
