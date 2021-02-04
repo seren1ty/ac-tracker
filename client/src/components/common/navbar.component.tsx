@@ -20,7 +20,7 @@ const Navbar = () => {
 
     const session = useContext(SessionContext);
 
-    const [games, setGames] = useState([]);
+    const [games, setGames] = useState<Game[] | null>(null);
 
     const [game, setGame] = useState(() => {
         return session?.game ? session.game : 'Assetto Corsa';
@@ -92,6 +92,7 @@ const Navbar = () => {
                 <span>
                     <select className="game-select" onChange={onChangeGame} value={game}>
                     {
+                        !!games &&
                         games.map((game: Game) => {
                             return <option key={game._id} value={game.name}>{ showMobile ? game.code : game.name }</option>
                         })
