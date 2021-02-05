@@ -9,7 +9,7 @@ type LaptimeProps = {
 const Laptime = (props: LaptimeProps) => {
 
     return (
-        <span className={ 
+        <span className={
             (props.lap.isLapRecord ? "lap-record": "") +
             (props.lap.isLapRecordForCar ? "lap-record-for-car": "") +
             (props.lap.isPersonalLapRecordForCar ? "personal-lap-record-for-car": "")}>

@@ -30,7 +30,7 @@ const Navbar = () => {
 
     useEffect(() => {
         initGames();
-        
+
         // Backup check for mobile blocking initial request
         setTimeout(() => {
             if (!games)

@@ -293,11 +293,11 @@ const LapList: React.FC = () => {
     const checkLapRecord = (currentLap: Lap) => {
         return isLapRecord(originalLaps, currentLap);
     }
-    
+
     const checkLapRecordForCar = (currentLap: Lap) => {
         return isLapRecordForCar(originalLaps, currentLap);
     }
-    
+
     const checkPersonalLapRecordForCar = (currentLap: Lap) => {
         return isPersonalLapRecordForCar(originalLaps, currentLap);
     }
@@ -406,7 +406,7 @@ const LapList: React.FC = () => {
                             isLapRecordForCar={checkLapRecordForCar}
                             isPersonalLapRecordForCar={checkPersonalLapRecordForCar}
                             deleteLap={deleteLap}
-                            key={lap._id}  
+                            key={lap._id}
                             />
                         )
                     })

@@ -102,7 +102,7 @@ const AddEditLap: React.FC = () => {
                     .then(res => {
                         if (res.data.length > 0) {
                             setLaps(res.data);
-                            
+
                             setLoading(false);
                         }
                     })
@@ -138,9 +138,9 @@ const AddEditLap: React.FC = () => {
 
                     // We are currently editting a lap, NOT creating a new one
                     if (location.state && location.pathname.startsWith('/editLap'))
-                        setAcTrackerGameState(session?.game, { 
-                                ...getAcTrackerGameState(session?.game), 
-                                currentLapToEdit: location.state 
+                        setAcTrackerGameState(session?.game, {
+                                ...getAcTrackerGameState(session?.game),
+                                currentLapToEdit: location.state
                             });
 
             });
@@ -156,7 +156,7 @@ const AddEditLap: React.FC = () => {
     }, [session?.game]);
 
     useEffect(() => {
-        setSplitToFasterLap(handleGenerateSplitToFasterLap());   
+        setSplitToFasterLap(handleGenerateSplitToFasterLap());
         setSplitToSlowerLap(handleGenerateSplitToSlowerLap());
 
         setTrack(track);
@@ -319,11 +319,11 @@ const AddEditLap: React.FC = () => {
     const checkLapRecord = () => {
         return isLapRecord(laps, buildLap());
     }
-    
+
     const checkLapRecordForCar = () => {
         return isLapRecordForCar(laps, buildLap());
     }
-    
+
     const checkPersonalLapRecordForCar = () => {
         return isPersonalLapRecordForCar(laps, buildLap());
     }
@@ -333,7 +333,7 @@ const AddEditLap: React.FC = () => {
 
         if (!split || split === '00:00.000')
             return null;
-        
+
         return split;
     }
 
@@ -342,12 +342,12 @@ const AddEditLap: React.FC = () => {
 
         if (!split || split === '00:00.000')
             return null;
-        
+
         return split;
     }
 
     const displayExtraFeedback = () => {
-        return laptime.length === 9 && 
+        return laptime.length === 9 &&
                laps.length > 0 &&
                ((checkLapRecord() || checkLapRecordForCar() || checkPersonalLapRecordForCar()) ||
                 !!splitToFasterLap ||
@@ -599,7 +599,7 @@ const AddEditLap: React.FC = () => {
                         }
                         </div>
                     }
-                    { 
+                    {
                         laptime.length === 9 && laps.length > 0 && splitToFasterLap &&
                         <div>
                             <span>Keep it up! Only </span>
@@ -607,7 +607,7 @@ const AddEditLap: React.FC = () => {
                             <span> to reach the best lap</span>
                         </div>
                     }
-                    { 
+                    {
                         laptime.length === 9 && laps.length > 0 && splitToSlowerLap &&
                         <div>
                             <span>Congratulations! </span>

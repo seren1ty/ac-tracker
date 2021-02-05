@@ -33,7 +33,7 @@ const LapActions = (props: LapActionsProps) => {
                 <div>
                     <button className="btn btn-sm btn-danger pt-0 pb-0 mr-2 mb-0"
                         type="button" onClick={() => props.deleteLap(props.lap._id)}>Delete</button>
-                    <button className="cancel-delete-lap btn btn-link" 
+                    <button className="cancel-delete-lap btn btn-link"
                         onClick={onClickCancel}>Cancel</button>
                 </div>
             ) : (
@@ -41,7 +41,7 @@ const LapActions = (props: LapActionsProps) => {
                 {
                     props.sessionDriver === props.lap.driver && (
                     <span>
-                        <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2" 
+                        <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2"
                             disabled={ props.sessionDriver !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
                         <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" id="DeleteButton"
                             disabled={ props.sessionDriver !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>

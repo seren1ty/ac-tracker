@@ -44,7 +44,7 @@ describe('LapList', () => {
   beforeEach(() => {
 
   });
-  
+
   test('renders Lap List with loading screen', () => {
     render(<LapList />);
 
@@ -59,5 +59,5 @@ describe('LapList', () => {
 
     expect(await screen.findByText(/Lap Records/i)).toBeInTheDocument();
   }); */
-  
+
 });

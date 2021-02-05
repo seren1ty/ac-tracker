@@ -66,7 +66,7 @@ export const generateSplitToFasterLap = (laps: Lap[], currentLap: Lap) => {
         return null;
 
     let fastestLaps = sortByLaptime(laps);
-  
+
     let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
 
     if (fastestLapsForTrack.length === 0 ||
@@ -105,7 +105,7 @@ export const generateSplitToSlowerLap = (laps: Lap[], currentLap: Lap) => {
         return null;
 
     let fastestLaps = sortByLaptime(laps);
-  
+
     let fastestLapsForTrack = fastestLaps.filter((lap: Lap) => lap.track === currentLap.track);
 
     if (fastestLapsForTrack.length === 0)
