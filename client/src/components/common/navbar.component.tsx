@@ -30,6 +30,12 @@ const Navbar = () => {
 
     useEffect(() => {
         initGames();
+        
+        // Backup check for mobile blocking initial request
+        setTimeout(() => {
+            if (!games)
+            initGames();
+        }, 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session?.driver]);
 
