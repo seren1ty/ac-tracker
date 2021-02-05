@@ -336,7 +336,7 @@ const LapList: React.FC = () => {
                 </span>
             </div>
             <div className="lap-filter-labels pt-3 mr-0">
-                <span className=" pr-3">
+                <span className="lap-filter-md">
                     <select className="lap-filter-select" onChange={onChangeTrack} value={getAcTrackerGameState(session?.game).trackType}>
                         <option value="ALL">All Tracks</option>
                         {
@@ -346,7 +346,7 @@ const LapList: React.FC = () => {
                         }
                     </select>
                 </span>
-                <span className="pr-3 sub-item">
+                <span className="lap-filter-md sub-item">
                     <select className="lap-filter-select" onChange={onChangeCar} value={getAcTrackerGameState(session?.game).carType}>
                         <option value="ALL">All Cars</option>
                         {
@@ -356,7 +356,7 @@ const LapList: React.FC = () => {
                         }
                     </select>
                 </span>
-                <span className="pr-4">
+                <span className="lap-filter-lg">
                     <select className="lap-filter-select" onChange={onChangeDriver} value={getAcTrackerGameState(session?.game).driverType}>
                         <option value="ALL">All Drivers</option>
                         {

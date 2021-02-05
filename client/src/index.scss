@@ -39,6 +39,10 @@ body {
                 margin: 5px 10px 5px 0;
             }
         }
+        
+        .lap-filter-md {
+            margin-right: 0.5rem;
+        }
     }
 
     @media (min-width: 576px) {
@@ -48,6 +52,7 @@ body {
         .sub-item {
             display: none;
         }
+
     }
 
     @media (max-width: 767px) {
@@ -251,6 +256,14 @@ body {
 
 .lap-filter-labels > span > label {
     margin-bottom: 0px;
+}
+
+.lap-filter-md {
+    margin-right: 1rem;
+}
+
+.lap-filter-lg {
+    margin-right: 1.5rem;
 }
 
 .lap-filter-select {

@@ -34,7 +34,7 @@ const Navbar = () => {
         // Backup check for mobile blocking initial request
         setTimeout(() => {
             if (!games)
-            initGames();
+                initGames();
         }, 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session?.driver]);
