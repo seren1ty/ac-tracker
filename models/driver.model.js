@@ -17,6 +17,9 @@ const driverSchema = new Schema({
         unique: true,
         trim: true,
         minlength: 5
+    },
+    isAdmin: {
+        type: Boolean
     }
 }, {
     timestamps: true
