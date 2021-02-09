@@ -61,6 +61,10 @@ body {
                 margin: 7px 10px 5px 0;
             }
 
+            .settings-icon {
+                width: 28px;
+            }
+
             .logout-icon {
                 width: 28px;
             }
@@ -155,6 +159,10 @@ body {
 
     .banner-right {
         display: flex;
+
+        .settings-icon {
+            width: 32px;
+        }
 
         .game-select {
             line-height: 55px;

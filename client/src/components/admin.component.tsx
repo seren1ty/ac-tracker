@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const AdminComponent = () => {
+const Admin = () => {
+
+    const [dataType, setDataType] = useState('Tracks');
+
+    const onChangeDataType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setDataType(event.target.value);
+    }
 
     return (
         <React.Fragment>
@@ -8,16 +14,21 @@ const AdminComponent = () => {
                 <div className="lap-title-row">
                     <span className="lap-title">Manage Data</span>
                     <span className="lap-add-holder">
-                        {/* TODO Convert to Select box for Tracks/Cars/Drivers/Games/Groups */}
-                        <button className="add-btn btn btn-primary sub-item" type="button">Edit</button>
+                        <select className="add-btn btn btn-primary sub-item"
+                            onChange={onChangeDataType}>
+                            <option value="Tracks">Tracks</option>
+                            <option value="Cars">Cars</option>
+                            <option value="Drivers">Drivers</option>
+                            <option value="Games">Games</option>
+                        </select>
                     </span>
                 </div>
                 <div>
-                    <p>Data displayed here</p>
+                    <p>Data displayed here {dataType}</p>
                 </div>
             </div>
         </React.Fragment>
     )
 }
 
-export default AdminComponent
+export default Admin

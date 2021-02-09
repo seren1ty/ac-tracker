@@ -42,6 +42,7 @@ export type Car = {
 export type Driver = {
     _id: string;
     name: string;
+    isAdmin: boolean;
 }
 
 const LapList: React.FC = () => {

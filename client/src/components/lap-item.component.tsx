@@ -42,7 +42,7 @@ const LapItem = (props: LapItemProps) => {
     }
 
     const lapIsForCurrentDriver = () => {
-        return !!session ? session.driver === lap.driver : false;
+        return !!session ? session.driver?.name === lap.driver : false;
     }
 
     return (

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Lap } from '../lap-list.component';
+import { Driver, Lap } from '../lap-list.component';
 
 type LapActionsProps = {
-    sessionDriver: string | null | undefined;
+    sessionDriver: Driver | null | undefined;
     lap: Lap;
     deleteLap: (id: string) => void;
 }
@@ -39,12 +39,12 @@ const LapActions = (props: LapActionsProps) => {
             ) : (
                 <div>
                 {
-                    props.sessionDriver === props.lap.driver && (
+                    props.sessionDriver?.name === props.lap.driver && (
                     <span>
                         <button className="edit-btn btn btn-sm btn-primary pt-0 pr-3 pb-0 pl-3 ml-0 mr-2"
-                            disabled={ props.sessionDriver !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
+                            disabled={ props.sessionDriver?.name !== props.lap.driver } type="button" onClick={onClickEdit}>Edit</button>
                         <button className="delete-btn btn btn-sm btn-danger pt-0 pb-0" id="DeleteButton"
-                            disabled={ props.sessionDriver !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>
+                            disabled={ props.sessionDriver?.name !== props.lap.driver } type="button" onClick={onClickDelete}>Delete</button>
                     </span>
                     )
                 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
+import { Driver } from '../components/lap-list.component';
 
 type ContextProps = {
     children: React.ReactNode
@@ -10,10 +11,10 @@ type ContextProps = {
 type Session = {
     loading: boolean;
     game: string | null;
-    driver: string | null;
+    driver: Driver | null;
     setLoading: (loading: boolean) => void;
     setGame: (game: string) => void;
-    setDriver: (driver: string | null) => void;
+    setDriver: (driver: Driver | null) => void;
     checkSession: () => Promise<boolean | void>;
 }
 

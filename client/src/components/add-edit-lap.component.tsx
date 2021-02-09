@@ -57,7 +57,7 @@ const AddEditLap: React.FC = () => {
 
     const [laptime, setLaptime] = useState(() => existingLap ? existingLap.laptime : '');
 
-    const [driver] = useState(() => session ? session.driver : existingLap ? existingLap.driver : '');
+    const [driver] = useState(() => session ? session?.driver?.name : existingLap ? existingLap.driver : '');
 
     const [gearbox, setGearbox] = useState(() => {
         return existingLap ? existingLap.gearbox : getAcTrackerGameState(session?.game).newLapDefaultGearbox

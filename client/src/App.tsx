@@ -9,6 +9,7 @@ import Login from "./components/login.component";
 import LapsList from "./components/lap-list.component";
 import AddEditLap from "./components/add-edit-lap.component";
 import Navbar from './components/common/navbar.component';
+import Admin from './components/admin.component';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" exact component={LapsList} />
             <Route path="/addLap" component={AddEditLap} />
             <Route path="/editLap/:id" component={AddEditLap} />
+            <Route path="/admin" component={Admin} />
             <Route component={LapsList} />
           </Switch>
         </div>

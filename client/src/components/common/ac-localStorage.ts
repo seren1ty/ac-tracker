@@ -1,6 +1,8 @@
+import { Driver } from "../lap-list.component";
+
 export type AcTrackerState = {
     game: string | null;
-    driver: string | null;
+    driver: Driver | null;
 }
 
 export type AcTrackerGameState = {

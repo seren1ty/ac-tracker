@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
+import settingsIcon from '../../assets/settings_blue.png';
 import logoutIcon from '../../assets/logout_blue.png';
 import { SessionContext } from '../../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './ac-localStorage';
@@ -64,6 +65,10 @@ const Navbar = () => {
             });
     }
 
+    const openAdmin = () => {
+        history.push('/admin');
+    }
+
     const onChangeGame = (gameEvent: React.ChangeEvent<HTMLSelectElement>) => {
         setGame(gameEvent.target.value);
 
@@ -95,6 +100,15 @@ const Navbar = () => {
                 <Link className="nav-title" to="/">AC Tracker</Link>
             </div>
             <div className="banner-right">
+                {
+                    !!session && session?.driver?.isAdmin &&
+                    <span>
+                        <button className="nav-link nav-item btn btn-link" data-tip="Admin" data-for="admin" onClick={openAdmin}>
+                            <img className="settings-icon" src={settingsIcon} alt="admin"></img>
+                        </button>
+                        <ReactTooltip id="admin" place="left" effect="solid"/>
+                    </span>
+                }
                 <span>
                     <select className="game-select" onChange={onChangeGame} value={game}>
                     {

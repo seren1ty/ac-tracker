@@ -20,7 +20,11 @@ router.route('/google').post((req, res) => {
                             const token = driver.generateAuthToken();
 
                             res.cookie('token', token, { httpOnly: true })
-                               .json(driver.name);
+                                .json({
+                                    _id: driver._id,
+                                    name: driver.name,
+                                    isAdmin: driver.isAdmin
+                                });
                         }
                         else {
                             res.status(400).json('Error [Driver Not Setup]')
