@@ -43,6 +43,21 @@ body {
         .lap-filter-md {
             margin-right: 0.5rem;
         }
+
+        .admin-page {
+            .data-container {
+                .data-box {
+                    min-width: 150px;
+                    max-width: 150px;
+                    border: 2px solid;
+                    border-radius: 5px;
+                    border-color: grey;
+                    text-align: center;
+                    margin: 10px 20px;
+                    padding: 10px 0;
+                }
+            }
+        }
     }
 
     @media (min-width: 576px) {

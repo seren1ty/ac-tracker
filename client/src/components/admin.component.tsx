@@ -144,7 +144,7 @@ const Admin = () => {
                 <div className="admin-title-row">
                     <span className="admin-title">Manage Data</span>
                     <span className="admin-select-data">
-                        <select className="add-btn btn btn-primary sub-item" onChange={onChangeDataType}>
+                        <select className="add-btn btn btn-primary" onChange={onChangeDataType}>
                             <option value="Tracks">Tracks</option>
                             <option value="Cars">Cars</option>
                             <option value="Drivers">Drivers</option>
