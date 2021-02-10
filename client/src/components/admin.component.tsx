@@ -127,6 +127,17 @@ const Admin = () => {
         setDataType(event.target.value);
     }
 
+    const calculateTotal = () => {
+        if (dataType === 'Tracks')
+            return tracks.length;
+        else if (dataType === 'Cars')
+            return cars.length;
+        else if (dataType === 'Drivers')
+            return drivers.length;
+        else if (dataType === 'Games')
+            return games.length;
+    }
+
     return (
         <React.Fragment>
             <div className="admin-page">
@@ -140,64 +151,65 @@ const Admin = () => {
                             <option value="Games">Games</option>
                         </select>
                     </span>
+                    <span className="admin-total">Total: <strong>{calculateTotal()}</strong></span>
                 </div>
                 <div>
+                {
+                    dataType === 'Tracks' &&
+                    <div className="data-container">
                     {
-                        dataType === 'Tracks' &&
-                        <div className="data-container">
-                        {
-                            tracks?.map((track) => {
-                                return (
-                                    <div className="data-box" key={track._id}>
-                                        <span>{track.name}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                        </div>
+                        tracks?.map((track) => {
+                            return (
+                                <div className="data-box" key={track._id}>
+                                    <span>{track.name}</span>
+                                </div>
+                            )
+                        })
                     }
+                    </div>
+                }
+                {
+                    dataType === 'Cars' &&
+                    <div className="data-container">
                     {
-                        dataType === 'Cars' &&
-                        <div className="data-container">
-                        {
-                            cars?.map((car) => {
-                                return (
-                                    <div className="data-box" key={car._id}>
-                                        <span>{car.name}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                        </div>
+                        cars?.map((car) => {
+                            return (
+                                <div className="data-box" key={car._id}>
+                                    <span>{car.name}</span>
+                                </div>
+                            )
+                        })
                     }
+                    </div>
+                }
+                {
+                    dataType === 'Drivers' &&
+                    <div className="data-container">
                     {
-                        dataType === 'Drivers' &&
-                        <div className="data-container">
-                        {
-                            drivers?.map((driver) => {
-                                return (
-                                    <div className="data-box" key={driver._id}>
-                                        <span>{driver.name}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                        </div>
+                        drivers?.map((driver) => {
+                            return (
+                                <div className="data-box" key={driver._id}>
+                                    <span>{driver.name}</span>
+                                </div>
+                            )
+                        })
                     }
+                    </div>
+                }
+                {
+                    dataType === 'Games' &&
+                    <div className="data-container">
                     {
-                        dataType === 'Games' &&
-                        <div className="data-container">
-                        {
-                            games?.map((game) => {
-                                return (
-                                    <div className="data-box" key={game._id}>
-                                        <span>{game.name}</span>
-                                    </div>
-                                )
-                            })
-                        }
-                        </div>
+                        games?.map((game) => {
+                            return (
+                                <div className="data-box" key={game._id}>
+                                    <span>{game.name}</span>
+                                </div>
+                            )
+                        })
                     }
+                    </div>
+                }
                 </div>
             </div>
         </React.Fragment>
