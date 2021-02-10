@@ -45,16 +45,26 @@ body {
         }
 
         .admin-page {
+            .admin-title-row {
+                margin-bottom: 20px;
+
+                .admin-title {
+                    line-height: 30px;
+                    font-size: 1.2rem;
+                    margin-left: 5px;
+                }
+
+                .admin-select-data {
+                    margin-left: 20px;
+                }
+            }
+
             .data-container {
                 .data-box {
                     min-width: 150px;
                     max-width: 150px;
-                    border: 2px solid;
-                    border-radius: 5px;
-                    border-color: grey;
-                    text-align: center;
-                    margin: 10px 20px;
-                    padding: 10px 0;
+                    margin: 8px 8px;
+                    font-size: 0.8rem;
                 }
             }
         }
@@ -511,6 +521,7 @@ body {
 
         .admin-total {
             float: right;
+            line-height: 2rem;
             margin-right: 10px;
         }
     }
