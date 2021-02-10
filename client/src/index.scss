@@ -479,3 +479,35 @@ body {
         }
     }
 }
+
+.admin-page {
+    .admin-title-row {
+        margin-bottom: 20px;
+
+        .admin-title {
+            line-height: 30px;
+            font-size: 1.5rem;
+            margin-left: 5px;
+        }
+
+        .admin-select-data {
+            margin-left: 40px;
+        }
+    }
+
+    .data-container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .data-box {
+            min-width: 180px;
+            max-width: 180px;
+            border: 2px solid;
+            border-radius: 5px;
+            border-color: grey;
+            text-align: center;
+            margin: 10px 20px;
+            padding: 10px 0;
+        }
+    }
+}
