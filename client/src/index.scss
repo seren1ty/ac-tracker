@@ -46,12 +46,8 @@ body {
 
         .admin-page {
             .admin-title-row {
-                margin-bottom: 20px;
-
                 .admin-title {
-                    line-height: 30px;
                     font-size: 1.2rem;
-                    margin-left: 5px;
                 }
 
                 .admin-select-data {
@@ -63,7 +59,7 @@ body {
                 .data-box {
                     min-width: 150px;
                     max-width: 150px;
-                    margin: 8px 8px;
+                    margin: 6px 6px;
                     font-size: 0.8rem;
                 }
             }
