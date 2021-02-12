@@ -540,27 +540,27 @@ body {
             vertical-align: middle;
 
             .data-box-edit {
-                background:#3094ff;
+                background:#007bffe1;
                 color:white;
                 position: absolute;
-                top: 0px;
-                left: 0px;
-                width: 110px;
-                height: 45px;
-                line-height: 45px;
+                top: 2px;
+                left: 2px;
+                right: 111px;
+                bottom: 2px;
+                line-height: 40px;
                 border-top-left-radius: 3px;
                 border-bottom-left-radius: 3px;
             }
 
             .data-box-delete {
-                background:#ff5757;
+                background:#dc3546e1;
                 color:white;
                 position: absolute;
-                top: 0px;
-                left: 110px;
-                width: 66px;
-                height: 45px;
-                line-height: 45px;
+                top: 2px;
+                left: 111px;
+                right: 2px;
+                bottom: 2px;
+                line-height: 40px;
                 border-top-right-radius: 3px;
                 border-bottom-right-radius: 3px;
             }

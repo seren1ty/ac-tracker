@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import { SessionContext } from '../context/session.context';
+import AdminDataBoxes from './common/admin-data-boxes';
 import { Track, Car, Driver } from './lap-list.component';
 import { Game } from './common/navbar.component';
 
@@ -14,8 +15,6 @@ const Admin = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [drivers, setDrivers] = useState<Driver[]>([]);
     const [games, setGames] = useState<Game[]>([]);
-
-    const [hoveredId, setHoveredId] = useState("");
 
     useEffect(() => {
         if (dataType === 'Tracks')
@@ -129,12 +128,6 @@ const Admin = () => {
         setDataType(event.target.value);
     }
 
-    const onHoverBox = (itemId: string) => {
-        console.log(itemId);
-
-        setHoveredId(itemId);
-    }
-
     const calculateTotal = () => {
         if (dataType === 'Tracks')
             return tracks.length;
@@ -164,70 +157,19 @@ const Admin = () => {
                 <div>
                 {
                     dataType === 'Tracks' &&
-                    <div className="data-container">
-                    {
-                        tracks?.map((track) => {
-                            return (
-                                <div className="data-box" key={track._id}
-                                    onClick={() => onHoverBox(track._id)}
-                                    onMouseEnter={() => onHoverBox(track._id)}
-                                    onMouseLeave={() => setHoveredId("")}>
-                                {
-                                    hoveredId === track._id &&
-                                    <div className="data-box-edit">Edit</div>
-                                }
-                                    <span>{track.name}</span>
-                                {
-                                    hoveredId === track._id &&
-                                    <div className="data-box-delete">Delete</div>
-                                }
-                                </div>
-                            )
-                        })
-                    }
-                    </div>
+                    <AdminDataBoxes data={tracks} />
                 }
                 {
                     dataType === 'Cars' &&
-                    <div className="data-container">
-                    {
-                        cars?.map((car) => {
-                            return (
-                                <div className="data-box" key={car._id}>
-                                    <span>{car.name}</span>
-                                </div>
-                            )
-                        })
-                    }
-                    </div>
+                    <AdminDataBoxes data={cars} />
                 }
                 {
                     dataType === 'Drivers' &&
-                    <div className="data-container">
-                    {
-                        drivers?.map((driver) => {
-                            return (
-                                <div className="data-box" key={driver._id}>
-                                    <span>{driver.name}</span>
-                                </div>
-                            )
-                        })
-                    }
-                    </div>
+                    <AdminDataBoxes data={drivers} />
                 }
                 {
                     dataType === 'Games' &&
-                    <div className="data-container">
-                    {
-                        games?.map((game) => {
-                            return (
-                                <div className="data-box" key={game._id}>
-                                    <span>{game.name}</span>
-                                </div>
-                            )
-                        })
-                    }
-                    </div>
+                    <AdminDataBoxes data={games} />
                 }
                 </div>
             </div>
