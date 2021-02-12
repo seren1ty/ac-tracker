@@ -15,6 +15,8 @@ const Admin = () => {
     const [drivers, setDrivers] = useState<Driver[]>([]);
     const [games, setGames] = useState<Game[]>([]);
 
+    const [hoveredId, setHoveredId] = useState("");
+
     useEffect(() => {
         if (dataType === 'Tracks')
             loadTracks();
@@ -127,6 +129,12 @@ const Admin = () => {
         setDataType(event.target.value);
     }
 
+    const onHoverBox = (itemId: string) => {
+        console.log(itemId);
+
+        setHoveredId(itemId);
+    }
+
     const calculateTotal = () => {
         if (dataType === 'Tracks')
             return tracks.length;
@@ -160,8 +168,19 @@ const Admin = () => {
                     {
                         tracks?.map((track) => {
                             return (
-                                <div className="data-box" key={track._id}>
+                                <div className="data-box" key={track._id}
+                                    onClick={() => onHoverBox(track._id)}
+                                    onMouseEnter={() => onHoverBox(track._id)}
+                                    onMouseLeave={() => setHoveredId("")}>
+                                {
+                                    hoveredId === track._id &&
+                                    <div className="data-box-edit">Edit</div>
+                                }
                                     <span>{track.name}</span>
+                                {
+                                    hoveredId === track._id &&
+                                    <div className="data-box-delete">Delete</div>
+                                }
                                 </div>
                             )
                         })
