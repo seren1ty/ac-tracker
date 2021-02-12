@@ -1,25 +1,4 @@
-import { Driver } from "../lap-list.component";
-
-export type AcTrackerState = {
-    game: string | null;
-    driver: Driver | null;
-}
-
-export type AcTrackerGameState = {
-    trackType: string;
-    carType: string;
-    driverType: string;
-    sortType: string;
-
-    currentLapToEdit: any | null;
-
-    newLapDefaultTrack: string;
-    newLapDefaultCar: string;
-    newLapDefaultGearbox: string;
-    newLapDefaultTraction: string;
-    newLapDefaultStability: string;
-    newLapDefaultNotes: string;
-}
+import { AcTrackerState, AcTrackerGameState } from "../../types";
 
 export const getAcTrackerState = (): AcTrackerState => {
     const stateStr = localStorage.getItem('acTracker');

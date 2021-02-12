@@ -1,4 +1,4 @@
-import { Lap } from "../components/lap-list.component";
+import { Lap } from "../types";
 
 const sortByLaptime = (laps: Lap[]) => {
     let currentLaps = [...laps];

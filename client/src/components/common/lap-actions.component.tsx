@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Driver, Lap } from '../lap-list.component';
+import { Driver, Lap } from '../../types';
 
 type LapActionsProps = {
     sessionDriver: Driver | null | undefined;

@@ -6,44 +6,7 @@ import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
-
-export type Lap = {
-    _id: string;
-    game: string;
-    track: string;
-    car: string;
-    driver: string;
-    laptime: string;
-    gearbox: string;
-    traction: string;
-    stability: string;
-    date: Date;
-    replay: string;
-    notes: string;
-
-    isLapRecord?: boolean;
-    isLapRecordForCar?: boolean;
-    isPersonalLapRecordForCar?: boolean;
-    laptimeDetails?: string;
-}
-
-export type Track = {
-    _id: string;
-    game: string;
-    name: string;
-}
-
-export type Car = {
-    _id: string;
-    game: string;
-    name: string;
-}
-
-export type Driver = {
-    _id: string;
-    name: string;
-    isAdmin: boolean;
-}
+import { Car, Driver, Lap, Track } from '../types';
 
 const LapList: React.FC = () => {
 

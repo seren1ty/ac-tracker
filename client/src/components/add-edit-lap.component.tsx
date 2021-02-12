@@ -5,8 +5,8 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
-import { Car, Lap, Track } from './lap-list.component';
 import { generateSplitToFasterLap, generateSplitToSlowerLap, isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
+import { Car, Lap, Track } from '../types';
 
 const AddEditLap: React.FC = () => {
 

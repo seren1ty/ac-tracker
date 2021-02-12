@@ -1,11 +1,30 @@
 const router = require('express').Router();
 
 let Game = require('../models/game.model');
+let Lap = require('../models/lap.model');
 
 router.route('/').get((req, res) => {
     Game.find().collation({locale:'en', strength: 2}).sort({name: 1})
         .then(games => res.json(games))
         .catch(err => res.status(400).json('Error [Get All Games]: ' + err));
+});
+
+router.route('/lapCheck').get((req, res) => {
+    Game.find().collation({locale:'en', strength: 2}).sort({name: 1})
+        .then(games => {
+            let newGames = [];
+
+            games.forEach(game => {
+                Lap.exists({ game: game.name }, (err, result) => {
+                    game._doc.hasLaps = result;
+                    newGames.push(game);
+
+                    if (newGames.length === games.length)
+                        res.json(newGames);
+                });
+            });
+        })
+        .catch(err => res.status(400).json('Error [Get All Tracks For Game]: ' + err));
 });
 
 router.route('/:id').get((req, res) => {

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 let Car = require('../models/car.model');
+let Lap = require('../models/lap.model');
 
 router.route('/').get((req, res) => {
     Car.find().collation({locale:'en', strength: 2}).sort({name: 1})
@@ -12,6 +13,24 @@ router.route('/:game').get((req, res) => {
     Car.find({ game: req.params.game }).collation({locale:'en', strength: 2}).sort({name: 1})
         .then(cars => res.json(cars))
         .catch(err => res.status(400).json('Error [Get All Cars For Game]: ' + err));
+});
+
+router.route('/lapCheck/:game').get((req, res) => {
+    Car.find({ game: req.params.game }).collation({locale:'en', strength: 2}).sort({name: 1})
+        .then(cars => {
+            let newCars = [];
+
+            cars.forEach(car => {
+                Lap.exists({ car: car.name }, (err, result) => {
+                    car._doc.hasLaps = result;
+                    newCars.push(car);
+
+                    if (newCars.length === cars.length)
+                        res.json(newCars);
+                });
+            });
+        })
+        .catch(err => res.status(400).json('Error [Get All Tracks For Game]: ' + err));
 });
 
 router.route('/one/:id').get((req, res) => {

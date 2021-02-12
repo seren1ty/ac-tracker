@@ -6,9 +6,9 @@ import replayIcon from '../assets/replay_blue.png';
 import notesIcon from '../assets/notes_blue.png';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState } from './common/ac-localStorage';
-import { Lap } from './lap-list.component';
 import Laptime from './common/laptime.component';
 import LapActions from './common/lap-actions.component';
+import { Lap } from '../types';
 
 type LapItemProps = {
     lap: Lap;

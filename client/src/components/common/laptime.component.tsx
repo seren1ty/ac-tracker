@@ -1,6 +1,6 @@
 import React from 'react';
-import { Lap } from '../lap-list.component';
 import ReactTooltip from 'react-tooltip';
+import { Lap } from '../../types';
 
 type LaptimeProps = {
     lap: Lap;

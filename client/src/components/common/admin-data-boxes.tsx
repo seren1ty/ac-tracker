@@ -4,6 +4,7 @@ import Truncator from './truncator.component';
 type AdminBoxData = {
     _id: string;
     name: string;
+    hasLaps?: boolean;
 }
 
 type AdminDataProps = {

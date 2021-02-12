@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { getAcTrackerState, setAcTrackerState } from '../components/common/ac-localStorage';
-import { Driver } from '../components/lap-list.component';
+import { Driver } from '../types';
 
 type ContextProps = {
     children: React.ReactNode

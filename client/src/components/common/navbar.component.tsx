@@ -6,12 +6,7 @@ import settingsIcon from '../../assets/settings_blue.png';
 import logoutIcon from '../../assets/logout_blue.png';
 import { SessionContext } from '../../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './ac-localStorage';
-
-export type Game = {
-    _id: string;
-    name: string;
-    code: string;
-};
+import { Game } from '../../types';
 
 const Navbar = () => {
 

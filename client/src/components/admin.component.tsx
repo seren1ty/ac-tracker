@@ -2,8 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios';
 import { SessionContext } from '../context/session.context';
 import AdminDataBoxes from './common/admin-data-boxes';
-import { Track, Car, Driver } from './lap-list.component';
-import { Game } from './common/navbar.component';
+import { Car, Driver, Game, Track } from '../types';
 
 const Admin = () => {
 
@@ -26,7 +25,7 @@ const Admin = () => {
         else if (dataType === 'Games')
             loadGames();
     // eslint-disable-next-line
-    }, [dataType]);
+    }, [session?.game, dataType]);
 
     const loadTracks = () => {
         if (!session)
@@ -39,7 +38,7 @@ const Admin = () => {
                 if (!success)
                     return;
 
-                axios.get('/tracks/' + session.game)
+                axios.get('/tracks/lapCheck/' + session.game)
                     .then(res => {
                         setTracks(res.data);
                     })
@@ -63,7 +62,7 @@ const Admin = () => {
                 if (!success)
                     return;
 
-                axios.get('/cars/' + session.game)
+                axios.get('/cars/lapCheck/' + session.game)
                     .then(res => {
                         setCars(res.data);
                     })
@@ -87,7 +86,7 @@ const Admin = () => {
                 if (!success)
                     return;
 
-                axios.get('/drivers')
+                axios.get('/drivers/lapCheck')
                     .then(res => {
                         setDrivers(res.data);
                     })
@@ -111,7 +110,7 @@ const Admin = () => {
                 if (!success)
                     return;
 
-                axios.get('/games')
+                axios.get('/games/lapCheck')
                     .then(res => {
                         setGames(res.data);
                     })
@@ -154,6 +153,14 @@ const Admin = () => {
                     </span>
                     <span className="admin-total">Total: <strong>{calculateTotal()}</strong></span>
                 </div>
+            {
+                session?.loading &&
+                <div className="mt-2 ml-2">
+                    <strong>Loading data...</strong>
+                </div>
+            }
+            {
+                !session?.loading &&
                 <div>
                 {
                     dataType === 'Tracks' &&
@@ -172,6 +179,7 @@ const Admin = () => {
                     <AdminDataBoxes data={games} />
                 }
                 </div>
+            }
             </div>
         </React.Fragment>
     )
