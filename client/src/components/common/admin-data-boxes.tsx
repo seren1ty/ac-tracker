@@ -9,6 +9,7 @@ type AdminBoxData = {
 
 type AdminDataProps = {
     data: AdminBoxData[];
+    onUpdate: (dateItem: any) => void;
 }
 
 const AdminDataBoxes = (props: AdminDataProps) => {
@@ -21,8 +22,6 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     const onHoverBox = (itemId: string) => {
         if (showConfirm || showEdit)
             return;
-
-        console.log(itemId);
 
         setHoveredId(itemId);
     }
@@ -56,8 +55,15 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         setNewItemName(event.target.value);
     }
 
-    const onClickEditConfirm = () => {
+    const onClickEditConfirm = (dataItem: any) => {
+        const newDataItem = {...dataItem, name: newItemName};
 
+        props.onUpdate(newDataItem);
+
+        dataItem.name = newItemName;
+
+        setShowEdit(false);
+        setNewItemName('');
     }
 
     const onClickEditCancel = () => {
@@ -111,7 +117,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                                     value={newItemName}
                                     onChange={onChangeNewItemName}
                                 />
-                                <div className="data-box-edit-confirm" onClick={onClickEditConfirm}>Update</div>
+                                <div className="data-box-edit-confirm" onClick={() => onClickEditConfirm(dataItem)}>Update</div>
                                 <div className="data-box-edit-cancel" onClick={onClickEditCancel}>Cancel</div>
                             </div>
                         }
