@@ -539,6 +539,10 @@ body {
             text-align: center;
             vertical-align: middle;
 
+            &.no-laps {
+                border: 2px dashed;
+            }
+
             .data-box-edit {
                 background:#007bffe1;
                 color:white;

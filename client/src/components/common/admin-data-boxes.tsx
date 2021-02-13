@@ -69,7 +69,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         {
             props.data?.map((dataItem) => {
                 return (
-                    <div className="data-box" key={dataItem._id}
+                    <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')} key={dataItem._id}
                         onClick={() => onHoverBox(dataItem._id)}
                         onMouseEnter={() => onHoverBox(dataItem._id)}
                         onMouseLeave={onLeaveBox}>
@@ -87,7 +87,10 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                                 !showConfirm &&
                                 <div>
                                     <div className="data-box-edit" onClick={() => onClickEdit(dataItem)}>Edit</div>
-                                    <div className="data-box-delete" onClick={onClickDelete}>Delete</div>
+                                    {
+                                        !dataItem.hasLaps &&
+                                        <div className="data-box-delete" onClick={onClickDelete}>Delete</div>
+                                    }
                                 </div>
                             }
                             {

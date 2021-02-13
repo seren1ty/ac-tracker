@@ -10,7 +10,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/lapCheck').get((req, res) => {
-    Driver.find().collation({locale:'en', strength: 2}).sort({name: 1})
+    Driver.find().collation({locale:'en', strength: 2})
         .then(drivers => {
             let newDrivers = [];
 
@@ -19,8 +19,13 @@ router.route('/lapCheck').get((req, res) => {
                     driver._doc.hasLaps = result;
                     newDrivers.push(driver);
 
-                    if (newDrivers.length === drivers.length)
+                    if (newDrivers.length === drivers.length) {
+                        newDrivers.sort((a,b) => {
+                            return (a._doc.name > b._doc.name) ? 1 : ((b._doc.name > a._doc.name) ? -1 : 0);
+                        });
+
                         res.json(newDrivers);
+                    }
                 });
             });
         })

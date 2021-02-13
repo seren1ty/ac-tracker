@@ -16,7 +16,7 @@ router.route('/:game').get((req, res) => {
 });
 
 router.route('/lapCheck/:game').get((req, res) => {
-    Track.find({ game: req.params.game }).collation({locale:'en', strength: 2}).sort({name: 1})
+    Track.find({ game: req.params.game }).collation({locale:'en', strength: 2})
         .then(tracks => {
             let newTracks = [];
 
@@ -25,8 +25,13 @@ router.route('/lapCheck/:game').get((req, res) => {
                     track._doc.hasLaps = result;
                     newTracks.push(track);
 
-                    if (newTracks.length === tracks.length)
+                    if (newTracks.length === tracks.length) {
+                        newTracks.sort((a,b) => {
+                            return (a._doc.name > b._doc.name) ? 1 : ((b._doc.name > a._doc.name) ? -1 : 0);
+                        });
+
                         res.json(newTracks);
+                    }
                 });
             });
         })

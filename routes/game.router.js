@@ -10,7 +10,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/lapCheck').get((req, res) => {
-    Game.find().collation({locale:'en', strength: 2}).sort({name: 1})
+    Game.find().collation({locale:'en', strength: 2})
         .then(games => {
             let newGames = [];
 
@@ -19,8 +19,13 @@ router.route('/lapCheck').get((req, res) => {
                     game._doc.hasLaps = result;
                     newGames.push(game);
 
-                    if (newGames.length === games.length)
+                    if (newGames.length === games.length) {
+                        newGames.sort((a,b) => {
+                            return (a._doc.name > b._doc.name) ? 1 : ((b._doc.name > a._doc.name) ? -1 : 0);
+                        });
+
                         res.json(newGames);
+                    }
                 });
             });
         })
