@@ -10,6 +10,7 @@ type AdminBoxData = {
 type AdminDataProps = {
     data: AdminBoxData[];
     onUpdate: (dateItem: any) => void;
+    onDelete: (dataItem: any, index: number) => void;
 }
 
 const AdminDataBoxes = (props: AdminDataProps) => {
@@ -30,15 +31,20 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         if (showConfirm || showEdit)
             return;
 
-        setHoveredId("");
+        setHoveredId('');
     }
 
     const onClickDelete = () => {
         setShowConfirm(true);
     }
 
-    const onClickDeleteConfirm = () => {
+    const onClickDeleteConfirm = (dataItem: any, index: number) => {
+        props.onDelete(dataItem, index);
 
+        props.data.splice(index, 1);
+
+        setShowConfirm(false);
+        setHoveredId('');
     }
 
     const onClickDeleteCancel = () => {
@@ -64,6 +70,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
 
         setShowEdit(false);
         setNewItemName('');
+        setHoveredId('');
     }
 
     const onClickEditCancel = () => {
@@ -73,7 +80,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     return (
         <div className="data-container">
         {
-            props.data?.map((dataItem) => {
+            props.data?.map((dataItem, index) => {
                 return (
                     <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')} key={dataItem._id}
                         onClick={() => onHoverBox(dataItem._id)}
@@ -102,7 +109,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                             {
                                 showConfirm &&
                                 <div>
-                                    <div className="data-box-delete-confirm" onClick={onClickDeleteConfirm}>Delete</div>
+                                    <div className="data-box-delete-confirm" onClick={() => onClickDeleteConfirm(dataItem, index)}>Delete</div>
                                     <div className="data-box-delete-cancel" onClick={onClickDeleteCancel}>Cancel</div>
                                 </div>
                             }

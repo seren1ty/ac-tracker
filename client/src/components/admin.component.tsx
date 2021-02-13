@@ -154,6 +154,22 @@ const Admin = () => {
         console.log(newGame);
     }
 
+    const deleteTrack = (track: Track, index: number) => {
+        console.log(track);
+    }
+
+    const deleteCar = (car: Car, index: number) => {
+        console.log(car);
+    }
+
+    const deleteDriver = (driver: Driver, index: number) => {
+        console.log(driver);
+    }
+
+    const deleteGame = (game: Game, index: number) => {
+        console.log(game);
+    }
+
     return (
         <React.Fragment>
             <div className="admin-page">
@@ -180,19 +196,19 @@ const Admin = () => {
                 <div>
                 {
                     dataType === 'Tracks' &&
-                    <AdminDataBoxes data={tracks} onUpdate={updateTrack} />
+                    <AdminDataBoxes data={tracks} onUpdate={updateTrack} onDelete={deleteTrack} />
                 }
                 {
                     dataType === 'Cars' &&
-                    <AdminDataBoxes data={cars} onUpdate={updateCar} />
+                    <AdminDataBoxes data={cars} onUpdate={updateCar} onDelete={deleteCar} />
                 }
                 {
                     dataType === 'Drivers' &&
-                    <AdminDataBoxes data={drivers} onUpdate={updateDriver} />
+                    <AdminDataBoxes data={drivers} onUpdate={updateDriver} onDelete={deleteDriver} />
                 }
                 {
                     dataType === 'Games' &&
-                    <AdminDataBoxes data={games} onUpdate={updateGame} />
+                    <AdminDataBoxes data={games} onUpdate={updateGame} onDelete={deleteGame} />
                 }
                 </div>
             }
