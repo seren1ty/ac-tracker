@@ -155,18 +155,43 @@ const Admin = () => {
     }
 
     const deleteTrack = (track: Track, index: number) => {
-        console.log(track);
+        if (track.hasLaps)
+            return;
+
+        session?.setLoading(true);
+
+        axios.delete('/tracks/delete/' + track._id)
+            .then(res => {
+                const updatedTracks = tracks.filter((track: Track) => track._id !== res.data._id)
+
+                setTracks(updatedTracks);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+            .finally(() => {
+                session?.setLoading(false)
+            });
     }
 
     const deleteCar = (car: Car, index: number) => {
+        if (car.hasLaps)
+            return;
+
         console.log(car);
     }
 
     const deleteDriver = (driver: Driver, index: number) => {
+        if (driver.hasLaps)
+            return;
+
         console.log(driver);
     }
 
     const deleteGame = (game: Game, index: number) => {
+        if (game.hasLaps)
+            return;
+
         console.log(game);
     }
 
