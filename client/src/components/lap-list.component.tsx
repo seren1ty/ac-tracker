@@ -296,7 +296,7 @@ const LapList: React.FC = () => {
             <div className="lap-title-row">
                 <span className="lap-title">Lap Records</span>
                 <span className="lap-add-holder">
-                    <button className="add-btn btn btn-primary sub-item" type="button" onClick={onClickAdd}>Add New Lap</button>
+                    <button className="add-lap-btn btn btn-primary sub-item" type="button" onClick={onClickAdd}>Add New Lap</button>
                 </span>
             </div>
             <div className="lap-filter-labels pt-3 mr-0">

@@ -9,6 +9,12 @@ const gameSchema = new Schema({
         unique: true,
         trim: true,
         minlength: 2
+    },
+    code: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
     }
 }, {
     timestamps: true

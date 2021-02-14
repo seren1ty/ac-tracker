@@ -40,8 +40,9 @@ router.route('/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const name = req.body.name;
+    const code = req.body.code;
 
-    const newGame = new Game({ name });
+    const newGame = new Game({ name, code });
 
     newGame.save()
         .then(game => res.json(game))

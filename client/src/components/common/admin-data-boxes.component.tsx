@@ -18,7 +18,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     const [hoveredId, setHoveredId] = useState('');
     const [showConfirm, setShowConfirm] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
-    const [newItemName, setNewItemName] = useState('');
+    const [editItemName, setEditItemName] = useState('');
 
     const onHoverBox = (itemId: string) => {
         if (showConfirm || showEdit)
@@ -52,24 +52,24 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     }
 
     const onClickEdit = (dataItem: AdminBoxData) => {
-        setNewItemName(dataItem.name);
+        setEditItemName(dataItem.name);
 
         setShowEdit(true);
     }
 
-    const onChangeNewItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewItemName(event.target.value);
+    const onChangeEditItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEditItemName(event.target.value);
     }
 
     const onClickEditConfirm = (dataItem: any) => {
-        const newDataItem = {...dataItem, name: newItemName};
+        const newDataItem = {...dataItem, name: editItemName};
 
         props.onUpdate(newDataItem);
 
-        dataItem.name = newItemName;
+        dataItem.name = editItemName;
 
         setShowEdit(false);
-        setNewItemName('');
+        setEditItemName('');
         setHoveredId('');
     }
 
@@ -78,7 +78,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     }
 
     return (
-        <div className="data-container">
+        <React.Fragment>
         {
             props.data?.map((dataItem, index) => {
                 return (
@@ -121,8 +121,8 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                             <div>
                                 <input className="data-box-edit-input"
                                     type="text"
-                                    value={newItemName}
-                                    onChange={onChangeNewItemName}
+                                    value={editItemName}
+                                    onChange={onChangeEditItemName}
                                 />
                                 <div className="data-box-edit-confirm" onClick={() => onClickEditConfirm(dataItem)}>Update</div>
                                 <div className="data-box-edit-cancel" onClick={onClickEditCancel}>Cancel</div>
@@ -134,7 +134,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                 )
             })
         }
-        </div>
+        </React.Fragment>
     );
 }
 
