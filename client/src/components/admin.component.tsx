@@ -178,21 +178,60 @@ const Admin = () => {
         if (car.hasLaps)
             return;
 
-        console.log(car);
+        session?.setLoading(true);
+
+        axios.delete('/cars/delete/' + car._id)
+            .then(res => {
+                const updatedCars = cars.filter((car: Car) => car._id !== res.data._id)
+
+                setCars(updatedCars);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+            .finally(() => {
+                session?.setLoading(false)
+            });
     }
 
     const deleteDriver = (driver: Driver, index: number) => {
         if (driver.hasLaps)
             return;
 
-        console.log(driver);
+        session?.setLoading(true);
+
+        axios.delete('/drivers/delete/' + driver._id)
+            .then(res => {
+                const updatedDrivers = drivers.filter((driver: Driver) => driver._id !== res.data._id)
+
+                setDrivers(updatedDrivers);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+            .finally(() => {
+                session?.setLoading(false)
+            });
     }
 
     const deleteGame = (game: Game, index: number) => {
         if (game.hasLaps)
             return;
 
-        console.log(game);
+        session?.setLoading(true);
+
+        axios.delete('/games/delete/' + game._id)
+            .then(res => {
+                const updatedGames = games.filter((game: Game) => game._id !== res.data._id)
+
+                setGames(updatedGames);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+            .finally(() => {
+                session?.setLoading(false)
+            });
     }
 
     return (
