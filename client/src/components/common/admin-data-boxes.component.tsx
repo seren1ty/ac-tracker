@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Truncator from './truncator.component';
+import ReactTooltip from 'react-tooltip';
 
 type AdminBoxData = {
     _id: string;
@@ -82,10 +83,12 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         {
             props.data?.map((dataItem, index) => {
                 return (
+                    <>
                     <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')} key={dataItem._id}
                         onClick={() => onHoverBox(dataItem._id)}
                         onMouseEnter={() => onHoverBox(dataItem._id)}
-                        onMouseLeave={onLeaveBox}>
+                        onMouseLeave={onLeaveBox}
+                        data-tip data-for={"dataItem_" + dataItem._id}>
                     {
                         (!showEdit || (showEdit && hoveredId !== dataItem._id)) &&
                         <Truncator id={"track_" + dataItem._id} value={dataItem.name} max={19}/>
@@ -131,6 +134,13 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                         </div>
                     }
                     </div>
+                    {
+                        !dataItem.hasLaps && hoveredId === dataItem._id &&
+                        <ReactTooltip id={"dataItem_" + dataItem._id} place="left" effect="solid">
+                            <span>Has no laps</span>
+                        </ReactTooltip>
+                    }
+                    </>
                 )
             })
         }
