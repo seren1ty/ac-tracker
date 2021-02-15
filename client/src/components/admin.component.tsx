@@ -129,6 +129,8 @@ const Admin = () => {
 
     const onChangeDataType = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setDataType(event.target.value);
+
+        setShowAdd(false);
     }
 
     const calculateTotal = () => {
