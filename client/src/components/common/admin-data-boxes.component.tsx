@@ -52,11 +52,11 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         setShowConfirm(false);
     }
 
-    const onClickEdit = (dataItem: AdminBoxData) => {
+    /* const onClickEdit = (dataItem: AdminBoxData) => {
         setEditItemName(dataItem.name);
 
         setShowEdit(true);
-    }
+    } */
 
     const onChangeEditItemName = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditItemName(event.target.value);
@@ -102,7 +102,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                             {
                                 !showConfirm &&
                                 <div>
-                                    <div className="data-box-edit" onClick={() => onClickEdit(dataItem)}>Edit</div>
+                                    {/* <div className="data-box-edit" onClick={() => onClickEdit(dataItem)}>Edit</div> */}
                                     {
                                         !dataItem.hasLaps &&
                                         <div className="data-box-delete" onClick={onClickDelete}>Delete</div>
