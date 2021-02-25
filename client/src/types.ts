@@ -39,6 +39,12 @@ export type Lap = {
     laptimeDetails?: string;
 }
 
+export type HoveredLap = {
+    _id: string;
+    type: string;
+    data: string;
+}
+
 export type Track = {
     _id: string;
     game: string;

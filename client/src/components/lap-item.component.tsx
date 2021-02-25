@@ -8,19 +8,22 @@ import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState } from './common/ac-localStorage';
 import Laptime from './common/laptime.component';
 import LapActions from './common/lap-actions.component';
-import { Lap } from '../types';
+import { HoveredLap, Lap } from '../types';
 
 type LapItemProps = {
     lap: Lap;
+    hoveredLap: HoveredLap | null;
     isLapRecord: (currentLap: Lap) => boolean;
     isLapRecordForCar: (currentLap: Lap) => boolean;
     isPersonalLapRecordForCar: (currentLap: Lap) => boolean;
     deleteLap: (_id: string) => void;
+    onHover: (hoveredLapData: HoveredLap | null) => void;
 }
 
 const LapItem = (props: LapItemProps) => {
 
     const [lap, setLap] = useState<Lap>(props.lap);
+    const [isLapHovered, setIsLapHovered] = useState<boolean>(false);
 
     useEffect(() => {
         lap.isLapRecord = props.isLapRecord(lap);
@@ -30,6 +33,11 @@ const LapItem = (props: LapItemProps) => {
         setLap({...lap});
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        setIsLapHovered(!!props.hoveredLap);
+    // eslint-disable-next-line
+    }, [props.hoveredLap]);
 
     const session = useContext(SessionContext);
 
@@ -45,13 +53,27 @@ const LapItem = (props: LapItemProps) => {
         return !!session ? session.driver?.name === lap.driver : false;
     }
 
+    const isLapDataHovered = (type: string, data: string) => {
+        return isLapHovered &&
+            props.hoveredLap?.type === type &&
+            props.hoveredLap?.data === data;
+    }
+
     return (
         <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )}>
             <td>
-                <Truncator id={"track_" + lap._id} value={lap.track} max={20}/>
+                <span className={ isLapDataHovered('Track', lap.track) ? 'text-strong' : '' }
+                    onMouseEnter={() => props.onHover({ _id: lap._id, type: 'Track', data: lap.track })}
+                    onMouseLeave={() => props.onHover(null)}>
+                    <Truncator id={"track_" + lap._id} value={lap.track} max={20}/>
+                </span>
             </td>
             <td className="lap-car-cell">
-                <Truncator id={"car_" + lap._id} value={lap.car} max={25}/>
+                <span className={ isLapDataHovered('Car', lap.car) ? 'text-strong' : '' }
+                    onMouseEnter={() => props.onHover({ _id: lap._id, type: 'Car', data: lap.car })}
+                    onMouseLeave={() => props.onHover(null)}>
+                    <Truncator id={"car_" + lap._id} value={lap.car} max={25}/>
+                </span>
             </td>
             <td className="lap-replay-cell">
             {

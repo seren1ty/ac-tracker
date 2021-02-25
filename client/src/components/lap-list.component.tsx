@@ -6,7 +6,7 @@ import LapItem from './lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
-import { Car, Driver, Lap, Track } from '../types';
+import { Car, Driver, HoveredLap, Lap, Track } from '../types';
 
 const LapList: React.FC = () => {
 
@@ -18,6 +18,8 @@ const LapList: React.FC = () => {
     const [tracks, setTracks] = useState<Track[]>([]);
     const [cars, setCars] = useState<Car[]>([]);
     const [drivers, setDrivers] = useState<Driver[]>([]);
+
+    const [hoveredLap, setHoveredLap] = useState<HoveredLap | null>(null);
 
     const history = useHistory();
 
@@ -280,6 +282,10 @@ const LapList: React.FC = () => {
             });
     }
 
+    const onHoverLap = (hoveredLap: HoveredLap | null) => {
+        setHoveredLap(hoveredLap);
+    }
+
     if (!session || session.loading) {
         return (
             <React.Fragment>
@@ -366,11 +372,13 @@ const LapList: React.FC = () => {
                     laps.map(lap => {
                         return (
                             <LapItem lap={lap}
-                            isLapRecord={checkLapRecord}
-                            isLapRecordForCar={checkLapRecordForCar}
-                            isPersonalLapRecordForCar={checkPersonalLapRecordForCar}
-                            deleteLap={deleteLap}
-                            key={lap._id}
+                                isLapRecord={checkLapRecord}
+                                isLapRecordForCar={checkLapRecordForCar}
+                                isPersonalLapRecordForCar={checkPersonalLapRecordForCar}
+                                deleteLap={deleteLap}
+                                key={lap._id}
+                                onHover={onHoverLap}
+                                hoveredLap={hoveredLap}
                             />
                         )
                     })
