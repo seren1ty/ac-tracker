@@ -298,7 +298,7 @@ const LapList: React.FC = () => {
 
     return (
         <React.Fragment>
-        <div>
+        <div className="lap-list-page">
             <div className="lap-title-row">
                 <span className="lap-title">Lap Records</span>
                 <span className="lap-add-holder">
