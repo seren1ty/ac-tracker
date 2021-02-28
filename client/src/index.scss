@@ -205,6 +205,11 @@ body {
 
         .settings-icon {
             width: 32px;
+            transition: 0.5s;
+
+            &:hover {
+                transform: rotate(30deg);
+            }
         }
 
         .game-select {
@@ -638,8 +643,17 @@ body {
                 }
             }
 
+            @mixin animate-btn-hover {
+                opacity: 0.88;
+                transition: 0.3s;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+
             .data-box-edit {
-                background:#007bffe1;
+                background:#007bff;
                 color:white;
                 position: absolute;
                 top: 2px;
@@ -650,10 +664,11 @@ body {
                 border-top-left-radius: 3px;
                 border-bottom-left-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
 
             .data-box-delete {
-                background:#dc3546e1;
+                background:#dc3546;
                 color:white;
                 position: absolute;
                 top: 2px;
@@ -664,10 +679,11 @@ body {
                 border-top-right-radius: 3px;
                 border-bottom-right-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
 
             .data-box-delete-confirm {
-                background:#dc3546e1;
+                background:#dc3546;
                 color:white;
                 position: absolute;
                 top: 2px;
@@ -678,10 +694,11 @@ body {
                 border-top-left-radius: 3px;
                 border-bottom-left-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
 
             .data-box-delete-cancel {
-                background:#83a0c0e1;
+                background:#83a0c0;
                 color:white;
                 position: absolute;
                 top: 2px;
@@ -692,6 +709,7 @@ body {
                 border-top-right-radius: 3px;
                 border-bottom-right-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
 
             .data-box-edit-input {
@@ -708,7 +726,7 @@ body {
             }
 
             .data-box-edit-confirm {
-                background:#007bffe1;
+                background:#007bff;
                 color:white;
                 position: absolute;
                 top: 23px;
@@ -718,10 +736,11 @@ body {
                 line-height: 20px;
                 border-bottom-left-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
 
             .data-box-edit-cancel {
-                background:#83a0c0e1;
+                background:#83a0c0;
                 color:white;
                 position: absolute;
                 top: 23px;
@@ -731,6 +750,7 @@ body {
                 line-height: 20px;
                 border-bottom-right-radius: 3px;
                 cursor: pointer;
+                @include animate-btn-hover;
             }
         }
     }
