@@ -283,7 +283,7 @@ const Admin = () => {
 
         axios.delete('/tracks/delete/' + track._id)
             .then(res => {
-                const updatedTracks = tracks.filter((track: Track) => track._id !== res.data._id)
+                const updatedTracks = tracks.filter((currTrack: Track) => currTrack._id !== res.data._id)
 
                 setTracks(updatedTracks);
             })
@@ -303,7 +303,7 @@ const Admin = () => {
 
         axios.delete('/cars/delete/' + car._id)
             .then(res => {
-                const updatedCars = cars.filter((car: Car) => car._id !== res.data._id)
+                const updatedCars = cars.filter((currCar: Car) => currCar._id !== res.data._id)
 
                 setCars(updatedCars);
             })
@@ -323,7 +323,7 @@ const Admin = () => {
 
         axios.delete('/drivers/delete/' + driver._id)
             .then(res => {
-                const updatedDrivers = drivers.filter((driver: Driver) => driver._id !== res.data._id)
+                const updatedDrivers = drivers.filter((currDriver: Driver) => currDriver._id !== res.data._id)
 
                 setDrivers(updatedDrivers);
             })
@@ -343,7 +343,7 @@ const Admin = () => {
 
         axios.delete('/games/delete/' + game._id)
             .then(res => {
-                const updatedGames = games.filter((game: Game) => game._id !== res.data._id)
+                const updatedGames = games.filter((currGame: Game) => currGame._id !== res.data._id)
 
                 setGames(updatedGames);
             })
