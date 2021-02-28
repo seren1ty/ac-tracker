@@ -40,8 +40,10 @@ router.route('/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const name = req.body.name;
+    const email = req.body.email;
+    const isAdmin = req.body.isAdmin;
 
-    const newDriver = new Driver({ name });
+    const newDriver = new Driver({ name, email, isAdmin });
 
     newDriver.save()
         .then(driver => res.json(driver))

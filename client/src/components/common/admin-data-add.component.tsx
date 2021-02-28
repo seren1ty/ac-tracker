@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 type AdminDataAddProps = {
-    showAdd: boolean;
     onSave: (name: string) => void;
     onCancel: () => void;
 }
@@ -26,8 +25,6 @@ const AdminDataAdd = (props: AdminDataAddProps) => {
 
     return (
         <React.Fragment>
-        {
-            props.showAdd &&
             <div className="data-box add">
                 <input className="data-box-edit-input"
                     type="text"
@@ -38,7 +35,6 @@ const AdminDataAdd = (props: AdminDataAddProps) => {
                 <div className="data-box-edit-confirm" onClick={onClickAddConfirm}>Save</div>
                 <div className="data-box-edit-cancel" onClick={onClickAddCancel}>Cancel</div>
             </div>
-        }
         </React.Fragment>
     );
 }

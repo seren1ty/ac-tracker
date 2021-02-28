@@ -83,64 +83,65 @@ const AdminDataBoxes = (props: AdminDataProps) => {
         {
             props.data?.map((dataItem, index) => {
                 return (
-                    <>
-                    <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')} key={dataItem._id}
-                        onClick={() => onHoverBox(dataItem._id)}
-                        onMouseEnter={() => onHoverBox(dataItem._id)}
-                        onMouseLeave={onLeaveBox}
-                        data-tip data-for={"dataItem_" + dataItem._id}>
-                    {
-                        (!showEdit || (showEdit && hoveredId !== dataItem._id)) &&
-                        <Truncator id={"track_" + dataItem._id} value={dataItem.name} max={19}/>
-                    }
-                    {
-                        hoveredId === dataItem._id &&
-                        <div>
-                        {
-                            !showEdit &&
-                            <div>
-                            {
-                                !showConfirm &&
-                                <div>
-                                    {/* <div className="data-box-edit" onClick={() => onClickEdit(dataItem)}>Edit</div> */}
-                                    {
-                                        !dataItem.hasLaps &&
-                                        <div className="data-box-delete" onClick={onClickDelete}>Delete</div>
-                                    }
-                                </div>
-                            }
-                            {
-                                showConfirm &&
-                                <div>
-                                    <div className="data-box-delete-confirm" onClick={() => onClickDeleteConfirm(dataItem, index)}>Delete</div>
-                                    <div className="data-box-delete-cancel" onClick={onClickDeleteCancel}>Cancel</div>
-                                </div>
-                            }
-                            </div>
-                        }
+                    <div key={dataItem._id}>
 
+                        <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')}
+                            onClick={() => onHoverBox(dataItem._id)}
+                            onMouseEnter={() => onHoverBox(dataItem._id)}
+                            onMouseLeave={onLeaveBox}
+                            data-tip data-for={"dataItem_" + dataItem._id}>
                         {
-                            showEdit &&
+                            (!showEdit || (showEdit && hoveredId !== dataItem._id)) &&
+                            <Truncator id={"track_" + dataItem._id} value={dataItem.name} max={19}/>
+                        }
+                        {
+                            hoveredId === dataItem._id &&
                             <div>
-                                <input className="data-box-edit-input"
-                                    type="text"
-                                    value={editItemName}
-                                    onChange={onChangeEditItemName}
-                                />
-                                <div className="data-box-edit-confirm" onClick={() => onClickEditConfirm(dataItem)}>Update</div>
-                                <div className="data-box-edit-cancel" onClick={onClickEditCancel}>Cancel</div>
+                            {
+                                !showEdit &&
+                                <div>
+                                {
+                                    !showConfirm &&
+                                    <div>
+                                        {/* <div className="data-box-edit" onClick={() => onClickEdit(dataItem)}>Edit</div> */}
+                                        {
+                                            !dataItem.hasLaps &&
+                                            <div className="data-box-delete" onClick={onClickDelete}>Delete</div>
+                                        }
+                                    </div>
+                                }
+                                {
+                                    showConfirm &&
+                                    <div>
+                                        <div className="data-box-delete-confirm" onClick={() => onClickDeleteConfirm(dataItem, index)}>Delete</div>
+                                        <div className="data-box-delete-cancel" onClick={onClickDeleteCancel}>Cancel</div>
+                                    </div>
+                                }
+                                </div>
+                            }
+
+                            {
+                                showEdit &&
+                                <div>
+                                    <input className="data-box-edit-input"
+                                        type="text"
+                                        value={editItemName}
+                                        onChange={onChangeEditItemName}
+                                    />
+                                    <div className="data-box-edit-confirm" onClick={() => onClickEditConfirm(dataItem)}>Update</div>
+                                    <div className="data-box-edit-cancel" onClick={onClickEditCancel}>Cancel</div>
+                                </div>
+                            }
                             </div>
                         }
                         </div>
-                    }
-                    </div>
                     {
                         !dataItem.hasLaps && hoveredId === dataItem._id &&
                         <ReactTooltip id={"dataItem_" + dataItem._id} place="left" effect="solid">
                             <span>Has no laps</span>
                         </ReactTooltip>
                     }
-                    </>
+                    </div>
                 )
             })
         }

@@ -63,7 +63,14 @@ export type Driver = {
     _id: string;
     name: string;
     isAdmin: boolean;
+    email?: string;
     hasLaps?: boolean;
+}
+
+export type NewDriver = {
+    name: string;
+    email: string;
+    isAdmin?: boolean;
 }
 
 export type Game = {

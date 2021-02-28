@@ -4,8 +4,9 @@ import ReactTooltip from 'react-tooltip';
 import addIcon from '../assets/add_blue.png';
 import { SessionContext } from '../context/session.context';
 import AdminDataAdd from './common/admin-data-add.component';
+import AdminDataAddDriver from './common/admin-data-add-driver.component';
 import AdminDataBoxes from './common/admin-data-boxes.component';
-import { Car, Driver, Game, Track } from '../types';
+import { Car, Driver, Game, NewDriver, Track } from '../types';
 
 const Admin = () => {
 
@@ -191,26 +192,6 @@ const Admin = () => {
 
             setCars(newCars);
         }
-        else if (dataType === 'Drivers') {
-            const result = await performAdd('driver', { name: newName });
-
-            if (!result)
-                return;
-
-            const newDrivers = [...drivers,
-                {
-                    _id: result._id,
-                    name: result.name,
-                    isAdmin: false
-                }
-            ];
-
-            newDrivers.sort((a,b) => {
-                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
-            });
-
-            setDrivers(newDrivers);
-        }
         else if (dataType === 'Games') {
             const newCode = determineGameCode(newName)
 
@@ -232,6 +213,34 @@ const Admin = () => {
             });
 
             setGames(newGames);
+        }
+    }
+
+    const handleAddDriver = async (newDriver: NewDriver) => {
+        console.log(newDriver);
+
+        if (dataType === 'Drivers') {
+            const result = await performAdd('driver', {
+                name: newDriver.name,
+                email: newDriver.email
+             });
+
+            if (!result)
+                return;
+
+            const newDrivers = [...drivers,
+                {
+                    _id: result._id,
+                    name: result.name,
+                    isAdmin: false
+                }
+            ];
+
+            newDrivers.sort((a,b) => {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            });
+
+            setDrivers(newDrivers);
         }
     }
 
@@ -389,8 +398,12 @@ const Admin = () => {
                 !session?.loading &&
                 <div className="data-container">
                 {
-                    !!showAdd &&
-                    <AdminDataAdd showAdd={showAdd} onSave={handleAdd} onCancel={cancelAdd} />
+                    !!showAdd && dataType !== 'Drivers' &&
+                    <AdminDataAdd onSave={handleAdd} onCancel={cancelAdd} />
+                }
+                {
+                    !!showAdd && dataType === 'Drivers' &&
+                    <AdminDataAddDriver onSave={handleAddDriver} onCancel={cancelAdd} />
                 }
                 {
                     dataType === 'Tracks' &&
