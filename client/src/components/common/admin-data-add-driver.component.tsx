@@ -48,8 +48,8 @@ const AdminDataAddDriver = (props: AdminDataAddDriverProps) => {
                     onChange={onChangeEmail}
                     placeholder="Email"
                 />
-                <div className="data-box-edit-confirm" onClick={onClickAddConfirm}>Save</div>
-                <div className="data-box-edit-cancel" onClick={onClickAddCancel}>Cancel</div>
+                <div className="data-box-edit-confirm" id="SaveButton" onClick={onClickAddConfirm}>Save</div>
+                <div className="data-box-edit-cancel" id="CancelButton" onClick={onClickAddCancel}>Cancel</div>
             </div>
         </React.Fragment>
     );
