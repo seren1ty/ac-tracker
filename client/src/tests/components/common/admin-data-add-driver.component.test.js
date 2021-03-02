@@ -7,7 +7,7 @@ import AdminDataAddDriver from '../../../components/common/admin-data-add-driver
 
 describe('AdminDataAddDriver', () => {
 
-    let expectedProps: any;
+    let expectedProps;
 
     beforeEach(() => {
         expectedProps = {
@@ -16,7 +16,7 @@ describe('AdminDataAddDriver', () => {
         }
     });
 
-    it('calls prop onSave function', () => {
+    it('calls prop onSave when Save called', () => {
         act(() => {
             render(<AdminDataAddDriver onSave={expectedProps.onSave} onCancel={expectedProps.onCancel} />);
         });
@@ -30,7 +30,7 @@ describe('AdminDataAddDriver', () => {
         expect(expectedProps.onSave).toBeCalled();
     })
 
-    it('calls prop onCancel function', () => {
+    it('calls prop onCancel when Cancel clicked', () => {
         act(() => {
             render(<AdminDataAddDriver onSave={expectedProps.onSave} onCancel={expectedProps.onCancel} />);
         });

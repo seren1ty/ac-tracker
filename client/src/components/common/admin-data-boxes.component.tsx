@@ -86,6 +86,7 @@ const AdminDataBoxes = (props: AdminDataProps) => {
                     <div key={dataItem._id}>
 
                         <div className={'data-box' + (!dataItem.hasLaps ? ' no-laps' : '')}
+                            id={"DataBox_" + dataItem._id}
                             onClick={() => onHoverBox(dataItem._id)}
                             onMouseEnter={() => onHoverBox(dataItem._id)}
                             onMouseLeave={onLeaveBox}
