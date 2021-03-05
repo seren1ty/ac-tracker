@@ -352,7 +352,7 @@ const LapList: React.FC = () => {
                 </span>
             </div>
             <table className="table table-hover mt-2">
-                <thead className="thead-light">
+                <thead className="thead-light lap-header">
                     <tr>
                         <th>Track</th>
                         <th>Car</th>
