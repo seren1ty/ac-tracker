@@ -294,7 +294,7 @@ const AddEditLap: React.FC = () => {
     }
 
     const editLap = (lapToSave: Lap) => {
-        axios.post('/laps/edit/' + existingLap._id, lapToSave)
+        axios.put('/laps/edit/' + existingLap._id, lapToSave)
             .then(res => {
                 history.push('/');
             })
