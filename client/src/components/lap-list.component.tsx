@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
-import LapItem from './lap-item.component';
+import LapItem from './common/lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
@@ -282,8 +282,8 @@ const LapList: React.FC = () => {
             });
     }
 
-    const onHoverLap = (hoveredLap: HoveredLap | null) => {
-        setHoveredLap(hoveredLap);
+    const onHoverLap = (currHoveredLap: HoveredLap | null) => {
+        setHoveredLap(currHoveredLap);
     }
 
     if (!session || session.loading) {

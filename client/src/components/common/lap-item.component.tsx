@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AcDate from './common/ac-date.component';
-import Truncator from './common/truncator.component';
+import AcDate from './ac-date.component';
+import Truncator from './truncator.component';
 import ReactTooltip from 'react-tooltip';
-import replayIcon from '../assets/replay_blue.png';
-import notesIcon from '../assets/notes_blue.png';
-import { SessionContext } from '../context/session.context';
-import { getAcTrackerGameState } from './common/ac-localStorage';
-import Laptime from './common/laptime.component';
-import LapActions from './common/lap-actions.component';
-import { HoveredLap, Lap } from '../types';
+import replayIcon from '../../assets/replay_blue.png';
+import notesIcon from '../../assets/notes_blue.png';
+import { SessionContext } from '../../context/session.context';
+import { getAcTrackerGameState } from './ac-localStorage';
+import Laptime from './laptime.component';
+import LapActions from './lap-actions.component';
+import { HoveredLap, Lap } from '../../types';
 
 type LapItemProps = {
     lap: Lap;
