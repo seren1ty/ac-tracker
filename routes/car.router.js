@@ -55,7 +55,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error [Add Car]: ' + err))
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').put((req, res) => {
     Car.findById(req.params.id)
         .then(existingCar => {
             existingCar.game = req.body.game;

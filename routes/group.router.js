@@ -26,7 +26,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error [Add Group]: ' + err))
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').put((req, res) => {
     Group.findById(req.params.id)
         .then(existingGroup => {
             existingGroup.name = req.body.name;

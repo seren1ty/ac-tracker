@@ -55,7 +55,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error [Add Track]: ' + err))
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').put((req, res) => {
     Track.findById(req.params.id)
         .then(existingTrack => {
             existingTrack.game = req.body.game;

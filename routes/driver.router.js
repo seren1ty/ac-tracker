@@ -50,7 +50,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error [Add Driver]: ' + err))
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').put((req, res) => {
     Driver.findById(req.params.id)
         .then(existingDriver => {
             existingDriver.name = req.body.name;

@@ -52,7 +52,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error [Add Lap]: ' + err))
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').put((req, res) => {
     Lap.findById(req.params.id)
         .then(existingLap => {
             existingLap.game = req.body.game;
