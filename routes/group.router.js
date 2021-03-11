@@ -16,10 +16,11 @@ router.route('/:id').get((req, res) => {
 
 router.route('/add').post((req, res) => {
     const name = req.body.name;
+    const code = req.body.code;
     const description = req.body.description;
-    const adminId = req.body.adminId;
+    const ownerId = req.body.ownerId;
 
-    const newGroup = new Group({ name, description, adminId });
+    const newGroup = new Group({ name, code, description, ownerId });
 
     newGroup.save()
         .then(group => res.json(group))
@@ -30,8 +31,9 @@ router.route('/edit/:id').put((req, res) => {
     Group.findById(req.params.id)
         .then(existingGroup => {
             existingGroup.name = req.body.name;
+            existingGroup.code = req.body.code;
             existingGroup.description = req.body.description;
-            existingGroup.adminId = req.body.adminId;
+            existingGroup.adminId = req.body.ownerId;
 
             existingGroup.save()
                 .then(group => res.json(group))

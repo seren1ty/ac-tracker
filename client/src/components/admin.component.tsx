@@ -6,7 +6,7 @@ import { SessionContext } from '../context/session.context';
 import AdminDataAdd from './common/admin-data-add.component';
 import AdminDataAddDriver from './common/admin-data-add-driver.component';
 import AdminDataBoxes from './common/admin-data-boxes.component';
-import { Car, Driver, Game, NewDriver, Track } from '../types';
+import { Car, Driver, Game, Group, NewDriver, Track } from '../types';
 
 const Admin = () => {
 
@@ -19,6 +19,7 @@ const Admin = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [drivers, setDrivers] = useState<Driver[]>([]);
     const [games, setGames] = useState<Game[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
 
     useEffect(() => {
         if (dataType === 'Tracks')
@@ -29,6 +30,8 @@ const Admin = () => {
             loadDrivers();
         else if (dataType === 'Games')
             loadGames();
+        else if (dataType === 'Groups')
+            loadGroups();
     // eslint-disable-next-line
     }, [session?.game, dataType]);
 
@@ -128,6 +131,30 @@ const Admin = () => {
             });
     }
 
+    const loadGroups = () => {
+        if (!session)
+            return;
+
+        session.setLoading(true);
+
+        session.checkSession()
+            .then((success) => {
+                if (!success)
+                    return;
+
+                axios.get('/groups')
+                    .then(res => {
+                        setGroups(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+                    .finally(() => {
+                        session.setLoading(false)
+                    });
+            });
+    }
+
     const onChangeDataType = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setDataType(event.target.value);
 
@@ -143,6 +170,8 @@ const Admin = () => {
             return drivers.length;
         else if (dataType === 'Games')
             return games.length;
+        else if (dataType === 'Groups')
+            return groups.length;
     }
 
     const onClickAdd = () => {
@@ -284,6 +313,10 @@ const Admin = () => {
         console.log(newGame);
     }
 
+    const updateGroup = (newGroup: Group) => {
+        console.log(newGroup);
+    }
+
     const deleteTrack = (track: Track, index: number) => {
         if (track.hasLaps)
             return;
@@ -364,6 +397,23 @@ const Admin = () => {
             });
     }
 
+    const deleteGroup = (group: Group, index: number) => {
+        session?.setLoading(true);
+
+        axios.delete('/groups/delete/' + group._id)
+            .then(res => {
+                const updatedGroups = groups.filter((currGroup: Group) => currGroup._id !== res.data._id)
+
+                setGames(updatedGroups);
+            })
+            .catch(err => {
+                console.error(err);
+            })
+            .finally(() => {
+                session?.setLoading(false)
+            });
+    }
+
     return (
         <React.Fragment>
             <div className="admin-page">
@@ -375,6 +425,7 @@ const Admin = () => {
                             <option value="Cars">Cars</option>
                             <option value="Drivers">Drivers</option>
                             <option value="Games">Games</option>
+                            <option value="Groups">Groups</option>
                         </select>
                     </span>
                     <span className="add-data-container">
@@ -420,6 +471,10 @@ const Admin = () => {
                 {
                     dataType === 'Games' &&
                     <AdminDataBoxes data={games} onUpdate={updateGame} onDelete={deleteGame} />
+                }
+                {
+                    dataType === 'Groups' &&
+                    <AdminDataBoxes data={groups} onUpdate={updateGroup} onDelete={deleteGroup} />
                 }
                 </div>
             }

@@ -79,3 +79,11 @@ export type Game = {
     code: string;
     hasLaps?: boolean;
 };
+
+export type Group = {
+    _id: string;
+    name: string;
+    code: string;
+    description: string;
+    ownerId: string;
+}
