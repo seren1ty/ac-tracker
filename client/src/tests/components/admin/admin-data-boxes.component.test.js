@@ -3,7 +3,7 @@ import { act } from 'react-dom/test-utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import AdminDataBoxes from '../../../components/common/admin-data-boxes.component';
+import AdminDataBoxes from '../../../components/admin/admin-data-boxes.component';
 
 describe('AdminDataBoxes', () => {
 

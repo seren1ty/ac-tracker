@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { isBefore, isAfter } from 'date-fns';
-import LapItem from './common/lap-item.component';
+import LapItem from './lap-list/lap-item.component';
 import { SessionContext } from '../context/session.context';
 import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';

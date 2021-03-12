@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import AdminDataAddDriver from '../../../components/common/admin-data-add-driver.component';
+import AdminDataAddDriver from '../../../components/admin/admin-data-add-driver.component';
 
 describe('AdminDataAddDriver', () => {
 

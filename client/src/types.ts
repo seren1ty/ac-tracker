@@ -87,3 +87,10 @@ export type Group = {
     description: string;
     ownerId: string;
 }
+
+export type NewGroup = {
+    name: string;
+    code: string;
+    description?: string;
+    ownerId?: string;
+}

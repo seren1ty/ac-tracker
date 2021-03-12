@@ -3,10 +3,11 @@ import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import addIcon from '../assets/add_blue.png';
 import { SessionContext } from '../context/session.context';
-import AdminDataAdd from './common/admin-data-add.component';
-import AdminDataAddDriver from './common/admin-data-add-driver.component';
-import AdminDataBoxes from './common/admin-data-boxes.component';
-import { Car, Driver, Game, Group, NewDriver, Track } from '../types';
+import AdminDataAdd from './admin/admin-data-add.component';
+import AdminDataAddDriver from './admin/admin-data-add-driver.component';
+import AdminDataAddGroup from './admin/admin-data-add-group.component';
+import AdminDataBoxes from './admin/admin-data-boxes.component';
+import { Car, Driver, Game, Group, NewDriver, NewGroup, Track } from '../types';
 
 const Admin = () => {
 
@@ -273,6 +274,38 @@ const Admin = () => {
         }
     }
 
+    const handleAddGroup = async (newGroup: NewGroup) => {
+        console.log(newGroup);
+
+        if (dataType === 'Groups') {
+            const result = await performAdd('group', {
+                name: newGroup.name,
+                code: newGroup.code,
+                description: newGroup.description,
+                ownerId: newGroup.ownerId
+             });
+
+            if (!result)
+                return;
+
+            const newGroups = [...groups,
+                {
+                    _id: result._id,
+                    name: result.name,
+                    code: result.code,
+                    description: result.description,
+                    ownerId: result.ownerId
+                }
+            ];
+
+            newGroups.sort((a,b) => {
+                return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+            });
+
+            setGroups(newGroups);
+        }
+    }
+
     const determineGameCode = (name: string): string => {
         const words = name.split(' ');
 
@@ -449,12 +482,16 @@ const Admin = () => {
                 !session?.loading &&
                 <div className="data-container">
                 {
-                    !!showAdd && dataType !== 'Drivers' &&
+                    !!showAdd && dataType !== 'Drivers' && dataType !== 'Groups' &&
                     <AdminDataAdd onSave={handleAdd} onCancel={cancelAdd} />
                 }
                 {
                     !!showAdd && dataType === 'Drivers' &&
                     <AdminDataAddDriver onSave={handleAddDriver} onCancel={cancelAdd} />
+                }
+                {
+                    !!showAdd && dataType === 'Groups' &&
+                    <AdminDataAddGroup onSave={handleAddGroup} onCancel={cancelAdd} />
                 }
                 {
                     dataType === 'Tracks' &&

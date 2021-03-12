@@ -647,6 +647,29 @@ body {
                         top: 49px;
                     }
                 }
+
+                &.group {
+                    min-height: 76px;
+
+                    .data-box-edit-input {
+                        bottom: 48px;
+
+                        &.email {
+                            top: 23px;
+                            bottom: 73px;
+                            height: 25px;
+                            border-radius: 0px;
+                        }
+                    }
+
+                    .data-box-edit-confirm {
+                        top: 49px;
+                    }
+
+                    .data-box-edit-cancel {
+                        top: 49px;
+                    }
+                }
             }
 
             @mixin animate-btn-hover {

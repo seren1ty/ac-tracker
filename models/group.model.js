@@ -20,7 +20,7 @@ const groupSchema = new Schema({
     description: {
         type: String
     },
-    adminId: {
+    ownerId: {
         type: String
     }
 }, {
