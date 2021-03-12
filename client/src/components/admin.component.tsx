@@ -495,23 +495,23 @@ const Admin = () => {
                 }
                 {
                     dataType === 'Tracks' &&
-                    <AdminDataBoxes data={tracks} onUpdate={updateTrack} onDelete={deleteTrack} />
+                    <AdminDataBoxes data={tracks} onUpdate={updateTrack} onDelete={deleteTrack} showAdd={showAdd} />
                 }
                 {
                     dataType === 'Cars' &&
-                    <AdminDataBoxes data={cars} onUpdate={updateCar} onDelete={deleteCar} />
+                    <AdminDataBoxes data={cars} onUpdate={updateCar} onDelete={deleteCar} showAdd={showAdd} />
                 }
                 {
                     dataType === 'Drivers' &&
-                    <AdminDataBoxes data={drivers} onUpdate={updateDriver} onDelete={deleteDriver} />
+                    <AdminDataBoxes data={drivers} onUpdate={updateDriver} onDelete={deleteDriver} showAdd={showAdd} />
                 }
                 {
                     dataType === 'Games' &&
-                    <AdminDataBoxes data={games} onUpdate={updateGame} onDelete={deleteGame} />
+                    <AdminDataBoxes data={games} onUpdate={updateGame} onDelete={deleteGame} showAdd={showAdd} />
                 }
                 {
                     dataType === 'Groups' &&
-                    <AdminDataBoxes data={groups} onUpdate={updateGroup} onDelete={deleteGroup} />
+                    <AdminDataBoxes data={groups} onUpdate={updateGroup} onDelete={deleteGroup} showAdd={showAdd} />
                 }
                 </div>
             }

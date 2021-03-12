@@ -10,6 +10,7 @@ type AdminBoxData = {
 
 type AdminDataProps = {
     data: AdminBoxData[];
+    showAdd: boolean;
     onUpdate: (dateItem: any) => void;
     onDelete: (dataItem: any, index: number) => void;
 }
@@ -77,6 +78,15 @@ const AdminDataBoxes = (props: AdminDataProps) => {
     const onClickEditCancel = () => {
         setShowEdit(false);
     }
+
+    if (!props.showAdd && (!props.data || props.data.length === 0))
+        return (
+            <React.Fragment>
+                <div className="mt-2 ml-2">
+                    <strong>No data found.</strong>
+                </div>
+            </React.Fragment>
+        );
 
     return (
         <React.Fragment>
