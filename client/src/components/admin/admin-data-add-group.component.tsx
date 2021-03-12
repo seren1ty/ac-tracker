@@ -56,19 +56,19 @@ const AdminDataAddGroup = (props: AdminDataAddGroupProps) => {
                     onChange={onChangeName}
                     placeholder="Name"
                 />
-                <input className="data-box-edit-input"
+                <input className="data-box-edit-input code"
                     type="text"
                     value={code}
                     onChange={onChangeCode}
                     placeholder="Code"
                 />
-                <input className="data-box-edit-input"
+                <input className="data-box-edit-input description"
                     type="text"
                     value={description}
                     onChange={onChangeDescription}
-                    placeholder="description"
+                    placeholder="Description"
                 />
-                <input className="data-box-edit-input"
+                <input className="data-box-edit-input ownerId"
                     type="input"
                     value={ownerId}
                     onChange={onChangeOwnerId}

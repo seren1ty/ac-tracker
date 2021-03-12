@@ -649,25 +649,36 @@ body {
                 }
 
                 &.group {
-                    min-height: 76px;
+                    min-height: 122px;
 
                     .data-box-edit-input {
-                        bottom: 48px;
+                        bottom: 94px;
 
-                        &.email {
+                        &.code {
                             top: 23px;
-                            bottom: 73px;
+                            height: 25px;
+                            border-radius: 0px;
+                        }
+
+                        &.description {
+                            top: 46px;
+                            height: 25px;
+                            border-radius: 0px;
+                        }
+
+                        &.ownerId {
+                            top: 69px;
                             height: 25px;
                             border-radius: 0px;
                         }
                     }
 
                     .data-box-edit-confirm {
-                        top: 49px;
+                        top: 95px;
                     }
 
                     .data-box-edit-cancel {
-                        top: 49px;
+                        top: 95px;
                     }
                 }
             }
