@@ -1,6 +1,6 @@
-import { act } from 'react-dom/test-utils';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import AdminDataAddDriver from '../../../components/admin/admin-data-add-driver.component';
@@ -21,11 +21,9 @@ describe('AdminDataAddDriver', () => {
             render(<AdminDataAddDriver onSave={expectedProps.onSave} onCancel={expectedProps.onCancel} />);
         });
 
-        const button = document.querySelector("#SaveButton");
+        const saveButton = document.querySelector("#SaveButton");
 
-        act(() => {
-            button?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        });
+        fireEvent.click(saveButton);
 
         expect(expectedProps.onSave).toBeCalled();
     })
@@ -35,11 +33,9 @@ describe('AdminDataAddDriver', () => {
             render(<AdminDataAddDriver onSave={expectedProps.onSave} onCancel={expectedProps.onCancel} />);
         });
 
-        const button = document.querySelector("#CancelButton");
+        const cancelButton = document.querySelector("#CancelButton");
 
-        act(() => {
-            button?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-        });
+        fireEvent.click(cancelButton)
 
         expect(expectedProps.onCancel).toBeCalled();
     })
