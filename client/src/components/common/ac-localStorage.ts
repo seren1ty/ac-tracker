@@ -5,7 +5,8 @@ export const getAcTrackerState = (): AcTrackerState => {
 
     if (!stateStr) {
         let newState = {
-            game: 'Assetto Corsa',
+            group: null,
+            game: null,
             driver: null
         };
 

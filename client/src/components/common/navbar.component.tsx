@@ -6,7 +6,7 @@ import settingsIcon from '../../assets/settings_blue.png';
 import logoutIcon from '../../assets/logout_blue.png';
 import { SessionContext } from '../../context/session.context';
 import { getAcTrackerState, setAcTrackerState } from './ac-localStorage';
-import { Game } from '../../types';
+import { Game, Group } from '../../types';
 
 const Navbar = () => {
 
@@ -16,7 +16,12 @@ const Navbar = () => {
 
     const session = useContext(SessionContext);
 
+    const [groups, setGroups] = useState<Group[] | null>(null);
     const [games, setGames] = useState<Game[] | null>(null);
+
+    const [group, setGroup] = useState(() => {
+        return session?.group ? session.group : undefined;
+    });
 
     const [game, setGame] = useState(() => {
         return session?.game ? session.game : 'Assetto Corsa';
@@ -25,10 +30,14 @@ const Navbar = () => {
     const [showMobile, setShowMobile] = useState(false);
 
     useEffect(() => {
+        initGroups();
         initGames();
 
         // Backup check for mobile blocking initial request
         setTimeout(() => {
+            if (!groups)
+                initGroups();
+
             if (!games)
                 initGames();
         }, 2000)
@@ -41,12 +50,31 @@ const Navbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [window.innerWidth]);
 
+    const initGroups = () => {
+        if (!session)
+            return;
+
+        session.checkSession()
+            .then(success => {
+                if (!success)
+                    return;
+
+                axios.get('/groups')
+                    .then(res => {
+                        setGroups(res.data);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+            });
+    }
+
     const initGames = () => {
         if (!session)
             return;
 
         session.checkSession()
-            .then((success) => {
+            .then(success => {
                 if (!success)
                     return;
 
@@ -62,6 +90,14 @@ const Navbar = () => {
 
     const openAdmin = () => {
         history.push('/admin');
+    }
+
+    const onChangeGroup = (groupEvent: React.ChangeEvent<HTMLSelectElement>) => {
+        setGroup(groupEvent.target.value);
+
+        session?.setGroup(groupEvent.target.value);
+
+        setAcTrackerState({ ...getAcTrackerState(), group: groupEvent.target.value });
     }
 
     const onChangeGame = (gameEvent: React.ChangeEvent<HTMLSelectElement>) => {
@@ -110,6 +146,16 @@ const Navbar = () => {
                         !!games &&
                         games.map((game: Game) => {
                             return <option key={game._id} value={game.name}>{ showMobile ? game.code : game.name }</option>
+                        })
+                    }
+                    </select>
+                </span>
+                <span>
+                    <select className="game-select" onChange={onChangeGroup} value={group}>
+                    {
+                        !!groups &&
+                        groups.map((group: Group) => {
+                            return <option key={group._id} value={group.name}>{ showMobile ? group.code : group.name }</option>
                         })
                     }
                     </select>

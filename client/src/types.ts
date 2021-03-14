@@ -1,4 +1,5 @@
 export type AcTrackerState = {
+    group: string | null;
     game: string | null;
     driver: Driver | null;
 }
