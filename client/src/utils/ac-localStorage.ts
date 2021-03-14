@@ -1,5 +1,5 @@
-import { Session } from "../context/session.context";
 import { AcTrackerState, AcTrackerGameState } from "../types";
+import { Session } from "../types";
 
 export const getAcTrackerState = (): AcTrackerState => {
     const stateStr = localStorage.getItem('acTracker');

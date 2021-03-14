@@ -20,6 +20,18 @@ export type AcTrackerGameState = {
     newLapDefaultNotes: string;
 }
 
+export type Session = {
+    loading: boolean;
+    group: string | null;
+    game: string | null;
+    driver: Driver | null;
+    setLoading: (loading: boolean) => void;
+    setGroup: (group: string) => void;
+    setGame: (game: string) => void;
+    setDriver: (driver: Driver | null) => void;
+    checkSession: () => Promise<boolean | void>;
+}
+
 export type Lap = {
     _id: string;
     game: string;

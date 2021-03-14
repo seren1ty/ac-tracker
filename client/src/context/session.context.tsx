@@ -2,22 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { getAcTrackerState, setAcTrackerState } from '../utils/ac-localStorage';
-import { Driver } from '../types';
+import { Session } from '../types';
 
 type ContextProps = {
     children: React.ReactNode
-}
-
-export type Session = {
-    loading: boolean;
-    group: string | null;
-    game: string | null;
-    driver: Driver | null;
-    setLoading: (loading: boolean) => void;
-    setGroup: (group: string) => void;
-    setGame: (game: string) => void;
-    setDriver: (driver: Driver | null) => void;
-    checkSession: () => Promise<boolean | void>;
 }
 
 const SessionContext = React.createContext<Session | null>(null);
