@@ -4,9 +4,9 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionContext } from '../context/session.context';
-import { getAcTrackerGameState, setAcTrackerGameState } from './common/ac-localStorage';
 import { generateSplitToFasterLap, generateSplitToSlowerLap, isLapRecord, isLapRecordForCar, isPersonalLapRecordForCar } from '../utils/laptime.utils';
 import { Car, Lap, Track } from '../types';
+import { getGameState, setGameState } from '../utils/ac-localStorage';
 
 const AddEditLap: React.FC = () => {
 
@@ -22,8 +22,8 @@ const AddEditLap: React.FC = () => {
         if (location.state) {
             return location.state;
         } else if (location.pathname.startsWith('/editLap')) {
-            if (getAcTrackerGameState(session?.game)) {
-                let storedCurrentLap = getAcTrackerGameState(session?.game).currentLapToEdit;
+            if (getGameState(session)) {
+                let storedCurrentLap = getGameState(session).currentLapToEdit;
 
                 if (storedCurrentLap && location.pathname.endsWith(storedCurrentLap._id))
                     return storedCurrentLap;
@@ -48,11 +48,11 @@ const AddEditLap: React.FC = () => {
     const [game, setGame] = useState<String | null | undefined>();
 
     const [track, setTrack] = useState(() => {
-        return existingLap ? existingLap.track : getAcTrackerGameState(session?.game).newLapDefaultTrack
+        return existingLap ? existingLap.track : getGameState(session).newLapDefaultTrack
     });
 
     const [car, setCar] = useState(() => {
-        return existingLap ? existingLap.car : getAcTrackerGameState(session?.game).newLapDefaultCar
+        return existingLap ? existingLap.car : getGameState(session).newLapDefaultCar
     });
 
     const [laptime, setLaptime] = useState(() => existingLap ? existingLap.laptime : '');
@@ -60,15 +60,15 @@ const AddEditLap: React.FC = () => {
     const [driver] = useState(() => session ? session?.driver?.name : existingLap ? existingLap.driver : '');
 
     const [gearbox, setGearbox] = useState(() => {
-        return existingLap ? existingLap.gearbox : getAcTrackerGameState(session?.game).newLapDefaultGearbox
+        return existingLap ? existingLap.gearbox : getGameState(session).newLapDefaultGearbox
     });
 
     const [traction, setTraction] = useState(() => {
-        return existingLap ? existingLap.traction : getAcTrackerGameState(session?.game).newLapDefaultTraction
+        return existingLap ? existingLap.traction : getGameState(session).newLapDefaultTraction
     });
 
     const [stability, setStability] = useState(() => {
-        return existingLap ? existingLap.stability : getAcTrackerGameState(session?.game).newLapDefaultStability
+        return existingLap ? existingLap.stability : getGameState(session).newLapDefaultStability
     });
 
     const [date, setDate] = useState(() => existingLap ? new Date(existingLap.date) : new Date());
@@ -76,7 +76,7 @@ const AddEditLap: React.FC = () => {
     const [replay, setReplay] = useState(() => existingLap ? existingLap.replay : '');
 
     const [notes, setNotes] = useState(() => {
-        return existingLap ? existingLap.notes : getAcTrackerGameState(session?.game).newLapDefaultNotes
+        return existingLap ? existingLap.notes : getGameState(session).newLapDefaultNotes
     });
 
     const [splitToFasterLap, setSplitToFasterLap] = useState<string | null>(null);
@@ -138,10 +138,7 @@ const AddEditLap: React.FC = () => {
 
                     // We are currently editting a lap, NOT creating a new one
                     if (location.state && location.pathname.startsWith('/editLap'))
-                        setAcTrackerGameState(session?.game, {
-                                ...getAcTrackerGameState(session?.game),
-                                currentLapToEdit: location.state
-                            });
+                        setGameState(session, { ...getGameState(session), currentLapToEdit: location.state });
 
             });
 
@@ -304,7 +301,7 @@ const AddEditLap: React.FC = () => {
     }
 
     const updateNewLapDefaults = () => {
-        let currentGameState = getAcTrackerGameState(session?.game);
+        let currentGameState = getGameState(session);
 
         currentGameState.newLapDefaultTrack = !addTrackInProgress ? track : newTrackName;
         currentGameState.newLapDefaultCar = !addCarInProgress ? car : newCarName;
@@ -313,7 +310,7 @@ const AddEditLap: React.FC = () => {
         currentGameState.newLapDefaultStability = stability;
         currentGameState.newLapDefaultNotes = notes;
 
-        setAcTrackerGameState(session?.game, currentGameState);
+        setGameState(session, currentGameState);
     }
 
     const checkLapRecord = () => {

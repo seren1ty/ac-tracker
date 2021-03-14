@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import settingsIcon from '../../assets/settings_blue.png';
 import logoutIcon from '../../assets/logout_blue.png';
 import { SessionContext } from '../../context/session.context';
-import { getAcTrackerState, setAcTrackerState } from './ac-localStorage';
+import { getAcTrackerState, setAcTrackerState } from '../../utils/ac-localStorage';
 import { Game, Group } from '../../types';
 
 const Navbar = () => {

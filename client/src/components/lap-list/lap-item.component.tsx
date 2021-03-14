@@ -5,10 +5,10 @@ import ReactTooltip from 'react-tooltip';
 import replayIcon from '../../assets/replay_blue.png';
 import notesIcon from '../../assets/notes_blue.png';
 import { SessionContext } from '../../context/session.context';
-import { getAcTrackerGameState } from '../common/ac-localStorage';
 import Laptime from '../common/laptime.component';
 import LapActions from './lap-actions.component';
 import { HoveredLap, Lap } from '../../types';
+import { getGameState } from '../../utils/ac-localStorage';
 
 type LapItemProps = {
     lap: Lap;
@@ -46,7 +46,7 @@ const LapItem = (props: LapItemProps) => {
     }
 
     const shownLapsAreNotLimitedToCurrentDriver = () => {
-        return getAcTrackerGameState(session?.game).driverType !== lap.driver;
+        return getGameState(session).driverType !== lap.driver;
     }
 
     const lapIsForCurrentDriver = () => {
