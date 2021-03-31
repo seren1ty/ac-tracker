@@ -246,11 +246,6 @@ body {
         .col-2 {
             min-width: 450px;
 
-            img {
-                max-width: 100%;
-                padding: 20px 0;
-            }
-
             &.col-2-a {
                 text-align: center;
 
@@ -268,6 +263,12 @@ body {
                         color: #007bffda;
                     }
                 }
+            }
+
+            img {
+                max-width: 100%;
+                padding: 20px 0;
+                border-radius: 65px;
             }
         }
     }

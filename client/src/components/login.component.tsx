@@ -52,7 +52,7 @@ const LoginComponent: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2 col-2-b">
                         <img src={image} alt="exciting_road" />
                     </div>
                 </div>
