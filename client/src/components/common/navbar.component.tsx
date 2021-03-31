@@ -150,7 +150,7 @@ const Navbar = () => {
                     }
                     </select>
                 </span>
-                <span>
+                {/* <span>
                     <select className="game-select" onChange={onChangeGroup} value={group}>
                     {
                         !!groups &&
@@ -159,7 +159,7 @@ const Navbar = () => {
                         })
                     }
                     </select>
-                </span>
+                </span> */}
                 <span>
                     <button className="nav-link nav-item btn btn-link logout-btn" data-tip="Logout" data-for="logout" onClick={logout}>
                         <img className="logout-icon" src={logoutIcon} alt="logout"></img>
