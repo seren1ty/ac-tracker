@@ -50,3 +50,9 @@ Access to the app is provided to authorised users only, who can login using Goog
 An authorised user can both Add new laps (along with new Cars and Tracks), as well as Edit any of their existing lap entries.
 
 ![AC Tracker - Edit Lap - Screenshot](https://seren1ty-github-images.s3-ap-southeast-2.amazonaws.com/ac-tracker/ac-tracker_lap-edit_1.png?raw=true)
+
+***
+
+An admin mode is included for managing track, car, driver and sims/game records. Only items with no related laps can be deleted.
+
+![AC Tracker - Administration - Screenshot](./public/ac-tracker_admin_1.png)
