@@ -359,9 +359,9 @@ const AddEditLap: React.FC = () => {
         <div className="ae-page">
             {
                 existingLap ? (
-                    <h4>Edit Lap</h4>
+                    <h4 className="lap-title">Edit Lap</h4>
                 ) : (
-                    <h4>Add Lap</h4>
+                    <h4 className="lap-title">Add Lap</h4>
                 )
             }
             <div className="ae-container">

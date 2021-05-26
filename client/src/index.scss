@@ -313,6 +313,8 @@ body {
         line-height: 30px;
         font-size: 1.5rem;
         margin-left: 5px;
+        color: #007bff;
+        font-weight: 600;
     }
 
     .lap-add-holder {
@@ -357,6 +359,10 @@ body {
             padding: 8px 4px;
             position: sticky;
             top: -1px;
+            font-size: 17px;
+            font-weight: 500;
+            color: #ffffff;
+            background-color: #4aa5ff;
 
             &.actions-heading {
                 text-align: center;
@@ -382,6 +388,7 @@ body {
 
     .text-strong {
         font-weight: bold;
+        color: #007bff;
     }
 
     .lap-car-cell {
@@ -439,6 +446,14 @@ body {
 
 .ae-page {
     margin: 0 5px;
+
+    .lap-title {
+        line-height: 30px;
+        font-size: 1.5rem;
+        margin-left: 5px;
+        color: #007bff;
+        font-weight: 600;
+    }
 
     .ae-container {
         display: flex;
