@@ -356,7 +356,7 @@ const LapList: React.FC = () => {
                     <tr>
                         <th>Track</th>
                         <th>Car</th>
-                        <th></th>
+                        <th className="sub-item"></th>
                         <th>Laptime</th>
                         <th>Driver</th>
                         <th className="sub-item">Gears</th>

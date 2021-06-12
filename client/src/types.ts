@@ -21,10 +21,12 @@ export type AcTrackerGameState = {
 }
 
 export type Session = {
+    showMobile: boolean;
     loading: boolean;
     group: string | null;
     game: string | null;
     driver: Driver | null;
+    setShowMobile: (showMobile: boolean) => void;
     setLoading: (loading: boolean) => void;
     setGroup: (group: string) => void;
     setGame: (game: string) => void;

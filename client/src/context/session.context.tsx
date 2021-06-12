@@ -14,6 +14,8 @@ const SessionProvider = ({children}: ContextProps) => {
 
     const history = useHistory();
 
+    const [showMobile, setShowMobile] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     const [group, setGroup] = useState(() => {
@@ -53,7 +55,19 @@ const SessionProvider = ({children}: ContextProps) => {
     };
 
     return (
-        <SessionContext.Provider value={{ loading, group, game, driver, setLoading, setGroup, setGame, setDriver, checkSession }}>
+        <SessionContext.Provider value={{
+            showMobile,
+            loading,
+            group,
+            game,
+            driver,
+            setShowMobile,
+            setLoading,
+            setGroup,
+            setGame,
+            setDriver,
+            checkSession,
+        }}>
             {children}
         </SessionContext.Provider>
     );

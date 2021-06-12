@@ -59,9 +59,19 @@ const LapItem = (props: LapItemProps) => {
             props.hoveredLap?.data === data;
     }
 
+    const enabledMobileReplay = () => {
+        return lap.replay && session?.showMobile;
+    }
+
+    const onClickLapRow = () => {
+        if (enabledMobileReplay()) {
+            window.open(lap.replay);
+        }
+    }
+
     return (
-        <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )}>
-            <td>
+        <tr className={"lap-row " + ( highlightDriversLap() ? 'drivers-lap' : '' )} onClick={() => onClickLapRow()}>
+            <td className={ enabledMobileReplay() ? 'has-replay' : '' }>
                 <span className={ isLapDataHovered('Track', lap.track) ? 'text-strong' : '' }
                     onMouseEnter={() => props.onHover({ _id: lap._id, type: 'Track', data: lap.track })}
                     onMouseLeave={() => props.onHover(null)}>
@@ -75,7 +85,7 @@ const LapItem = (props: LapItemProps) => {
                     <Truncator id={"car_" + lap._id} value={lap.car} max={25}/>
                 </span>
             </td>
-            <td className="lap-replay-cell">
+            <td className="lap-replay-cell sub-item">
             {
                 lap.replay &&
                 <span>

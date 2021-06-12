@@ -27,8 +27,6 @@ const Navbar = () => {
         return session?.game ? session.game : 'Assetto Corsa';
     });
 
-    const [showMobile, setShowMobile] = useState(false);
-
     useEffect(() => {
         initGroups();
         initGames();
@@ -46,7 +44,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if (window.innerWidth < 390)
-            setShowMobile(true);
+            session?.setShowMobile(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [window.innerWidth]);
 
@@ -145,7 +143,7 @@ const Navbar = () => {
                     {
                         !!games &&
                         games.map((game: Game) => {
-                            return <option key={game._id} value={game.name}>{ showMobile ? game.code : game.name }</option>
+                            return <option key={game._id} value={game.name}>{ session?.showMobile ? game.code : game.name }</option>
                         })
                     }
                     </select>
