@@ -19,9 +19,9 @@ const Navbar = () => {
     const [groups, setGroups] = useState<Group[] | null>(null);
     const [games, setGames] = useState<Game[] | null>(null);
 
-    const [group, setGroup] = useState(() => {
+    /* const [group, setGroup] = useState(() => {
         return session?.group ? session.group : undefined;
-    });
+    }); */
 
     const [game, setGame] = useState(() => {
         return session?.game ? session.game : 'Assetto Corsa';
@@ -90,13 +90,13 @@ const Navbar = () => {
         history.push('/admin');
     }
 
-    const onChangeGroup = (groupEvent: React.ChangeEvent<HTMLSelectElement>) => {
+    /* const onChangeGroup = (groupEvent: React.ChangeEvent<HTMLSelectElement>) => {
         setGroup(groupEvent.target.value);
 
         session?.setGroup(groupEvent.target.value);
 
         setAcTrackerState({ ...getAcTrackerState(), group: groupEvent.target.value });
-    }
+    } */
 
     const onChangeGame = (gameEvent: React.ChangeEvent<HTMLSelectElement>) => {
         setGame(gameEvent.target.value);
